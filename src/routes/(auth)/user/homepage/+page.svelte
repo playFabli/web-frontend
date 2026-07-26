@@ -1,0 +1,240 @@
+<script>
+	import { config } from '$lib/config.js';
+
+	let { data } = $props();
+    
+    let user = $derived(data.user); 
+	let expNeeded = $state(Math.floor(10 * user.level * Math.log(user.level + 1) * 1.25));
+	
+	let quests = $state(data.quests ?? []);
+	let activeTab = $state('daily');
+	let claimingId = $state(null);
+
+	let dailyQuests = $derived(quests.filter(q => q.type === 'daily'));
+	let weeklyQuests = $derived(quests.filter(q => q.type === 'weekly'));
+	let challengeQuests = $derived(quests.filter(q => q.type === 'challenge'));
+
+	function getCurrentQuests() {
+		if (activeTab === 'daily') return dailyQuests;
+		if (activeTab === 'weekly') return weeklyQuests;
+		return challengeQuests;
+	}
+
+	function switchTab(tab) {
+		activeTab = tab;
+	}
+
+	async function claimQuest(questId) {
+		claimingId = questId;
+		try {
+			const res = await fetch(`${config.api}/user/quests/claim/${questId}`, {
+				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${data.token}`,
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+				},
+			});
+
+			const json = await res.json();
+			if (res.ok) {
+				// Update quest locally
+				quests = quests.map(q => q.id === questId ? { ...q, is_claimed: true } : q);
+				// Update user coins/exp
+				if (json.user) {
+					user = { ...user, coins: json.user.coins, exp: json.user.exp };
+				}
+			} else {
+				alert(json.message || 'Failed to claim quest');
+			}
+		} catch (e) {
+			alert('Failed to claim quest');
+		} finally {
+			claimingId = null;
+		}
+	}
+
+	function questIcon(type) {
+		if (type === 'daily') return 'text-primary/80';
+		if (type === 'weekly') return 'text-yellow-600';
+		return 'text-purple-600';
+	}
+
+	function progressPercent(quest) {
+		if (quest.required_value === 0) return 0;
+		return Math.min(100, Math.round((quest.current_value / quest.required_value) * 100));
+	}
+</script>
+
+<main class="py-6">
+	<div class="max-w-container mx-auto px-4">
+		<!-- Welcome & Level -->
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+			<div>
+				<h1 class="text-xl font-bold text-gray-900">Welcome back, {user.username}</h1>
+				<p class="text-sm text-gray-600 mt-0.5">Here's what's happening today.</p>
+			</div>
+			<div class="flex items-center gap-2">
+				<span class="level-badge">Level {user.level}</span>
+				<div class="w-28 h-2 bg-gray-200 rounded-full overflow-hidden">
+					<div class="h-full bg-yellow-500 rounded-full" style="width: { (user.exp / expNeeded) * 100 }%;"></div>
+				</div>
+				<span class="text-xs text-gray-500">{user.exp} / {expNeeded} XP</span>
+			</div>
+		</div>
+
+		<!-- Quests Section -->
+		<div class="border border-gray-200 rounded p-4 mb-4 bg-white">
+			<div class="flex items-center justify-between mb-3">
+				<h2 class="text-lg font-semibold text-accent">Quests</h2>
+				<div class="flex gap-1">
+					<button 
+						class="btn-secondary px-3 py-1 text-xs {activeTab === 'daily' ? 'active-tab' : ''}" 
+						onclick={() => switchTab('daily')}
+					>
+						Daily {#if dailyQuests.length > 0}
+							<span class="ml-1 text-xs">{dailyQuests.filter(q => !q.is_claimed && q.is_completed).length > 0 ? '(✓)' : ''}</span>
+						{/if}
+					</button>
+					<button 
+						class="btn-secondary px-3 py-1 text-xs {activeTab === 'weekly' ? 'active-tab' : ''}" 
+						onclick={() => switchTab('weekly')}
+					>
+						Weekly
+					</button>
+					<button 
+						class="btn-secondary px-3 py-1 text-xs {activeTab === 'challenge' ? 'active-tab' : ''}" 
+						onclick={() => switchTab('challenge')}
+					>
+						Challenges
+					</button>
+				</div>
+			</div>
+
+			<div class="space-y-3">
+				{#each getCurrentQuests() as quest}
+					<div class="flex items-center justify-between border border-gray-200 rounded p-3 bg-gray-50/30">
+						<div class="flex-1 min-w-0">
+							<p class="text-sm font-medium text-gray-900">{quest.name}</p>
+							{#if quest.description}
+								<p class="text-xs text-gray-600">{quest.description}</p>
+							{/if}
+							<div class="w-full h-1.5 bg-gray-200 rounded-full mt-2 max-w-xs">
+								<div class="h-full bg-primary rounded-full" style="width: {progressPercent(quest)}%;"></div>
+							</div>
+							<p class="text-xs {quest.is_completed ? 'text-green-600' : 'text-gray-500'} mt-1">
+								{quest.is_completed ? '✓ Complete' : `${quest.current_value} / ${quest.required_value}`}
+							</p>
+						</div>
+						<div class="flex items-center gap-2 ml-3 flex-shrink-0">
+							<span class="text-xs font-semibold text-primary whitespace-nowrap">
+								+{quest.coin_reward} <svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="3"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="size-4 inline mb-1 !text-primary/80"
+							><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" /><path d="M15 6h1v4" /><path
+								d="m6.134 14.768.866-.5 2 3.464"
+							/><circle cx="16" cy="8" r="6" /></svg
+						>
+							</span>
+							{#if quest.is_completed && !quest.is_claimed}
+								<button 
+									class="btn-glossy px-3 py-1 text-xs whitespace-nowrap" 
+									onclick={() => claimQuest(quest.id)}
+									disabled={claimingId === quest.id}
+								>
+									{claimingId === quest.id ? '...' : 'Claim'}
+								</button>
+							{:else if quest.is_claimed}
+								<span class="text-xs text-green-600 font-medium">Claimed</span>
+							{/if}
+						</div>
+					</div>
+				{:else}
+					<div class="text-center py-6 text-gray-500">
+						<p class="text-sm">No quests available yet. Check back later!</p>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-sm">
+			<a
+				href="/user/inventory/my"
+				class="border border-gray-200 rounded p-3 hover:shadow-sm transition-shadow bg-white"
+			>
+				<span class="text-primary font-semibold">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="3"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="inline size-5 mb-1"
+						><path
+							d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+						/><path d="M12 22V12" /><polyline points="3.29 7 12 12 20.71 7" /><path
+							d="m7.5 4.27 9 5.15"
+						/></svg
+					>
+					View Inventory</span
+				>
+			</a>
+			<a
+				href="/user/avatar"
+				class="border border-gray-200 rounded p-3 hover:shadow-sm transition-shadow bg-white"
+			>
+				<span class="text-primary font-semibold"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="3"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="inline size-5 mb-1"
+						><circle cx="12" cy="5" r="1" /><path d="m9 20 3-6 3 6" /><path d="m6 8 6 2 6-2" /><path
+							d="M12 10v4"
+						/></svg
+					> Edit Avatar</span
+				>
+			</a>
+			<a
+				href="/user/transactions"
+				class="border border-gray-200 rounded p-3 hover:shadow-sm transition-shadow bg-white"
+			>
+				<span class="text-primary font-semibold"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="3"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="inline size-5 mb-1"
+						><path d="M13 17V9" /><path d="M18 17V5" /><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path
+							d="M8 17v-3"
+						/></svg
+					> View Transactions</span
+				>
+			</a>
+		</div>
+	</div>
+</main>

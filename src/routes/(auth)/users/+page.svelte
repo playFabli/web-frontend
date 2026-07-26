@@ -1,0 +1,176 @@
+<script lang="ts">
+	import { config } from '$lib/config';
+	import { onMount } from 'svelte';
+
+	interface User {
+		id: number;
+		username: string;
+		created_at: string;
+		rap?: number;
+		final_rap?: number;
+	}
+
+	interface Pagination {
+		current_page: number;
+		last_page: number;
+		total: number;
+		from: number;
+		to: number;
+		prev_page_url: string | null;
+		next_page_url: string | null;
+	}
+
+	let users: User[] = $state([]);
+	let pagination: Pagination = $state({
+		current_page: 1,
+		last_page: 1,
+		total: 0,
+		from: 0,
+		to: 0,
+		prev_page_url: null,
+		next_page_url: null
+	});
+	let search = $state('');
+	let sortBy = $state('newest');
+	let loading = $state(true);
+	let error = $state('');
+
+	async function fetchUsers(pageNum = 1) {
+		loading = true;
+		error = '';
+		try {
+			const res = await fetch(`${config.api}/users?search=${search}&sort_by=${sortBy}&page=${pageNum}`);
+			const json = await res.json();
+			
+			if (!res.ok) {
+				error = 'Failed to load users.';
+				return;
+			}
+
+			users = json.data || [];
+			pagination = {
+				current_page: json.current_page,
+				last_page: json.last_page,
+				total: json.total,
+				from: json.from,
+				to: json.to,
+				prev_page_url: json.prev_page_url,
+				next_page_url: json.next_page_url
+			};
+		} catch (e) {
+			error = 'Failed to load users.';
+		} finally {
+			loading = false;
+		}
+	}
+
+	onMount(() => {
+		fetchUsers();
+	});
+
+	function formatJoined(dateStr: string) {
+		if (!dateStr) return '';
+		const d = new Date(dateStr);
+		if (isNaN(d.getTime())) return dateStr;
+		return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+	}
+
+	function handleImgError(event: Event) {
+		const img = event.target as HTMLImageElement;
+		const username = img.alt.charAt(0);
+		img.src = `https://placehold.co/64x64/D9C5B2/1A4D4F?text=${username}`;
+	}
+
+	function applyFilters() {
+		fetchUsers(1);
+	}
+
+	function goToPage(pageNum: number) {
+		fetchUsers(pageNum);
+	}
+</script>
+
+<style>
+	.user-card {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 4px;
+		padding: 1rem;
+		text-align: center;
+		transition: box-shadow 0.15s ease;
+	}
+	.user-card:hover {
+		box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+	}
+	.user-card img {
+		width: 64px;
+		height: 64px;
+		border: 1px solid #d1d5db;
+		background: #f9fafb;
+		object-fit: cover;
+		margin: 0 auto 0.5rem;
+	}
+</style>
+
+<!-- Browse Users Content -->
+<main class="py-6">
+	<div class="max-w-container mx-auto px-4">
+		<h1 class="text-xl font-bold text-gray-900 mb-5">Browse Users</h1>
+
+		<!-- Search & Sort -->
+		<div class="border border-gray-200 rounded p-3 mb-5 bg-white flex flex-wrap gap-3 items-end">
+			<div class="flex-1 min-w-[200px]">
+				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
+				<input type="text" placeholder="Username..." class="form-input w-full" bind:value={search}>
+			</div>
+			<div>
+				<label class="block text-xs font-semibold text-gray-600 mb-1">Sort by</label>
+				<select class="form-input" bind:value={sortBy}>
+					<option value="newest">Newest</option>
+					<option value="oldest">Oldest</option>
+					<option value="highest_rap">Highest RAP</option>
+				</select>
+			</div>
+			<button class="btn-secondary px-4 py-1.5 text-sm" onclick={applyFilters}>Apply</button>
+		</div>
+
+		{#if loading}
+			<div class="text-center py-12">
+				<p class="text-gray-500">Loading users...</p>
+			</div>
+		{:else if error}
+			<div class="text-center py-12">
+				<p class="text-red-500">{error}</p>
+			</div>
+		{:else}
+			<!-- Users Grid -->
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+				{#each users as user}
+					<a href={`/user/profile/${user.id}`} class="user-card text-link block">
+						<img src="{config.headshotStorage}/{user.id}.png" alt={user.username} loading="lazy" onerror={handleImgError}>
+						<p class="font-medium text-sm text-gray-900">{user.username}</p>
+						<p class="text-xs text-gray-600">Joined {formatJoined(user.created_at)}</p>
+						<p class="text-xs text-primary font-medium">VAL: {user.final_rap?.toLocaleString() || 0}</p>
+					</a>
+				{/each}
+			</div>
+
+			<!-- Pagination -->
+			<div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-200">
+				<span class="text-sm text-gray-600">Showing {pagination.from}–{pagination.to} of {pagination.total} users</span>
+				<div class="flex gap-1">
+					<button 
+						class="btn-secondary px-3 py-1 text-sm" 
+						disabled={!pagination.prev_page_url}
+						onclick={() => goToPage(pagination.current_page - 1)}
+					>← Previous</button>
+					<button 
+						class="btn-secondary px-3 py-1 text-sm" 
+						disabled={!pagination.next_page_url}
+						onclick={() => goToPage(pagination.current_page + 1)}
+					>Next →</button>
+				</div>
+			</div>
+		{/if}
+	</div>
+</main>
