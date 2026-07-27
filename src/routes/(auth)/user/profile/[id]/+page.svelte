@@ -18,6 +18,37 @@
 	// Check if profile is hidden (profile_visible is false and viewer is not owner or friend)
 	// This is computed inline in the template
 
+	let isOwnProfile = $derived(data.user.id === user?.id);
+	let profileItems = $state([]);
+	let showEditModal = $state(false);
+	let loadingProfileItems = $state(false);
+
+	async function fetchProfileItems() {
+		loadingProfileItems = true;
+		try {
+			const res = await fetch(`${config.api}/user/profile/items/${data.user.id}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			const json = await res.json();
+			if (!res.ok) {
+				console.error(json?.message || 'Failed to fetch profile items.');
+				return;
+			}
+
+			profileItems = json.data || [];
+		} catch (err) {
+			console.error('Failed to fetch profile items.', err);
+		} finally {
+			loadingProfileItems = false;
+		}
+	}
+
 	async function fetchWall(page = 1) {
 		const res = await fetch(`${config.api}/user/wall/${data.user.id}?page=${page}`, {
 			method: 'GET',
@@ -161,6 +192,105 @@
 	let inventoryPromise = $derived(fetchInventory(inventoryPage));
 
 	let friendLoading = $state(false);
+	async function saveProfileItems() {
+		try {
+			const itemsToSave = selectedItems.map(item => item.id);
+
+			const res = await fetch(`${config.api}/user/profile/items/${data.user.id}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				},
+				body: JSON.stringify({ items: itemsToSave })
+			});
+
+			const json = await res.json();
+			if (!res.ok) {
+				console.error(json?.message || 'Failed to save profile items.');
+				return;
+			}
+
+			await fetchProfileItems();
+			showEditModal = false;
+		} catch (err) {
+			console.error('Failed to save profile items.', err);
+		}
+	}
+
+	let availableItems = $state([]);
+	let selectedItems = $state([]);
+	let itemSearch = $state('');
+	let itemCategory = $state('');
+	let categories = $state([]);
+	let loadingAvailableItems = $state(false);
+
+	async function fetchAvailableItems() {
+		loadingAvailableItems = true;
+		try {
+			const params = new URLSearchParams();
+			if (itemSearch) params.append('search', itemSearch);
+			if (itemCategory) params.append('category', itemCategory);
+
+			const res = await fetch(`${config.api}/user/profile/available-items/${data.user.id}?${params.toString()}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			const json = await res.json();
+			if (!res.ok) {
+				console.error(json?.message || 'Failed to fetch available items.');
+				return;
+			}
+
+			availableItems = json.data || [];
+
+			// Pre-select items that are already on the wall
+			selectedItems = availableItems.filter(item => item.on_wall);
+		} catch (err) {
+			console.error('Failed to fetch available items.', err);
+		} finally {
+			loadingAvailableItems = false;
+		}
+	}
+
+	async function fetchCategories() {
+		try {
+			const res = await fetch(`${config.api}/user/profile/categories`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			const json = await res.json();
+			if (!res.ok) {
+				console.error(json?.message || 'Failed to fetch categories.');
+				return;
+			}
+
+			categories = json.data || [];
+		} catch (err) {
+			console.error('Failed to fetch categories.', err);
+		}
+	}
+
+	function openEditModal() {
+		showEditModal = true;
+		fetchCategories();
+		// Fetch available items will be triggered after modal is shown and categories loaded
+		setTimeout(() => {
+			fetchAvailableItems();
+		}, 100);
+	}
+
 	async function sendFriendRequest() {
 		try {
 			friendLoading = true;
@@ -186,10 +316,42 @@
 		}
 	}
 
-	const format = new Intl.NumberFormat('en-US', {
-		minimumFractionDigits: 0,
-		maximumFractionDigits: 0
-	});
+		const format = new Intl.NumberFormat('en-US', {
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		});
+
+		let friendsCount = $derived(data.user.friends_count ?? 0);
+		let itemsCount = $derived(data.user.item_count ?? 0);
+		let postsCount = $state(0);
+
+		// Fetch wall count for posts
+		async function fetchWallCount() {
+			try {
+				const res = await fetch(`${config.api}/user/wall/${data.user.id}?page=1`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Accept: 'application/json',
+						Authorization: `Bearer ${data.token}`
+					}
+				});
+
+				const json = await res.json();
+				if (!res.ok) {
+					return;
+				}
+
+				postsCount = json.total ?? 0;
+			} catch (err) {
+				console.error('Failed to fetch wall count.', err);
+			}
+		}
+
+		if (isOwnProfile) {
+			fetchProfileItems();
+		}
+		fetchWallCount();
 
 	async function unfriend() {
 		try {
@@ -221,6 +383,11 @@
 	let totalItems = $state(0);
 	let overallPercentage = $state(0);
 
+	// Fetch profile items on load
+	if (isOwnProfile) {
+		fetchProfileItems();
+	}
+
 	async function fetchCollections() {
 		const res = await fetch(`${config.api}/user/collections/${data.user.id}`, {
 			method: 'GET',
@@ -245,6 +412,39 @@
 		return collections;
 	}
 	let collectionsPromise = $derived(fetchCollections());
+
+	let friendsPage = $state(1);
+	let friendsTotalPages = $state(1);
+	let friendsTotal = $state(0);
+
+	async function fetchFriends(page = 1) {
+		const res = await fetch(`${config.api}/user/friends/${data.user.id}?page=${page}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: `Bearer ${data.token}`
+			}
+		});
+
+		const json = await res.json();
+		if (!res.ok) {
+			console.error(json?.message || 'Failed to fetch friends.');
+			return { data: [], total: 0, last_page: 1 };
+		}
+
+		friendsTotal = json.total || 0;
+		friendsTotalPages = json.last_page || 1;
+
+		return json.data || [];
+	}
+
+	function updateFriends(page) {
+		friendsPage = page;
+		friendsPromise = fetchFriends(page);
+	}
+
+	let friendsPromise = $derived(fetchFriends(friendsPage));
 </script>
 {#if data.user && !data.user.privacy?.profile_visible && data.user.id !== user?.id && data.user.friend_status !== 'friends'}
 	<div class="max-w-container mx-auto px-4 py-6">
@@ -288,32 +488,44 @@
 						<h2 class="text-xl font-semibold">{data.user.username}</h2>
 						<p class="text-sm text-gray-600/70 mb-3">"{data.user.bubble}"</p>
 						<div class="flex items-center gap-2 mb-3">
+							{#if data.user.id != page.data.globalUser.id}
 							<div>
-								<button class="btn-glossy px-4 py-1 text-sm">Friend</button>
+								{#if data.user.friend_status == "none"}
+								<button class="btn-glossy px-4 py-1 text-sm" onclick={sendFriendRequest}>Friend</button>
+								{:else if data.user.friend_status == "sent" || data.user.friend_status === "received"}
+								<button class="btn-glossy px-4 py-1 text-sm" disabled={true}>Pending</button>
+								{:else if data.user.friend_status == "friends"}
+								<button class="btn-danger px-4 py-1 text-sm" onclick={unfriend}>Unfriend</button>
+								{/if}
 							</div>
 							<div>
-								<button class="btn-glossy px-4 py-1 text-sm">Trade</button>
+								<a href={`/user/trades/create/${data.user.id}`} class="btn-glossy px-4 py-1 text-sm">Trade</a>
 							</div>
+							{:else}
+								<div>
+									<button class="btn-glossy px-4 py-1 text-sm">Customize</button>
+								</div>
+							{/if}
 						</div>
 						<div class="flex items-center justify-around w-full min-w-full">
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">10</h3>
+								<h3 class="text-lg text-primary font-semibold">{format.format(friendsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Friends</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">10</h3>
+								<h3 class="text-lg text-primary font-semibold">{format.format(itemsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Items</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">10</h3>
+								<h3 class="text-lg text-primary font-semibold">{format.format(postsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Posts</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">1,000</h3>
+								<h3 class="text-lg text-primary font-semibold">{format.format(data.user.final_rap)}</h3>
 								<p class="text-sm text-gray-600/70">VAL</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">10</h3>
+								<h3 class="text-lg text-primary font-semibold">{data.user.level}</h3>
 								<p class="text-sm text-gray-600/70">Level</p>
 							</div>
 						</div>
@@ -323,31 +535,34 @@
 			<div class="grid grid-cols-10 gap-4 mb-3">
 				<div class="col-span-2">
 					<button 
-						class="btn-glossy px-4 py-1 text-sm w-full {tab === 0 ? 'bg-primary text-white' : ''}"
+						class="btn-secondary px-4 py-1 text-sm w-full {tab === 0 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 0}
 					>Overview</button>
 				</div>
 				<div class="col-span-2">
 					<button 
-						class="btn-glossy px-4 py-1 text-sm w-full {tab === 1 ? 'bg-primary text-white' : ''}"
+						class="btn-secondary px-4 py-1 text-sm w-full {tab === 1 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 1}
 					>Creations</button>
 				</div>
 				<div class="col-span-2">
 					<button 
-						class="btn-glossy px-4 py-1 text-sm w-full {tab === 2 ? 'bg-primary text-white' : ''}"
+						class="btn-secondary px-4 py-1 text-sm w-full {tab === 2 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 2}
 					>Inventory</button>
 				</div>
 				<div class="col-span-2">
 					<button 
-						class="btn-glossy px-4 py-1 text-sm w-full {tab === 3 ? 'bg-primary text-white' : ''}"
+						class="btn-secondary px-4 py-1 text-sm w-full {tab === 3 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 3}
 					>Collections</button>
 				</div>
-				<div class="col-span-2">
-					<button class="btn-glossy px-4 py-1 text-sm w-full">Friends</button>
-				</div>
+			<div class="col-span-2">
+				<button 
+					class="btn-secondary px-4 py-1 text-sm w-full {tab === 4 ? 'bg-primary text-white' : ''}"
+					onclick={() => tab = 4}
+				>Friends</button>
+			</div>
 			</div>
 			
 			<!-- Tab Content -->			
@@ -374,64 +589,38 @@
 							</p>
 						</div>
 						<div class="border border-gray-200 rounded p-3">
-							<h5 class="text-sm font-semibold mb-3">Item Wall</h5>
-							<div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
-								<div class="cursor-pointer item-card card-shadow">
-									<div class="relative">
-										<img loading="lazy" src="http://127.0.0.1:8000/storage/items/24.png" />
-										<!---->
-										<!---->
-									</div>
-									<div class="p-2">
-										<p class="text-sm font-medium text-gray-900 truncate">Dark Beanie</p>
-										<span class="text-xs text-gray-400">Hats</span>
-									</div>
-								</div>
-								<div class="cursor-pointer item-card card-shadow">
-									<div class="relative">
-										<img loading="lazy" src="http://127.0.0.1:8000/storage/items/24.png" />
-										<!---->
-										<!---->
-									</div>
-									<div class="p-2">
-										<p class="text-sm font-medium text-gray-900 truncate">Dark Beanie</p>
-										<span class="text-xs text-gray-400">Hats</span>
-									</div>
-								</div>
-								<div class="cursor-pointer item-card card-shadow">
-									<div class="relative">
-										<img loading="lazy" src="http://127.0.0.1:8000/storage/items/24.png" />
-										<!---->
-										<!---->
-									</div>
-									<div class="p-2">
-										<p class="text-sm font-medium text-gray-900 truncate">Dark Beanie</p>
-										<span class="text-xs text-gray-400">Hats</span>
-									</div>
-								</div>
-								<div class="cursor-pointer item-card card-shadow">
-									<div class="relative">
-										<img loading="lazy" src="http://127.0.0.1:8000/storage/items/24.png" />
-										<!---->
-										<!---->
-									</div>
-									<div class="p-2">
-										<p class="text-sm font-medium text-gray-900 truncate">Dark Beanie</p>
-										<span class="text-xs text-gray-400">Hats</span>
-									</div>
-								</div>
-								<div class="cursor-pointer item-card card-shadow">
-									<div class="relative">
-										<img loading="lazy" src="http://127.0.0.1:8000/storage/items/24.png" />
-										<!---->
-										<!---->
-									</div>
-									<div class="p-2">
-										<p class="text-sm font-medium text-gray-900 truncate">Dark Beanie</p>
-										<span class="text-xs text-gray-400">Hats</span>
-									</div>
-								</div>
+							<div class="flex items-center justify-between mb-3">
+								<h5 class="text-sm font-semibold">Item Wall</h5>
+								{#if isOwnProfile}
+									<button 
+										class="btn-glossy px-3 py-1 text-sm"
+										onclick={openEditModal}
+									>Edit</button>
+								{/if}
 							</div>
+							{#if loadingProfileItems}
+								<p class="text-center text-sm text-gray-500 py-8">Loading items...</p>
+							{:else if profileItems.length === 0}
+								<p class="text-center text-sm text-gray-500 py-8">No items on wall.</p>
+							{:else}
+								<div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+									{#each profileItems as profileItem}
+										<div class="cursor-pointer item-card card-shadow">
+											<div class="relative">
+												<img 
+													loading="lazy" 
+													src={`${config.storage}/items/${profileItem.item.id}.png`}
+													alt={profileItem.item.title}
+												/>
+											</div>
+											<div class="p-2">
+												<p class="text-sm font-medium text-gray-900 truncate">{profileItem.item.title}</p>
+												<span class="text-xs text-gray-400">{profileItem.item.category?.title || ''}</span>
+											</div>
+										</div>
+									{/each}
+								</div>
+							{/if}
 						</div>
 					</div>
 				</div>
@@ -543,13 +732,63 @@
 								</div>
 							</div>
 							<div class="border border-gray-200 rounded p-3">
-								<!-- Second column - empty for now -->
+								<h3 class="text-sm font-semibold mb-3">Achievements</h3>
 							</div>
 						</div>
 					{/if}
 				{:catch error}
 					<p class="text-center text-red-500 py-8">Failed to load collections.</p>
 				{/await}
+			{:else if tab === 4}
+				<!-- Friends Tab -->
+				<div class="border border-gray-200 rounded p-3">
+					<h3 class="text-sm font-semibold mb-4">Friends</h3>
+					{#await friendsPromise}
+						<p class="text-center text-sm text-gray-500 py-8">Loading friends...</p>
+					{:then friends}
+						{#if friends.length === 0}
+							<p class="text-center text-sm text-gray-500 py-8">No friends yet.</p>
+						{:else}
+							<div class="space-y-2">
+								{#each friends as friend}
+									<a href={`/user/profile/${friend.id}`} class="flex items-center justify-between p-3 border border-gray-100 rounded hover:bg-gray-50 transition-colors">
+										<div class="flex items-center gap-3">
+											<img
+												class="w-10 h-10 border border-gray-200 rounded-full"
+												src={`${config.headshotStorage}/${friend.id}.png`}
+												alt=""
+											/>
+											<div>
+												<p class="text-sm font-medium text-gray-900">{friend.username}</p>
+												<p class="text-xs text-gray-500">"{friend.bubble}"</p>
+											</div>
+										</div>
+										<div class="text-xs text-gray-500">
+											{friend.last_seen_at ? new Date(friend.last_seen_at).toLocaleDateString() : ''}
+										</div>
+									</a>
+								{/each}
+							</div>
+						{/if}
+					{:catch error}
+						<p class="text-center text-red-500 py-8">Failed to load friends.</p>
+					{/await}
+					{#if friendsTotalPages > 1}
+						<div class="flex items-center justify-center gap-2 mt-4">
+							<button 
+								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={friendsPage <= 1}
+								onclick={() => updateFriends(friendsPage - 1)}
+							>Previous</button>
+							<span class="text-sm text-gray-600">Page {friendsPage} of {friendsTotalPages}</span>
+							<button 
+								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={friendsPage >= friendsTotalPages}
+								onclick={() => updateFriends(friendsPage + 1)}
+							>Next</button>
+						</div>
+					{/if}
+				</div>
 			{:else}
 				<!-- Other tabs placeholder -->
 				<div class="border border-gray-200 rounded p-8 text-center">
@@ -558,4 +797,82 @@
 			{/if}
 		</div>
 	</main>
+{/if}
+
+{#if showEditModal}
+	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showEditModal = false}>
+		<div class="bg-white rounded border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
+			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
+				<h3 class="text-lg font-semibold">Edit Item Wall</h3>
+				<button 
+					class="text-gray-500 hover:text-gray-700"
+					onclick={() => showEditModal = false}
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+				</button>
+			</div>
+			<div class="p-3 border-b border-gray-200">
+				<div class="flex gap-2">
+					<input 
+						type="text" 
+						placeholder="Search items..." 
+						class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm"
+						bind:value={itemSearch}
+						oninput={() => fetchAvailableItems()}
+					/>
+					<select 
+						class="px-3 py-1 border border-gray-300 rounded text-sm"
+						bind:value={itemCategory}
+						onchange={() => fetchAvailableItems()}
+					>
+						<option value="">All Categories</option>
+						{#each categories as category}
+							<option value={category.title}>{category.title}</option>
+						{/each}
+					</select>
+				</div>
+			</div>
+			<div class="flex-1 overflow-y-auto p-3">
+				{#if loadingAvailableItems}
+					<p class="text-center text-sm text-gray-500 py-8">Loading items...</p>
+				{:else if availableItems.length === 0}
+					<p class="text-center text-sm text-gray-500 py-8">No items found.</p>
+				{:else}
+					<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+						{#each availableItems as item}
+							<button 
+								class="border-1 cursor-pointer rounded p-2 transition-all {selectedItems.some(si => si.id === item.id) ? 'border-primary bg-blue-50' : 'border-transparent hover:border-gray-300'}"
+								onclick={() => {
+									if (selectedItems.some(si => si.id === item.id)) {
+										selectedItems = selectedItems.filter(si => si.id !== item.id);
+									} else {
+										selectedItems = [...selectedItems, item];
+									}
+								}}
+							>
+								<img 
+									loading="lazy" 
+									src={`${config.storage}/items/${item.id}.png`}
+									alt={item.title}
+									class="w-full aspect-square object-cover"
+								/>
+								<p class="text-sm font-medium text-gray-900 truncate mt-2">{item.title}</p>
+								<span class="text-xs text-gray-400">{item.category_title}</span>
+							</button>
+						{/each}
+					</div>
+				{/if}
+			</div>
+			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
+				<button 
+					class="btn-secondary px-4 py-1 text-sm"
+					onclick={() => showEditModal = false}
+				>Close</button>
+				<button 
+					class="btn-glossy px-4 py-1 text-sm"
+					onclick={saveProfileItems}
+				>Save Changes</button>
+			</div>
+		</div>
+	</div>
 {/if}
