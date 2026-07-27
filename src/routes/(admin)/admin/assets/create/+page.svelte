@@ -16,10 +16,11 @@
 	let moderationStatus = $state('pending');
 	let collectionId = $state('');
 	
-	let textureFile = $state(null);
-	let modelFile = $state(null);
+		let textureFile = $state(null);
+		let modelFile = $state(null);
+		let displayImageFile = $state(null);
 
-	let error = $state('');
+		let error = $state('');
 	let success = $state('');
 	let loading = $state(false);
 
@@ -54,6 +55,10 @@
 				formData.append('model', modelFile);
 			}
 
+			if (displayImageFile) {
+				formData.append('display_image', displayImageFile);
+			}
+
 			const response = await fetch(`${config.api}/admin/assets`, {
 				method: 'POST',
 				headers: {
@@ -82,19 +87,26 @@
 		}
 	}
 
-	function handleTextureSelect(e) {
-		const file = e.target.files?.[0];
-		if (file) {
-			textureFile = file;
+		function handleTextureSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				textureFile = file;
+			}
 		}
-	}
 
-	function handleModelSelect(e) {
-		const file = e.target.files?.[0];
-		if (file) {
-			modelFile = file;
+		function handleModelSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				modelFile = file;
+			}
 		}
-	}
+
+		function handleDisplayImageSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				displayImageFile = file;
+			}
+		}
 </script>
 
 <main class="py-6">
@@ -217,6 +229,16 @@
 						<label class="form-label" for="itemTexture">Texture</label>
 						<input onchange={handleTextureSelect} type="file" id="itemTexture" class="form-input" accept="image/png,image/jpg,image/jpeg,image/gif,image/svg+xml">
 						<p class="text-xs text-gray-500 mt-1">PNG or JPG. Max 2MB. Used for texture-based items.</p>
+					</div>
+				</div>
+			{/if}
+
+			{#if selectedCategory && !selectedCategory.needs_rendering}
+				<div class="border-t border-gray-200 pt-4 mt-4">
+					<div class="mb-3">
+						<label class="form-label" for="displayImage">Display Image</label>
+						<input onchange={handleDisplayImageSelect} type="file" id="displayImage" class="form-input" accept="image/png,image/jpg,image/jpeg,image/gif,image/svg+xml">
+						<p class="text-xs text-gray-500 mt-1">Required for categories without rendering. Will be saved as items/{id}.png</p>
 					</div>
 				</div>
 			{/if}
