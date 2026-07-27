@@ -45,13 +45,14 @@
 			const json = await response.json();
 			loading = false;
 			if (!response.ok) {
+				console.log(json)
 				console.error(json?.message || 'Failed to change trade state.');
 				return;
 			}
 
 			tradesPromise = fetchTrades(activeTab);
 		} catch (err) {
-			console.error('Failed to change trade state.');
+			console.error(err);
 		} finally {
 			loading = false;
 		}

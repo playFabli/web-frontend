@@ -3,7 +3,11 @@
 	import { config } from "$lib/config";
 
 	let { item, formatter, serial = -1, hidePrice = false, onclick = () => { goto(`/marketplace/item/${item.id}`) } } = $props();
-	console.log(serial);
+	let format = new Intl.NumberFormat('en-US', {
+		minimumFractionDigits: 0,
+		maximumFractionDigits: 0
+	});
+
 </script>
 <div {onclick} class="cursor-pointer item-card card-shadow">
 		<div class="relative">
@@ -41,7 +45,7 @@
 								d="m6.134 14.768.866-.5 2 3.464"
 							/><circle cx="16" cy="8" r="6" /></svg
 						>
-						{formatter.format(item.price)}
+						{format.format(item.price)}
 					</p>
 				{:else if !item.is_limited}
 					<p class="text-xs text-gray-600">
@@ -60,7 +64,7 @@
 								d="m6.134 14.768.866-.5 2 3.464"
 							/><circle cx="16" cy="8" r="6" /></svg
 						>
-						{formatter.format(item.price)}
+						{format.format(item.price)}
 					</p>
 				{/if}
 			{:else}

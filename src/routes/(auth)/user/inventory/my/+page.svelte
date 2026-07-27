@@ -2,6 +2,7 @@
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import ItemCard from '$lib/components/marketplace/ItemCard.svelte';
 
 	let { data } = $props();
 	
@@ -13,6 +14,7 @@
 		total: 0,
 		per_page: 20
 	});
+	let categories = $state(data.categories || []);
 	let activeFilter = $state('all');
 	let isOpeningCase = $state(false);
 	let caseContents = $state([]);
@@ -28,24 +30,12 @@
 		maximumFractionDigits: 0
 	});
 
-	// Map filter to category name
-	function getFilterCategory(filter) {
-		const map = {
-			'all': 'all',
-			'hat': 'Hats',
-			'face': 'Faces',
-			'shirt': 'Shirts',
-			'pants': 'Pants',
-			'case': 'Boxes'
-		};
-		return map[filter] || 'all';
-	}
-
 	// Fetch inventory with filter and pagination
 	async function fetchInventory(filter = 'all', page = 1) {
 		isLoading = true;
 		try {
-			const res = await fetch(`${config.api}/user/inventory/me?category=${getFilterCategory(filter)}&page=${page}&limit=2&show_duplicates=1`, {
+			const category = filter === 'all' ? 'all' : categories.find(c => c.title.toLowerCase() === filter)?.title || 'all';
+			const res = await fetch(`${config.api}/user/inventory/me?category=${encodeURIComponent(category)}&page=${page}&limit=2&show_duplicates=1`, {
 				headers: {
 					'Authorization': `Bearer ${data.token}`,
 					'Content-Type': 'application/json',
@@ -73,6 +63,11 @@
 		activeFilter = filter;
 		fetchInventory(filter, 1);
 	}
+
+	// Initialize with 'all' filter on mount
+	onMount(() => {
+		fetchInventory('all', 1);
+	});
 
 	// Handle page change
 	function changePage(page) {
@@ -318,62 +313,37 @@
 	<div class="max-w-container mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Your Inventory</h1>
 
-		<!-- Filter Tabs -->
-		<div class="flex flex-wrap gap-2 mb-5">
+	<!-- Filter Tabs -->
+	<div class="flex flex-wrap gap-2 mb-5">
+		<button 
+			class="filter-tab !px-4 !py-1" 
+			class:active={activeFilter === 'all'}
+			onclick={() => setFilter('all')}
+		>All</button>
+		{#each categories as category}
 			<button 
 				class="filter-tab !px-4 !py-1" 
-				class:active={activeFilter === 'all'}
-				onclick={() => setFilter('all')}
-			>All</button>
-			<button 
-				class="filter-tab !px-4 !py-1" 
-				class:active={activeFilter === 'hat'}
-				onclick={() => setFilter('hat')}
-			>Hats</button>
-			<button 
-				class="filter-tab !px-4 !py-1" 
-				class:active={activeFilter === 'face'}
-				onclick={() => setFilter('face')}
-			>Faces</button>
-			<button 
-				class="filter-tab !px-4 !py-1" 
-				class:active={activeFilter === 'shirt'}
-				onclick={() => setFilter('shirt')}
-			>Shirts</button>
-			<button 
-				class="filter-tab !px-4 !py-1" 
-				class:active={activeFilter === 'pants'}
-				onclick={() => setFilter('pants')}
-			>Pants</button>
-			<button 
-				class="filter-tab !px-4 !py-1" 
-				class:active={activeFilter === 'case'}
-				onclick={() => setFilter('case')}
-			>Boxes</button>
-		</div>
+				class:active={activeFilter === category.title.toLowerCase()}
+				onclick={() => setFilter(category.title.toLowerCase())}
+			>{category.title}</button>
+		{/each}
+	</div>
 
 		<!-- Items Grid -->
-		<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
 			{#if isLoading}
 				<p class="text-neutral-500 text-sm col-span-full">Loading...</p>
 			{:else if inventory.length === 0}
 				<p class="text-neutral-500 text-sm col-span-full">No items found...</p>
 			{:else}
 				{#each inventory as invObj}
-					<div class="inventory-card cursor-pointer">
-						<img src={`${config.storage}/items/${invObj.item.id}.png`} alt={invObj.item?.title} loading="lazy">
-						<p class="text-sm font-medium text-gray-900 truncate">{invObj.item?.title}</p>
-						<span class="type-tag">{invObj.item?.category?.title}</span>
-						{#if invObj.item?.category?.title?.toLowerCase() === 'boxes'}
-							<button 
-								class="btn-glossy w-full mt-2 py-1 text-xs"
-								onclick={() => openCase(invObj.id, invObj.item_id)}
-								disabled={isOpeningCase}
-							>
-								Open
-							</button>
-						{/if}
-					</div>
+					<ItemCard 
+						item={invObj.item} 
+						serial={invObj.serial ?? 1} 
+						{formatter}
+						hidePrice={true}
+						onclick={() => goto(`/marketplace/item/${invObj.item.id}`)}
+					/>
 				{/each}
 			{/if}
 		</div>

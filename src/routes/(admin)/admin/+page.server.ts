@@ -14,10 +14,15 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
   });
 
   if (!response.ok) {
+  const json = await response.json();
+  console.log(json);
+
+    console.error("Failed to load dashboard")
     throw error(response.status, 'Failed to load dashboard');
   }
 
   const json = await response.json();
+  console.log(json);
 
   return {
     title: 'Admin Dashboard',

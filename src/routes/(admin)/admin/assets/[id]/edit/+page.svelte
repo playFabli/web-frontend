@@ -16,6 +16,7 @@
 	let stockLeft = $state(data.item.stock_left);
 	let isOffsale = $state(data.item.is_offsale);
 	let moderationStatus = $state(data.item.moderation_status);
+	let collectionId = $state(data.item.collections?.[0]?.id || '');
 
 	let error = $state('');
 	let success = $state('');
@@ -56,6 +57,9 @@
 		}
 	}
 
+	let collectionLoading = $state(false);
+	let collectionError = $state('');
+
 	async function saveAsset() {
 		error = '';
 		success = '';
@@ -90,6 +94,41 @@
 			if (!response.ok) {
 				error = json?.message || 'Failed to save asset.';
 				return;
+			}
+
+			// Handle collection assignment
+			if (collectionId) {
+				// First remove from any existing collections
+				if (data.item.collections && data.item.collections.length > 0) {
+					for (const col of data.item.collections) {
+						await fetch(`${config.api}/admin/collections/${col.id}/remove-item/${data.item.id}`, {
+							method: 'POST',
+							headers: {
+								'Accept': 'application/json',
+								'Authorization': `Bearer ${data.token}`
+							}
+						});
+					}
+				}
+				// Add to selected collection
+				await fetch(`${config.api}/admin/collections/${collectionId}/add-item/${data.item.id}`, {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Authorization': `Bearer ${data.token}`
+					}
+				});
+			} else if (data.item.collections && data.item.collections.length > 0) {
+				// Remove from all collections if "No collection" selected
+				for (const col of data.item.collections) {
+					await fetch(`${config.api}/admin/collections/${col.id}/remove-item/${data.item.id}`, {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Authorization': `Bearer ${data.token}`
+						}
+					});
+				}
 			}
 
 			success = 'Asset updated successfully.';
@@ -276,6 +315,22 @@
 						{/if}
 					</div>
 				</div>
+
+				{#if data.collections && data.collections.length > 0}
+				<div class="border border-gray-200 rounded p-4 bg-white">
+					<h2 class="text-lg font-semibold text-accent mb-3">Collection Assignment</h2>
+					<div class="mb-3">
+						<label class="form-label" for="collection">Collection</label>
+						<select bind:value={collectionId} id="collection" class="form-input">
+							<option value="">No collection</option>
+							{#each data.collections as col}
+								<option value={col.id}>{col.name} ({col.items_count} items)</option>
+							{/each}
+						</select>
+						<p class="text-xs text-gray-500 mt-1">Assign this item to a collection. Save the asset to apply changes.</p>
+					</div>
+				</div>
+				{/if}
 
 				<div class="flex justify-end gap-3">
 					<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">Back</a>

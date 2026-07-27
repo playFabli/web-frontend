@@ -281,7 +281,31 @@
 		}
 	}
 
-	let user = $derived(data.user); 
+	let user = $derived(data.user);
+
+	async function deleteComment(commentId) {
+		if (!confirm('Are you sure you want to delete this comment?')) return;
+
+		try {
+			const res = await fetch(`${config.api}/marketplace/comment/${commentId}`, {
+				method: 'DELETE',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			if (!res.ok) {
+				const json = await res.json();
+				console.error(json?.message || 'Failed to delete comment.');
+				return;
+			}
+
+			comments = await fetchComments();
+		} catch (err) {
+			console.error('Failed to delete comment.', err);
+		}
+	}
 </script>
 
 {#if buyModalOpen}
@@ -563,6 +587,14 @@
 						<span class="font-medium">Sales:</span>
 						{data.item.sold_count}
 					</div>
+					{#if data.item.collections && data.item.collections.length > 0}
+						<div>
+							<span class="font-medium">Collection:</span>
+							{#each data.item.collections as collection, i}
+								<span class="text-primary">{collection.name}{i < data.item.collections.length - 1 ? ', ' : ''}</span>
+							{/each}
+						</div>
+					{/if}
 				</div>
 
 				<div class="flex flex-wrap gap-2 mt-2">
@@ -853,6 +885,9 @@
 								<span class="text-xs text-gray-500"
 									>{timeSince(new Date(comment.created_at))} ago</span
 								>
+								{#if user && (user.role === 'admin' || user.role === 'moderator')}
+									<button onclick={() => deleteComment(comment.id)} class="text-xs text-red-500 hover:text-red-700 ml-auto">Delete</button>
+								{/if}
 							</div>
 							<p class="text-sm text-gray-700">
 								{comment.content}

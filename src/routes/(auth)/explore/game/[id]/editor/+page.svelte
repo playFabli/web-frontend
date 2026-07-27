@@ -1,6 +1,5 @@
 <script lang="ts">
 	import * as BABYLON from 'babylonjs';
-	import { Color3 } from '@babylonjs/core';
 	import { onMount } from "svelte";
 
 	let canvas: HTMLCanvasElement;
@@ -10,15 +9,21 @@
 	let camera: BABYLON.UniversalCamera;
 	let gizmoManager: BABYLON.GizmoManager;
 
+	// Flips to true once the scene/camera/light exist, so the $effect below
+	// knows it's safe to start creating meshes.
 	let ready = $state(false);
 
+	// Babylon meshes aren't Svelte state, so we keep our own id -> mesh map
+	// instead of trying to make Babylon objects reactive.
 	const meshMap = new Map<string, BABYLON.Mesh>();
 
+	// Purely Babylon-side bookkeeping (which meshes currently show an
+	// outline), so these stay plain variables rather than $state.
 	let hoveredMesh: BABYLON.Mesh | null = null;
 	let selectedMesh: BABYLON.Mesh | null = null;
 
-	const HOVER_OUTLINE = { color: new Color3(0.2, 0.6, 1), width: 0.03 };
-	const SELECT_OUTLINE = { color: new Color3(0.2, 0.6, 1), width: 0.03 };
+	const HOVER_OUTLINE = { color: BABYLON.Color3.Red(), width: 0.03 };
+	const SELECT_OUTLINE = { color: new BABYLON.Color3(0.2, 0.6, 1), width: 0.03 };
 
 	let mode: "move" | "rotate" | "scale" = $state("move");
 
@@ -320,15 +325,21 @@
 			}
 		});
 
+		// Light
 		new BABYLON.HemisphericLight(
 			"light",
 			new BABYLON.Vector3(0, 1, 0),
 			scene
 		);
 
+		// Gizmos — we drive attachment ourselves from `selectedId` (see
+		// updateSelection), so Babylon shouldn't auto-attach on arbitrary clicks.
 		gizmoManager = new BABYLON.GizmoManager(scene);
 		gizmoManager.usePointerToAttachGizmos = false;
 
+		// Hover outline + click-to-select. We call scene.pick() ourselves on
+		// every move rather than relying on pointerInfo.pickInfo, since Babylon
+		// doesn't always keep that populated on move for performance reasons.
 		scene.onPointerObservable.add((pointerInfo) => {
 			if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERMOVE) {
 				const pickedMesh = scene.pick(scene.pointerX, scene.pointerY).pickedMesh;
@@ -336,6 +347,8 @@
 
 				setHover(partId ? (pickedMesh as BABYLON.Mesh) : null);
 			} else if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERTAP) {
+				// POINTERTAP (rather than POINTERPICK/POINTERDOWN) so that
+				// dragging to look around with the camera doesn't also select.
 				const partId = partIdOf(pointerInfo.pickInfo?.pickedMesh);
 
 				if (partId) {
@@ -344,11 +357,15 @@
 			}
 		});
 
+		// Mirrors the selected mesh's live transform (as the gizmo drags it)
+		// back into `parts`, so the Properties panel updates in real time.
 		scene.onBeforeRenderObservable.add(syncSelectedMeshBackToPart);
 
 		const onPointerLeave = () => setHover(null);
 		canvas.addEventListener("pointerleave", onPointerLeave);
 
+		// The baseplate and every other part are now rendered from `parts`
+		// itself (see syncParts), so there's no separate hardcoded ground mesh.
 		ready = true;
 
 		engine.runRenderLoop(() => {

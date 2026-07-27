@@ -27,9 +27,24 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
     categories = catJson.data || [];
   }
 
+  // Fetch collections
+  const collectionsResponse = await fetch(`${config.api}/admin/collections`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    }
+  });
+
+  let collections = [];
+  if (collectionsResponse.ok) {
+    const colJson = await collectionsResponse.json();
+    collections = colJson.data || [];
+  }
+
   return {
     title: 'Create Asset',
     token,
-    categories
+    categories,
+    collections
   };
 };

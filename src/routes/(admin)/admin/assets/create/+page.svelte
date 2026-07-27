@@ -14,6 +14,7 @@
 	let stockLeft = $state(0);
 	let isOffsale = $state(false);
 	let moderationStatus = $state('pending');
+	let collectionId = $state('');
 	
 	let textureFile = $state(null);
 	let modelFile = $state(null);
@@ -184,6 +185,21 @@
 					</div>
 				{/if}
 			</div>
+
+			{#if data.collections && data.collections.length > 0}
+				<div class="border-t border-gray-200 pt-4 mt-4">
+					<div class="mb-3">
+						<label class="form-label" for="collection">Collection</label>
+						<select bind:value={collectionId} id="collection" class="form-input">
+							<option value="">No collection</option>
+							{#each data.collections as col}
+								<option value={col.id}>{col.name}</option>
+							{/each}
+						</select>
+						<p class="text-xs text-gray-500 mt-1">Assign this item to a collection. Can be changed later.</p>
+					</div>
+				</div>
+			{/if}
 
 			{#if selectedCategory && selectedCategory.has_model}
 				<div class="border-t border-gray-200 pt-4 mt-4">

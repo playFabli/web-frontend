@@ -13,6 +13,7 @@ export const load: PageServerLoad = async ({ fetch, cookies, url }) => {
 		total: 0,
 		per_page: 20
 	};
+	let categories: any[] = [];
 	
 	try {
 		const invRes = await fetch(`${config.internalApi}/user/inventory/me?page=${page}&limit=20&show_duplicates=1`, {
@@ -36,5 +37,22 @@ export const load: PageServerLoad = async ({ fetch, cookies, url }) => {
 		console.error('Failed to load inventory', e);
 	}
 
-	return { title: `Your Inventory`, token, inventory, pagination };
+	try {
+		const catRes = await fetch(`${config.internalApi}/marketplace/categories`, {
+			headers: {
+				'Authorization': `Bearer ${token}`,
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			}
+		});
+
+		if (catRes.ok) {
+			const catData = await catRes.json();
+			categories = catData.data || [];
+		}
+	} catch (e) {
+		console.error('Failed to load categories', e);
+	}
+
+	return { title: `Your Inventory`, token, inventory, pagination, categories };
 };

@@ -19,6 +19,7 @@
 
 	let query = $state("");
 	let categoriesSelected = $state([1,2,3]);
+	let selectedCollection = $state('');
 	let itemsPromise = $state(fetchItems());
 	function selectCategory(id) {
 		if (categoriesSelected.includes(id)) {
@@ -30,9 +31,14 @@
 		itemsPromise = fetchItems();
 	}
 
-	
+	function selectCollection(id) {
+		selectedCollection = id;
+		itemsPromise = fetchItems();
+	}
+
 	async function fetchItems(page=1) {
-		const response = await fetch(`${config.api}/marketplace/items/${categoriesSelected.join(',')}?page=${page}&price_min=${priceMin}&price_max=${priceMax}&rap_min=${rapMin}&rap_max=${rapMax}&query=${query}`, {
+		const collectionParam = selectedCollection ? `&collection_id=${selectedCollection}` : '';
+		const response = await fetch(`${config.api}/marketplace/items/${categoriesSelected.join(',')}?page=${page}&price_min=${priceMin}&price_max=${priceMax}&rap_min=${rapMin}&rap_max=${rapMax}&query=${query}${collectionParam}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -106,10 +112,26 @@
 						</div>
 					</div>
 
-					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Search</h4>
-						<input oninput={()=> itemsPromise = fetchItems()} type="text" placeholder="Search..." bind:value={query} class="w-full border border-gray-300 rounded px-2 py-1 text-sm">
-					</div>
+				<div class="filter-section">
+					<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Search</h4>
+					<input oninput={()=> itemsPromise = fetchItems()} type="text" placeholder="Search..." bind:value={query} class="w-full border border-gray-300 rounded px-2 py-1 text-sm">
+				</div>
+
+				{#if data.collections && data.collections.length > 0}
+				<div class="filter-section">
+					<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Collection</h4>
+					<select 
+						onchange={(e) => selectCollection(e.target.value)} 
+						value={selectedCollection}
+						class="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+					>
+						<option value="">All Collections</option>
+						{#each data.collections as collection}
+							<option value={collection.id}>{collection.name}</option>
+						{/each}
+					</select>
+				</div>
+				{/if}
 
 				</div>
 			</aside>

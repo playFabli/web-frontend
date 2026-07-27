@@ -17,9 +17,24 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 
 	const categories = await response.json();
 
+	// Fetch collections for filter
+	const collectionsResponse = await fetch(`${config.internalApi}/marketplace/collections`, {
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			'Accept': 'application/json'
+		}
+	});
+
+	let collections = [];
+	if (collectionsResponse.ok) {
+		const collectionsJson = await collectionsResponse.json();
+		collections = collectionsJson.data || [];
+	}
+
 	return {
 		title: "Marketplace",
 		categories: categories.data,
-		token
+		token,
+		collections
 	};
 };

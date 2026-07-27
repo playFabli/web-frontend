@@ -22,9 +22,25 @@ export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
   }
 
   const user = await res.json();
+
+  // Fetch profile customization for the viewed user
+  const customizationRes = await fetch(`${config.internalApi}/marketplace/profile-customization`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  let profileCustomization = null;
+  if (customizationRes.ok) {
+    const customizationJson = await customizationRes.json();
+    profileCustomization = customizationJson.data;
+  }
+
   if(user.data != null) {
-    return { title: `${user.data.username}'s Profile`, user: user.data, token };
+    return { title: `${user.data.username}'s Profile`, user: user.data, token, profileCustomization };
   } else {
-    return { title: `Profile`, user: user.data, token };
+    return { title: `Profile`, user: user.data, token, profileCustomization };
   }
 };

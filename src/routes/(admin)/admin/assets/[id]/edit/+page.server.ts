@@ -34,10 +34,25 @@ export const load: PageServerLoad = async ({ params, cookies, fetch }) => {
     categories = catJson.data || [];
   }
 
+  // Fetch collections
+  const collectionsResponse = await fetch(`${config.api}/admin/collections`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    }
+  });
+
+  let collections = [];
+  if (collectionsResponse.ok) {
+    const colJson = await collectionsResponse.json();
+    collections = colJson.data || [];
+  }
+
   return {
     title: `Edit ${json.data.title}`,
     token,
     item: json.data,
-    categories
+    categories,
+    collections
   };
 };

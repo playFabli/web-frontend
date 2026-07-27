@@ -4,17 +4,6 @@
 		minimumFractionDigits: 0,
 		maximumFractionDigits: 0
 	});
-
-	function timeSince(date) {
-		const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-		if (seconds < 60) return 'just now';
-		const minutes = Math.floor(seconds / 60);
-		if (minutes < 60) return `${minutes}m ago`;
-		const hours = Math.floor(minutes / 60);
-		if (hours < 24) return `${hours}h ago`;
-		const days = Math.floor(hours / 24);
-		return `${days}d ago`;
-	}
 </script>
 
 <main class="py-6">
@@ -31,7 +20,11 @@
 				<span class="text-lg font-semibold text-accent">Assets</span>
 				<p class="text-sm text-gray-600 mt-1">Review items, reports, marketplace</p>
 			</a>
-			<a href="#" class="admin-link-card card-shadow flex flex-col items-start">
+			<a href="/admin/collections" class="admin-link-card card-shadow flex flex-col items-start">
+				<span class="text-lg font-semibold text-accent">Collections</span>
+				<p class="text-sm text-gray-600 mt-1">Manage item collections</p>
+			</a>
+			<a href="/admin/site-settings" class="admin-link-card card-shadow flex flex-col items-start">
 				<span class="text-lg font-semibold text-accent">Site Settings</span>
 				<p class="text-sm text-gray-600 mt-1">General configuration, maintenance</p>
 			</a>
