@@ -94,28 +94,12 @@
 		}
 	}
 
-	async function fetchInventory() {
-		const res = await fetch(`${config.api}/user/inventory/${data.user.id}?limit=5&pagination=0`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${data.token}`
-			}
-		});
+	let creationsPage = $state(1);
+	let creationsTotalPages = $state(1);
+	let creationsTotal = $state(0);
 
-		const json = await res.json();
-		if (!res.ok) {
-			console.error(json?.message || 'Failed to fetch inventory.');
-			return [];
-		}
-
-		return json || [];
-	}
-	let inventoryPromise = $derived(fetchInventory());
-
-	async function fetchCreations() {
-		const res = await fetch(`${config.api}/user/creations/${data.user.id}?limit=10`, {
+	async function fetchCreations(page = 1) {
+		const res = await fetch(`${config.api}/user/creations/${data.user.id}?page=${page}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -127,12 +111,54 @@
 		const json = await res.json();
 		if (!res.ok) {
 			console.error(json?.message || 'Failed to fetch creations.');
-			return [];
+			return { data: [], total: 0, totalPages: 1 };
 		}
 
-		return json || [];
+		creationsTotal = json.total || 0;
+		creationsTotalPages = json.last_page || 1;
+
+		return json.data || [];
 	}
-	let creationsPromise = $derived(fetchCreations());
+
+	function updateCreations(page) {
+		creationsPage = page;
+		creationsPromise = fetchCreations(page);
+	}
+
+	let creationsPromise = $derived(fetchCreations(creationsPage));
+
+	let inventoryPage = $state(1);
+	let inventoryTotalPages = $state(1);
+	let inventoryTotal = $state(0);
+
+	async function fetchInventory(page = 1) {
+		const res = await fetch(`${config.api}/user/inventory/${data.user.id}?page=${page}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: `Bearer ${data.token}`
+			}
+		});
+
+		const json = await res.json();
+		if (!res.ok) {
+			console.error(json?.message || 'Failed to fetch inventory.');
+			return { data: [], total: 0, totalPages: 1 };
+		}
+
+		inventoryTotal = json.total || 0;
+		inventoryTotalPages = json.last_page || 1;
+
+		return json.data || [];
+	}
+
+	function updateInventory(page) {
+		inventoryPage = page;
+		inventoryPromise = fetchInventory(page);
+	}
+
+	let inventoryPromise = $derived(fetchInventory(inventoryPage));
 
 	let friendLoading = $state(false);
 	async function sendFriendRequest() {
@@ -431,6 +457,21 @@
 					{:catch error}
 						<p class="text-center text-red-500 py-8">Failed to load creations.</p>
 					{/await}
+					{#if creationsTotalPages > 1}
+						<div class="flex items-center justify-center gap-2 mt-4">
+							<button 
+								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={creationsPage <= 1}
+								onclick={() => updateCreations(creationsPage - 1)}
+							>Previous</button>
+							<span class="text-sm text-gray-600">Page {creationsPage} of {creationsTotalPages}</span>
+							<button 
+								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={creationsPage >= creationsTotalPages}
+								onclick={() => updateCreations(creationsPage + 1)}
+							>Next</button>
+						</div>
+					{/if}
 				</div>
 			{:else if tab === 2}
 				<!-- Inventory Tab -->
@@ -455,6 +496,21 @@
 					{:catch error}
 						<p class="text-center text-red-500 py-8">Failed to load inventory.</p>
 					{/await}
+					{#if inventoryTotalPages > 1}
+						<div class="flex items-center justify-center gap-2 mt-4">
+							<button 
+								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={inventoryPage <= 1}
+								onclick={() => updateInventory(inventoryPage - 1)}
+							>Previous</button>
+							<span class="text-sm text-gray-600">Page {inventoryPage} of {inventoryTotalPages}</span>
+							<button 
+								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={inventoryPage >= inventoryTotalPages}
+								onclick={() => updateInventory(inventoryPage + 1)}
+							>Next</button>
+						</div>
+					{/if}
 				</div>
 			{:else if tab === 3}
 				<!-- Collections Tab -->
