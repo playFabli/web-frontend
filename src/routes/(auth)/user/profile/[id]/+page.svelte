@@ -612,10 +612,16 @@
 													src={`${config.storage}/items/${profileItem.item.id}.png`}
 													alt={profileItem.item.title}
 												/>
+												{#if profileItem.item.rarity != "none"}
+													<span class="rarity-badge rarity-{profileItem.item.rarity.toLowerCase()}">{profileItem.item.rarity}</span>
+												{/if}
 											</div>
 											<div class="p-2">
 												<p class="text-sm font-medium text-gray-900 truncate">{profileItem.item.title}</p>
 												<span class="text-xs text-gray-400">{profileItem.item.category?.title || ''}</span>
+												{#if profileItem.serial != null}
+													<p class="text-xs text-gray-500 mt-1">#{profileItem.serial}</p>
+												{/if}
 											</div>
 										</div>
 									{/each}
