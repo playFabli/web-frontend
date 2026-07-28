@@ -361,3 +361,20 @@ body {
 .section-border {
   @apply border-b border-gray-200;
 }
+
+.avatar-frame-rare {
+    border: 2px solid #2458A6 !important;
+
+    background: linear-gradient(
+        135deg,
+        #EAF4FF 0%,
+        #7FB4F8 35%,
+        #3B82D0 60%,
+        #174A9C 100%
+    );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -2px 0 rgba(0,0,0,.25),
+        0 2px 6px rgba(0,0,0,.25);
+}

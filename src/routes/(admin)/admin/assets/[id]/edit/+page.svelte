@@ -27,6 +27,8 @@
 	let grantError = $state('');
 	let grantSuccess = $state('');
 
+	let stylesheetFile = $state(null);
+
 	let templateLoading = $state(false);
 	let templateError = $state('');
 	let templateImageUrl = $state('');
@@ -60,35 +62,44 @@
 	let collectionLoading = $state(false);
 	let collectionError = $state('');
 
+		function handleStylesheetSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				stylesheetFile = file;
+			}
+		}
+
 	async function saveAsset() {
-		error = '';
-		success = '';
-		loading = true;
+			error = '';
+			success = '';
+			loading = true;
 
-		try {
-			const body = {
-				title,
-				description,
-				category_id: categoryId,
-				price,
-				rap,
-				rarity,
-				is_limited: isLimited,
-				stock_count: stockCount,
-				stock_left: stockLeft,
-				is_offsale: isOffsale,
-				moderation_status: moderationStatus
-			};
+			try {
+				const formData = new FormData();
+				formData.append('title', title);
+				formData.append('description', description);
+				formData.append('category_id', String(categoryId));
+				formData.append('price', String(price));
+				formData.append('rap', String(rap));
+				formData.append('rarity', rarity);
+				formData.append('is_limited', String(isLimited));
+				formData.append('stock_count', String(stockCount));
+				formData.append('stock_left', String(stockLeft));
+				formData.append('is_offsale', String(isOffsale));
+				formData.append('moderation_status', moderationStatus);
 
-			const response = await fetch(`${config.api}/admin/assets/${data.item.id}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${data.token}`
-				},
-				body: JSON.stringify(body)
-			});
+				if (stylesheetFile) {
+					formData.append('stylesheet', stylesheetFile);
+				}
+
+				const response = await fetch(`${config.api}/admin/assets/${data.item.id}`, {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Authorization': `Bearer ${data.token}`
+					},
+					body: formData
+				});
 
 			const json = await response.json();
 			if (!response.ok) {
@@ -315,6 +326,16 @@
 						{/if}
 					</div>
 				</div>
+
+				{#if categoryId && (data.item.category.title === 'Profile Themes' || data.item.category.title === 'Avatar Frames')}
+				<div class="border-t border-gray-200 pt-4 mt-4">
+					<div class="mb-3">
+						<label class="form-label" for="stylesheet">Stylesheet (.css)</label>
+						<input onchange={handleStylesheetSelect} type="file" id="stylesheet" class="form-input" accept=".css">
+						<p class="text-xs text-gray-500 mt-1">CSS file for styling. Optional. Will be served at /storage/stylesheets/{data.item.id}.css</p>
+					</div>
+				</div>
+			{/if}
 
 				{#if data.collections && data.collections.length > 0}
 				<div class="border border-gray-200 rounded p-4 bg-white">

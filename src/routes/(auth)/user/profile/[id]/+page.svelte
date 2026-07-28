@@ -562,7 +562,7 @@
 				<div class="grid grid-cols-12 gap-4">
 					<div class="col-span-2">
 						<img
-							class="w-lg h-lg border border-gray-200 p-2"
+							class="avatar-frame-rare w-lg h-lg border border-gray-200 p-2"
 							src={`${config.headshotStorage}/${data.user.id}.png`}
 							alt=""
 						/>
@@ -894,7 +894,7 @@
 			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
 				<h3 class="text-lg font-semibold">Edit Item Wall</h3>
 				<button 
-					class="text-gray-500 hover:text-gray-700"
+					class="cursor-pointer text-gray-500 hover:text-gray-700"
 					onclick={() => showEditModal = false}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -973,13 +973,13 @@
 			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
 				<h3 class="text-lg font-semibold">Customize Profile</h3>
 				<button 
-					class="text-gray-500 hover:text-gray-700"
+					class="cursor-pointer text-gray-500 hover:text-gray-700"
 					onclick={() => showCustomizeModal = false}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 				</button>
 			</div>
-			<div class="flex-1 overflow-y-auto p-4">
+			<div class="flex-1 overflow-y-auto p-3">
 				{#if loadingCustomization}
 					<p class="text-center text-sm text-gray-500 py-8">Loading customization options...</p>
 				{:else if customizationData}
@@ -992,7 +992,7 @@
 							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
 								<!-- Default option (no theme) -->
 								<button 
-									class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === 0 ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+									class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === 0 ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
 									onclick={() => selectedThemeId = 0}
 								>
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
@@ -1002,7 +1002,7 @@
 								</button>
 								{#each customizationData.themes as theme}
 									<button 
-										class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === theme.id ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+										class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === theme.id ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
 										onclick={() => selectedThemeId = theme.id}
 									>
 										<img 
@@ -1071,7 +1071,7 @@
 					{/if}
 				{/if}
 			</div>
-			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
+			<div class="p-3 border-t border-gray-200 flex justify-end gap-2">
 				<button 
 					class="btn-secondary px-4 py-1 text-sm"
 					onclick={() => showCustomizeModal = false}
