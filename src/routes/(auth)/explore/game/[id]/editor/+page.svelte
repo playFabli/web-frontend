@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Color3 } from '@babylonjs/core';
 	import * as BABYLON from 'babylonjs';
 	import { onMount } from "svelte";
 
@@ -22,10 +23,13 @@
 	let hoveredMesh: BABYLON.Mesh | null = null;
 	let selectedMesh: BABYLON.Mesh | null = null;
 
-	const HOVER_OUTLINE = { color: BABYLON.Color3.Red(), width: 0.03 };
-	const SELECT_OUTLINE = { color: new BABYLON.Color3(0.2, 0.6, 1), width: 0.03 };
+	const HOVER_OUTLINE = { color: Color3.Red(), width: 0.03 };
+	const SELECT_OUTLINE = { color: new Color3(0.2, 0.6, 1), width: 0.03 };
 
 	let mode: "move" | "rotate" | "scale" = $state("move");
+
+	let snapEnabled: boolean = $state(false);
+	let snapSize: number = $state(1);
 
 	interface Vector3 {
 		x: number;
@@ -172,11 +176,7 @@
 
 			// Rotation fields are treated as degrees (matches the plain
 			// number inputs in the properties panel); Babylon wants radians.
-			mesh.rotation.set(
-				BABYLON.Tools.ToRadians(part.rotation.x),
-				BABYLON.Tools.ToRadians(part.rotation.y),
-				BABYLON.Tools.ToRadians(part.rotation.z)
-			);
+			applyRotationToMesh(mesh, part.rotation);
 
 			mesh.scaling.set(part.scale.x, part.scale.y, part.scale.z);
 
@@ -185,11 +185,11 @@
 		}
 	}
 
-	// Re-runs whenever `parts`, `selectedId`, or `mode` changes, and once
-	// `ready` flips true after the scene is created in onMount. Keeping this
-	// as one effect guarantees syncParts (which creates/updates meshes) always
-	// runs before updateSelection (which looks meshes up), regardless of
-	// which piece of state triggered the run.
+	// Re-runs whenever `parts`, `selectedId`, `mode`, or the snap settings
+	// change, and once `ready` flips true after the scene is created in
+	// onMount. Keeping this as one effect guarantees syncParts (which
+	// creates/updates meshes) always runs before updateSelection (which
+	// looks meshes up), regardless of which piece of state triggered the run.
 	$effect(() => {
 		if (!ready) return;
 
@@ -199,6 +199,19 @@
 		gizmoManager.positionGizmoEnabled = mode === "move";
 		gizmoManager.rotationGizmoEnabled = mode === "rotate";
 		gizmoManager.scaleGizmoEnabled = mode === "scale";
+
+		if (gizmoManager.gizmos.positionGizmo) {
+			gizmoManager.gizmos.positionGizmo.snapDistance = snapEnabled ? snapSize : 0;
+		}
+
+		if (gizmoManager.gizmos.rotationGizmo) {
+			// Parts are unit cubes with non-uniform scaling, and Babylon can't
+			// cleanly derive a rotation-only gizmo orientation from a world
+			// matrix that also contains non-uniform scale. This keeps the
+			// gizmo at a fixed orientation instead of trying to (and failing
+			// to) match the mesh's own rotated+scaled orientation.
+			gizmoManager.gizmos.rotationGizmo.updateGizmoRotationToMatchAttachedMesh = false;
+		}
 
 		wireCameraDetachForActiveGizmo();
 	});
@@ -267,12 +280,10 @@
 		if (Math.abs(part.position.y - selectedMesh.position.y) > eps) part.position.y = selectedMesh.position.y;
 		if (Math.abs(part.position.z - selectedMesh.position.z) > eps) part.position.z = selectedMesh.position.z;
 
-		const rx = BABYLON.Tools.ToDegrees(selectedMesh.rotation.x);
-		const ry = BABYLON.Tools.ToDegrees(selectedMesh.rotation.y);
-		const rz = BABYLON.Tools.ToDegrees(selectedMesh.rotation.z);
-		if (Math.abs(part.rotation.x - rx) > eps) part.rotation.x = rx;
-		if (Math.abs(part.rotation.y - ry) > eps) part.rotation.y = ry;
-		if (Math.abs(part.rotation.z - rz) > eps) part.rotation.z = rz;
+		const rot = meshRotationDegrees(selectedMesh);
+		if (Math.abs(part.rotation.x - rot.x) > eps) part.rotation.x = rot.x;
+		if (Math.abs(part.rotation.y - rot.y) > eps) part.rotation.y = rot.y;
+		if (Math.abs(part.rotation.z - rot.z) > eps) part.rotation.z = rot.z;
 
 		if (Math.abs(part.scale.x - selectedMesh.scaling.x) > eps) part.scale.x = selectedMesh.scaling.x;
 		if (Math.abs(part.scale.y - selectedMesh.scaling.y) > eps) part.scale.y = selectedMesh.scaling.y;
@@ -280,15 +291,21 @@
 	}
 
 	// Gizmo instances get recreated each time their *GizmoEnabled flag is
-	// toggled on, so we re-wire this after every mode switch rather than once.
+	// toggled on, so track which one we've already wired to avoid stacking
+	// up duplicate listeners every time the effect reruns.
+	let wiredGizmo: BABYLON.Gizmo | null = null;
+
 	function wireCameraDetachForActiveGizmo() {
 		const activeGizmo =
 			gizmoManager.gizmos.positionGizmo ??
 			gizmoManager.gizmos.rotationGizmo ??
 			gizmoManager.gizmos.scaleGizmo;
 
-		activeGizmo?.onDragStartObservable.add(() => camera.detachControl());
-		activeGizmo?.onDragEndObservable.add(() => camera.attachControl(canvas, true));
+		if (!activeGizmo || activeGizmo === wiredGizmo) return;
+
+		wiredGizmo = activeGizmo;
+		activeGizmo.onDragStartObservable.add(() => camera.detachControl());
+		activeGizmo.onDragEndObservable.add(() => camera.attachControl(canvas, true));
 	}
 
 	onMount(() => {
@@ -332,6 +349,20 @@
 			scene
 		);
 
+		// Skybox — a big inverted box with a flat emissive color, no textures
+		// needed. infiniteDistance keeps it centered on the camera so it never
+		// appears to move as you fly around.
+		const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000 }, scene);
+		const skyboxMaterial = new BABYLON.StandardMaterial("skyBoxMat", scene);
+		skyboxMaterial.backFaceCulling = false;
+		skyboxMaterial.disableLighting = true;
+		skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+		skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+		skyboxMaterial.emissiveColor = new BABYLON.Color3(0.53, 0.81, 0.92);
+		skybox.material = skyboxMaterial;
+		skybox.infiniteDistance = true;
+		skybox.isPickable = false;
+
 		// Gizmos — we drive attachment ourselves from `selectedId` (see
 		// updateSelection), so Babylon shouldn't auto-attach on arbitrary clicks.
 		gizmoManager = new BABYLON.GizmoManager(scene);
@@ -364,6 +395,11 @@
 		const onPointerLeave = () => setHover(null);
 		canvas.addEventListener("pointerleave", onPointerLeave);
 
+		// Stops the page itself from scrolling when the user scrolls their
+		// mouse wheel while it's over the 3D viewport.
+		const onWheel = (e: WheelEvent) => e.preventDefault();
+		canvas.addEventListener("wheel", onWheel, { passive: false });
+
 		// The baseplate and every other part are now rendered from `parts`
 		// itself (see syncParts), so there's no separate hardcoded ground mesh.
 		ready = true;
@@ -378,6 +414,7 @@
 
 		return () => {
 			canvas.removeEventListener("pointerleave", onPointerLeave);
+			canvas.removeEventListener("wheel", onWheel);
 			engine.dispose();
 		};
 	});
@@ -417,6 +454,20 @@
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
 			Scale</button>
 		<div class="h-4 border-l border-gray-300"></div>
+		<label class="text-sm flex items-center gap-1 select-none">
+			<input type="checkbox" bind:checked={snapEnabled} />
+			Grid Snap
+		</label>
+		<input
+			type="number"
+			bind:value={snapSize}
+			min="0.1"
+			step="0.1"
+			disabled={!snapEnabled}
+			class="form-input w-16 text-sm py-0.5"
+			title="Grid size (studs)"
+		/>
+		<div class="h-4 border-l border-gray-300"></div>
 		<button onclick={savePlace} class="btn-secondary px-2 py-1 text-sm">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
 			Save</button>
@@ -450,14 +501,14 @@
 		</div>
 
 		<!-- Center Viewport -->
-		<div class="flex-1 bg-gray-50 border-r border-gray-200 flex items-center justify-center p-2 min-h-0">
-			<div class="text-center">
-				<canvas
-					bind:this={canvas}
-					class="w-[800px] h-[600px] block"
-				></canvas>
-				<p class="text-xs text-gray-500 mt-2">Click "Create Part" to start building</p>
-			</div>
+		<div class="flex-1 bg-gray-50 border-r border-gray-200 relative min-h-0 overflow-hidden">
+			<canvas
+				bind:this={canvas}
+				class="absolute inset-0 w-full h-full block"
+			></canvas>
+			<p class="absolute bottom-2 left-2 text-xs text-gray-500 bg-white/70 px-2 py-1 rounded pointer-events-none">
+				Click "Create Part" to start building
+			</p>
 		</div>
 
 		<!-- Right Properties -->

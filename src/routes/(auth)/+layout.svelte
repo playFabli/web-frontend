@@ -164,7 +164,7 @@
 					</button>
 
 					{#if moreOpen}
-					<div bind:this={moreMenu} class="absolute left-0 mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-50" role="menu">
+					<div id="menu" bind:this={moreMenu} class="absolute left-0 mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-50" role="menu">
 						<a href="/users" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Users</a>
 						<a href="/user/leaderboard" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Leaderboard</a>
 						<a href="/roadmap" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Roadmap</a>
@@ -209,7 +209,7 @@
 				</button>
 
 				{#if open}
-				<div bind:this={menu} class="absolute right-0 mt-1 w-36 bg-white border border-gray-200 rounded shadow-lg z-50" role="menu">
+				<div bind:this={menu} id="menu" class="absolute right-0 mt-1 w-36 bg-white border border-gray-200 rounded shadow-lg z-50" role="menu">
 					<a href={`/user/profile/${data.user.id}`} class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Profile</a>
 					<a href='/user/avatar' class="w-full text-left block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Avatar</a>
 					<a href='/user/trades' class="w-full text-left block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Trades</a>
@@ -270,7 +270,7 @@
 		{@render children()}
 	</main>
 
-	<footer class="bg-[#A2574F] border-t-1 border-[#c7b3a0]/50 pt-8 pb-6 mt-12">
+	<footer class="bg-primary border-t-1 border-[#c7b3a0]/50 pt-8 pb-6 mt-12">
 		<div class="max-w-container mx-auto px-4">
 			<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b border-[#c7b3a0]/10">
 				<div class="flex items-center gap-3">

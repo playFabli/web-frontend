@@ -16,17 +16,18 @@
 	let moderationStatus = $state('pending');
 	let collectionId = $state('');
 	
-		let textureFile = $state(null);
-		let modelFile = $state(null);
-		let displayImageFile = $state(null);
+	let textureFile = $state(null);
+	let modelFile = $state(null);
+	let displayImageFile = $state(null);
+	let stylesheetFile = $state(null);
 
-		let error = $state('');
+	let error = $state('');
 	let success = $state('');
 	let loading = $state(false);
 
 	// Get the selected category to check if it has model/texture
 	let selectedCategory = $derived(
-		data.categories.find(cat => cat.id == categoryId)
+		data.categories.find(cat => cat.id == categoryId) 
 	);
 	async function createAsset() {
 		error = '';
@@ -57,6 +58,10 @@
 
 			if (displayImageFile) {
 				formData.append('display_image', displayImageFile);
+			}
+
+			if (stylesheetFile) {
+				formData.append('stylesheet', stylesheetFile);
 			}
 
 			const response = await fetch(`${config.api}/admin/assets`, {
@@ -107,6 +112,13 @@
 				displayImageFile = file;
 			}
 		}
+
+		function handleStylesheetSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				stylesheetFile = file;
+			}
+		}
 </script>
 
 <main class="py-6">
@@ -137,7 +149,7 @@
 				</div>
 				<div>
 					<label class="form-label" for="type">Category</label>
-					<select bind:value={categoryId} id="type" class="form-input">
+					<select onselect={()=>console.log(selectedCategory)} bind:value={categoryId} id="type" class="form-input">
 						<option value="">Select category</option>
 						{#each data.categories as cat}
 							<option value={cat.id}>{cat.title}</option>
@@ -238,7 +250,18 @@
 					<div class="mb-3">
 						<label class="form-label" for="displayImage">Display Image</label>
 						<input onchange={handleDisplayImageSelect} type="file" id="displayImage" class="form-input" accept="image/png,image/jpg,image/jpeg,image/gif,image/svg+xml">
-						<p class="text-xs text-gray-500 mt-1">Required for categories without rendering. Will be saved as items/{id}.png</p>
+						<p class="text-xs text-gray-500 mt-1">Required for categories without rendering. Will be saved as items/id.png</p>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Stylesheet Upload (only for Profile Themes or Avatar Frames) -->
+			{#if selectedCategory && (selectedCategory.title === 'Profile Themes' || selectedCategory.title === 'Avatar Frames')}
+				<div class="border-t border-gray-200 pt-4 mt-4">
+					<div class="mb-3">
+						<label class="form-label" for="stylesheet">Stylesheet (.css)</label>
+						<input onchange={handleStylesheetSelect} type="file" id="stylesheet" class="form-input" accept=".css">
+						<p class="text-xs text-gray-500 mt-1">CSS file for profile theme styling. Optional. Will be served at /storage/stylesheets/id.css</p>
 					</div>
 				</div>
 			{/if}

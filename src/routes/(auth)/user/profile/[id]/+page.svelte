@@ -445,7 +445,90 @@
 	}
 
 	let friendsPromise = $derived(fetchFriends(friendsPage));
+
+	// --- Customization Modal State ---
+	let showCustomizeModal = $state(false);
+	let customizationData = $state(null);
+	let selectedThemeId = $state(data.user.profile_theme_id);
+	let selectedFrameId = $state(0);
+	let loadingCustomization = $state(false);
+	let savingCustomization = $state(false);
+	let themeStylesheetId = $state(0);
+
+	async function fetchCustomization() {
+		loadingCustomization = true;
+		try {
+			const res = await fetch(`${config.api}/user/profile/customization`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			const json = await res.json();
+			if (!res.ok) {
+				console.error(json?.message || 'Failed to fetch customization.');
+				return;
+			}
+
+			customizationData = json.data;
+			selectedThemeId = json.data.profile_theme_id;
+			selectedFrameId = json.data.avatar_frame_id;
+		} catch (err) {
+			console.error('Failed to fetch customization.', err);
+		} finally {
+			loadingCustomization = false;
+		}
+	}
+
+	async function saveCustomization() {
+		savingCustomization = true;
+		try {
+			const res = await fetch(`${config.api}/user/profile/customization`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				},
+				body: JSON.stringify({
+					profile_theme_id: selectedThemeId,
+					avatar_frame_id: selectedFrameId
+				})
+			});
+
+			const json = await res.json();
+			if (!res.ok) {
+				console.error(json?.message || 'Failed to save customization.');
+				return;
+			}
+
+			showCustomizeModal = false;
+		} catch (err) {
+			console.error('Failed to save customization.', err);
+		} finally {
+			savingCustomization = false;
+		}
+	}
+
+	function openCustomizeModal() {
+		showCustomizeModal = true;
+		fetchCustomization();
+	}
+
+	console.log(data.user.profile_theme_id);
 </script>
+<svelte:head>
+	{#if selectedThemeId > 0}
+		<link 
+			id="profile-theme-stylesheet" 
+			rel="stylesheet" 
+			href={`${config.storage}/stylesheets/${selectedThemeId}.css?t=${Date.now()}`} 
+		/>
+	{/if}
+</svelte:head>
 {#if data.user && !data.user.privacy?.profile_visible && data.user.id !== user?.id && data.user.friend_status !== 'friends'}
 	<div class="max-w-container mx-auto px-4 py-6">
 		<div class="max-w-md mx-auto border border-gray-200 rounded p-6 bg-white text-center">
@@ -503,7 +586,7 @@
 							</div>
 							{:else}
 								<div>
-									<button class="btn-glossy px-4 py-1 text-sm">Customize</button>
+									<button class="btn-glossy px-4 py-1 text-sm" onclick={openCustomizeModal}>Customize</button>
 								</div>
 							{/if}
 						</div>
@@ -878,6 +961,126 @@
 					class="btn-glossy px-4 py-1 text-sm"
 					onclick={saveProfileItems}
 				>Save Changes</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<!-- Customize Modal -->
+{#if showCustomizeModal}
+	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showCustomizeModal = false}>
+		<div class="bg-white rounded border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
+			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
+				<h3 class="text-lg font-semibold">Customize Profile</h3>
+				<button 
+					class="text-gray-500 hover:text-gray-700"
+					onclick={() => showCustomizeModal = false}
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+				</button>
+			</div>
+			<div class="flex-1 overflow-y-auto p-4">
+				{#if loadingCustomization}
+					<p class="text-center text-sm text-gray-500 py-8">Loading customization options...</p>
+				{:else if customizationData}
+					<!-- Profile Theme Selection -->
+					<div class="mb-6">
+						<h4 class="text-sm font-semibold mb-3">Profile Theme</h4>
+						{#if customizationData.themes.length === 0}
+							<p class="text-sm text-gray-500 mb-2">You don't have any themes yet.</p>
+						{:else}
+							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
+								<!-- Default option (no theme) -->
+								<button 
+									class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === 0 ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+									onclick={() => selectedThemeId = 0}
+								>
+									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
+										<span class="text-3xl text-gray-400">—</span>
+									</div>
+									<p class="text-sm font-medium text-gray-900 truncate mt-2">Default</p>
+								</button>
+								{#each customizationData.themes as theme}
+									<button 
+										class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === theme.id ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+										onclick={() => selectedThemeId = theme.id}
+									>
+										<img 
+											loading="lazy" 
+											src={`${config.storage}/items/${theme.id}.png`}
+											alt={theme.title}
+											class="w-full aspect-square object-cover"
+										/>
+										<p class="text-sm font-medium text-gray-900 truncate mt-2">{theme.title}</p>
+									</button>
+								{/each}
+							</div>
+						{/if}
+						{#if customizationData.themes.length === 0}
+							<p class="text-xs text-gray-400 mt-1">
+								<a href="/marketplace" class="text-primary hover:underline">Buy them in the marketplace!</a>
+							</p>
+						{/if}
+					</div>
+
+					<!-- Avatar Frame Selection -->
+					<div class="mb-6">
+						<h4 class="text-sm font-semibold mb-3">Avatar Frame</h4>
+						{#if customizationData.frames.length === 0}
+							<p class="text-sm text-gray-500 mb-2">You don't have any frames yet.</p>
+						{:else}
+							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
+								<!-- Default option (no frame) -->
+								<button 
+									class="border-1 cursor-pointer rounded p-2 transition-all {selectedFrameId === 0 ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+									onclick={() => selectedFrameId = 0}
+								>
+									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
+										<span class="text-3xl text-gray-400">—</span>
+									</div>
+									<p class="text-sm font-medium text-gray-900 truncate mt-2">Default</p>
+								</button>
+								{#each customizationData.frames as frame}
+									<button 
+										class="border-1 cursor-pointer rounded p-2 transition-all {selectedFrameId === frame.id ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+										onclick={() => selectedFrameId = frame.id}
+									>
+										<img 
+											loading="lazy" 
+											src={`${config.storage}/items/${frame.id}.png`}
+											alt={frame.title}
+											class="w-full aspect-square object-cover"
+										/>
+										<p class="text-sm font-medium text-gray-900 truncate mt-2">{frame.title}</p>
+									</button>
+								{/each}
+							</div>
+						{/if}
+						{#if customizationData.frames.length === 0}
+							<p class="text-xs text-gray-400 mt-1">
+								<a href="/marketplace" class="text-primary hover:underline">Buy them in the marketplace!</a>
+							</p>
+						{/if}
+					</div>
+
+					<!-- Empty state message if both are empty -->
+					{#if customizationData.themes.length === 0 && customizationData.frames.length === 0}
+						<div class="text-center py-4 border-t border-gray-200">
+							<p class="text-sm text-gray-500">Don't have any themes or frames? <a href="/marketplace" class="text-primary hover:underline">Buy them in the marketplace!</a></p>
+						</div>
+					{/if}
+				{/if}
+			</div>
+			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
+				<button 
+					class="btn-secondary px-4 py-1 text-sm"
+					onclick={() => showCustomizeModal = false}
+				>Close</button>
+				<button 
+					class="btn-glossy px-4 py-1 text-sm"
+					onclick={saveCustomization}
+					disabled={savingCustomization}
+				>{savingCustomization ? 'Saving...' : 'Save Changes'}</button>
 			</div>
 		</div>
 	</div>
