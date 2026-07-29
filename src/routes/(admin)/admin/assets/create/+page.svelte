@@ -240,7 +240,7 @@
 				</div>
 			{/if}
 
-			{#if selectedCategory && selectedCategory.has_texture}
+			{#if selectedCategory && (selectedCategory.has_model || selectedCategory.has_texture)}
 				<div class="border-t border-gray-200 pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="itemTexture">Texture</label>

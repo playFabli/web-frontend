@@ -572,7 +572,7 @@
 					<div class="col-span-2">
 						<img
 							class="avatar-frame w-lg h-lg border border-gray-200 p-2"
-							src={`${config.headshotStorage}/${data.user.id}.png`}
+							src={`${config.headshotStorage}/${data.user.id}.png?t=${Date.now()}`}
 							alt=""
 						/>
 					</div>

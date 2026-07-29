@@ -45,7 +45,7 @@
 
 <main class="py-6">
 	<div class="max-w-container mx-auto px-4">
-		<div class="flex flex-col md:flex-row gap-6">
+		<div class="flex flex-col items-start md:flex-row gap-6">
 			<aside class="w-full md:w-44 flex-shrink-0">
 				<div class="border border-gray-200 rounded p-3 bg-gray-50/30">
 					<h3 class="text-sm font-semibold text-gray-900 mb-3">Categories</h3>
@@ -133,7 +133,7 @@
 										{/if}
 										<td>
 											<div class="flex flex-col">
-												<a href="/forum/thread/{thread.id}" class="thread-title text-sm">{thread.title}</a>
+												<a href="/forum/thread/{thread.id}" class="thread-title text-sm">{thread.title.length > 30 ? thread.title.slice(0, 30) + '...' : thread.title}</a>
 												<span class="text-xs text-gray-500 mt-0.5"
 													>by <a href={`/user/profile/${thread.user.id}`} class="text-primary">{thread.user.username}</a> ·
 													<span class="category-tag">{thread.category.name}</span></span
