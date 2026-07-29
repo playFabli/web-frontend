@@ -21,6 +21,7 @@
 	let displayImageFile = $state(null);
 	let stylesheetFile = $state(null);
 	let definition = $state('');
+	let unboxingVideoFile = $state(null);
 
 	let error = $state('');
 	let success = $state('');
@@ -67,6 +68,10 @@
 
 			if (definition) {
 				formData.append('definition', definition);
+			}
+
+			if (unboxingVideoFile) {
+				formData.append('unboxing_video', unboxingVideoFile);
 			}
 
 			const response = await fetch(`${config.api}/admin/assets`, {
@@ -122,6 +127,13 @@
 			const file = e.target.files?.[0];
 			if (file) {
 				stylesheetFile = file;
+			}
+		}
+
+		function handleUnboxingVideoSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				unboxingVideoFile = file;
 			}
 		}
 </script>
@@ -278,6 +290,17 @@
 						<label class="form-label" for="stylesheet">Stylesheet (.css)</label>
 						<input onchange={handleStylesheetSelect} type="file" id="stylesheet" class="form-input" accept=".css">
 						<p class="text-xs text-gray-500 mt-1">CSS file for profile theme styling. Optional. Will be served at /storage/stylesheets/id.css</p>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Unboxing Video (only for Boxes) -->
+			{#if selectedCategory && selectedCategory.title === 'Boxes'}
+				<div class="border-t border-gray-200 pt-4 mt-4">
+					<div class="mb-3">
+						<label class="form-label" for="unboxingVideo">Unboxing Video (.webp)</label>
+						<input onchange={handleUnboxingVideoSelect} type="file" id="unboxingVideo" class="form-input" accept=".webp">
+						<p class="text-xs text-gray-500 mt-1">Animated .webp unboxing video. Optional. Max 2MB. Will be saved at /storage/unboxing/id.webp</p>
 					</div>
 				</div>
 			{/if}

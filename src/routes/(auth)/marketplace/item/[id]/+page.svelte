@@ -9,8 +9,9 @@
 	let error = $state('');
 	let loading = $state(false);
 	let buyModalOpen = $state(false);
-	let comments = $state(data.item.comments);
+	let comments = $derived(data.item.comments);
 	let tabActive = $state(1);
+	let owns = $derived(data.owns);
 
 	async function fetchComments() {
 		let response = await fetch(`${config.api}/marketplace/comments/${data.item.id}`, {
@@ -306,6 +307,53 @@
 			console.error('Failed to delete comment.', err);
 		}
 	}
+	
+	let isOpening = true;
+	let resultModalOpen = $state(false);
+	let openedItem = $state(null);
+	let openError = $state('');
+	let videoModalOpen = $state(false);
+	
+	async function startOpen() {
+		openError = '';
+		openedItem = null;
+		try {
+			// Get the first inventory item for this case
+			const caseInventory = data.ownerData && data.ownerData.length > 0 ? data.ownerData[0] : null;
+			if (!caseInventory) {
+				openError = 'You do not own this case.';
+				return;
+			}
+			
+			let response = await fetch(`${config.api}/user/inventory/open-case/${caseInventory.id}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			const json = await response.json();
+			if (!response.ok) {
+				openError = json?.message || 'Failed to open case.';
+				return;
+			}
+
+			openedItem = json.data;
+			// Show video first
+			videoModalOpen = true;
+		} catch (err) {
+			console.error('Failed to open case.', err);
+			openError = 'Failed to open case.';
+		}
+	}
+	
+	function handleVideoEnd() {
+		// When video ends, show the result modal
+		videoModalOpen = false;
+		resultModalOpen = true;
+	}
 </script>
 
 {#if buyModalOpen}
@@ -483,6 +531,59 @@
 		</div>
 	</div>
 {/if}
+
+{#if videoModalOpen}
+	<div id="videoModalOverlay" class="modal-overlay" onclick={() => (resultModalOpen = true)}>
+		<div class="video-modal" onclick={(e) => e.stopPropagation()}>
+			<video
+				src="{config.storage}/unboxing/{data.item.id}.webm"
+				autoplay
+				playsinline
+				class="fixed inset-0 w-screen h-screen object-cover z-50 pointer-events-none"
+				onended={handleVideoEnd}
+			></video>
+		</div>
+	</div>
+{/if}
+
+{#if resultModalOpen}
+	<div id="resultModalOverlay" class="modal-overlay" onclick={() => (resultModalOpen = false)}>
+		<div class="result-modal rounded border-gray-200 border" onclick={(e) => e.stopPropagation()}>
+			<div class="p-3 text-center">
+				<h2 class="text-lg font-semibold mb-4">You won!</h2>
+				
+				{#if openError}
+					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+						{openError}
+					</div>
+				{/if}
+				
+				{#if openedItem}
+					<div class="flex flex-col items-center gap-3 mb-6">
+						<img
+							src="{config.storage}/items/{openedItem.item.id}.png"
+							alt="{openedItem.item.title}"
+							class="w-32 h-32 object-contain"
+						/>
+						<div>
+							<p class="text-lg">{openedItem.item.title}</p>
+							{#if openedItem.item.rarity && openedItem.item.rarity !== 'none'}
+								<span class="rarity-badge rarity-{openedItem.item.rarity.toLowerCase()}">
+									{openedItem.item.rarity}
+								</span>
+							{/if}
+						</div>
+					</div>
+				{/if}
+				
+				<button onclick={() => { resultModalOpen = false; owns = false } } class="btn-glossy px-4 py-1 text-sm">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <main class="py-6">
 	<div class="max-w-container mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
@@ -601,7 +702,7 @@
 					{#if !data.item.is_offsale}
 						<button
 							onclick={() => (buyModalOpen = true)}
-							disabled={data.owns || (data.item.is_limited && data.item.stock_left == 0)}
+							disabled={owns || (data.item.is_limited && data.item.stock_left == 0)}
 							class="btn-glossy px-4 py-1 text-sm"
 						>
 							{#if data.item.is_limited && data.item.stock_left == 0}
@@ -613,6 +714,9 @@
 					{/if}
 					{#if user && data.item.user && user.id === data.item.user.id}
 						<a href="/marketplace/item/{data.item.id}/edit" class="btn-secondary px-4 py-1 text-sm">Edit</a>
+					{/if}
+					{#if data.item.category.title === "Boxes" && owns}
+						<button onclick={startOpen} class="btn-secondary px-4 py-1 text-sm">Open</button>
 					{/if}
 					<button
 						class="btn-secondary px-4 py-1 text-sm text-red-600 border-red-300 hover:bg-red-50"
@@ -648,7 +752,7 @@
 						class="btn-secondary px-4 py-2 !text-sm !rounded-none !border-0">Sellers ({sellers.total})</button
 					>
 					{/await}
-					{#if data.owns}
+					{#if owns}
 					<button
 						onclick={() => (saleModalOpen = true)}
 						class="btn-secondary px-4 py-2 !text-sm !rounded-none !border-0">Put up for sale</button
@@ -827,7 +931,7 @@
 						<button
 							onclick={() => (sellersPromise = fetchSellers(sellers.current_page - 1))}
 							class="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
-							>Prev</button
+						>Prev</button
 						>
 						{/if}
 						{#if sellers.next_page_url === null}
@@ -1000,5 +1104,21 @@
 	}
 	.owner-list li {
 		list-style: none;
+	}
+
+	#videoModalOverlay .video-modal {
+		position: relative;
+		width: 90%;
+		max-width: 640px;
+		background: transparent;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	#resultModalOverlay .result-modal {
+		width: 90%;
+		max-width: 420px;
+		background-color: #fff;
 	}
 </style>
