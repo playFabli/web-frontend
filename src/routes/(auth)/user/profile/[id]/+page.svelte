@@ -451,8 +451,8 @@
 	// --- Customization Modal State ---
 	let showCustomizeModal = $state(false);
 	let customizationData = $state(null);
-	let selectedThemeId = $state(data.user.profile_theme_id);
-	let selectedFrameId = $state(data.user.avatar_frame_id);
+	let selectedThemeId = $derived(data.user.profile_theme_id);
+	let selectedFrameId = $derived(data.user.avatar_frame_id);
 	let loadingCustomization = $state(false);
 	let savingCustomization = $state(false);
 	let themeStylesheetId = $state(0);
