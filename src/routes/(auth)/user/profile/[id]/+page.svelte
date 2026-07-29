@@ -1,9 +1,11 @@
 <script>
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
+	import Tooltip from '$lib/components/global/Tooltip.svelte';
 	import ItemCard from '$lib/components/marketplace/ItemCard.svelte';
 	import { config } from '$lib/config.js';
 	import { timeSince } from '$lib/timeAgo';
+	import { Gavel } from 'lucide-svelte';
 	let { data } = $props();
 
 	function formatJoined(dateStr) {
@@ -562,13 +564,27 @@
 				<div class="grid grid-cols-12 gap-4">
 					<div class="col-span-2">
 						<img
-							class="avatar-frame-rare w-lg h-lg border border-gray-200 p-2"
+							class="avatar-frame w-lg h-lg border border-gray-200 p-2"
 							src={`${config.headshotStorage}/${data.user.id}.png`}
 							alt=""
 						/>
 					</div>
 					<div class="col-span-9">
-						<h2 class="text-xl font-semibold">{data.user.username}</h2>
+						<div class="flex items-center gap-2">
+							<span class="relative flex h-3 w-3">
+								<span class="relative inline-flex rounded-full h-3 w-3 {data.user.is_online ? 'bg-green-500' : 'bg-gray-500'}"></span>
+							</span>
+							<h2 class="text-xl font-semibold">{data.user.username}</h2>
+							{#if data.user.role === 'admin'}
+								<Tooltip text="This user is a Fabli administrator!">
+									<Gavel class="size-5 text-red-600"/>
+								</Tooltip>
+							{:else if data.user.role === 'moderator'}
+								<Tooltip text="This user is a Fabli moderator!">
+									<Gavel class="size-5 text-blue-600"/>
+								</Tooltip>
+							{/if}
+						</div>
 						<p class="text-sm text-gray-600/70 mb-3">"{data.user.bubble}"</p>
 						<div class="flex items-center gap-2 mb-3">
 							{#if data.user.id != page.data.globalUser.id}
@@ -822,6 +838,29 @@
 							</div>
 							<div class="border border-gray-200 rounded p-3">
 								<h3 class="text-sm font-semibold mb-3">Achievements</h3>
+								<div class="grid grid-cols-12 gap-4">
+									{#if data.user.id < 101}
+									<div class="col-span-3">
+										<Tooltip text="This user is a part of the Founder's programme!">
+											<img src="/badges/FounderBadge.png" alt="">
+										</Tooltip>
+									</div>
+									{/if}
+									{#if data.user.role == "moderator"}
+									<div class="col-span-3">
+										<Tooltip text="This user is a Fabli moderator!">
+											<img src="/badges/ModeratorBadge.png" alt="">
+										</Tooltip>
+									</div>							
+									{/if}		
+									{#if data.user.role == "admin"}
+									<div class="col-span-3">
+										<Tooltip text="This user is a Fabli administrator!">
+											<img src="/badges/AdminBadge.png" alt="">
+										</Tooltip>
+									</div>							
+									{/if}	
+								</div>
 							</div>
 						</div>
 					{/if}
