@@ -34,6 +34,13 @@
 		head_color?: string;
 	}
 
+	interface MarketplaceCategory {
+		id: number;
+		title: string;
+		is_admin_only: boolean;
+		needs_rendering: boolean;
+	}
+
 	let { data } = $props();
 	
 	// State
@@ -47,6 +54,8 @@
 		right_leg_color: '#D9C5B2',
 		head_color: '#D9C5B2'
 	});
+	let categories = $state<MarketplaceCategory[]>([]);
+	let loadingCategories = $state<boolean>(true);
 	let activeFilter = $state<string>('all');
 	let isLoading = $state<boolean>(false);
 	let currentPage = $state<number>(1);
@@ -65,16 +74,10 @@
 	let avatarLoading = $state(false);
 	let cacheBreaker = $state(Date.now());
 
-	// Map filter to category name
+	// Get category name from filter value (filter value is the category title)
 	function getFilterCategory(filter: string): string {
-		const map: Record<string, string> = {
-			'all': 'all',
-			'hat': 'Hats',
-			'face': 'Faces',
-			'shirt': 'Shirts',
-			'pants': 'Pants'
-		};
-		return map[filter] || 'all';
+		if (filter === 'all') return 'all';
+		return filter;
 	}
 
 	// Fetch inventory with filter and pagination
@@ -223,6 +226,27 @@
 		}
 	}
 
+	// Fetch categories from marketplace with needs_rendering=true
+	async function fetchCategories(): Promise<void> {
+		loadingCategories = true;
+		try {
+			const res = await fetch(`${config.api}/marketplace/categories/1`, {
+				headers: {
+					'Authorization': `Bearer ${data.token}`,
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				}
+			});
+			const json = await res.json();
+			if (res.ok && json.data) {
+				categories = json.data.filter((cat: MarketplaceCategory) => cat.needs_rendering === true);
+			}
+		} catch (e) {
+			console.error('Failed to load categories', e);
+		}
+		loadingCategories = false;
+	}
+
 	// Initialize colors from data
 	onMount(() => {
 		if (data.avatarColors) {
@@ -233,6 +257,7 @@
 			rightLegColor = data.avatarColors.right_leg_color || '#D9C5B2';
 			headColor = data.avatarColors.head_color || '#D9C5B2';
 		}
+		fetchCategories();
 	});
 </script>
 
@@ -387,26 +412,17 @@
 							class:active={activeFilter === 'all'}
 							onclick={() => setFilter('all')}
 						>All</button>
-						<button 
-							class="filter-tab px-4 py-1" 
-							class:active={activeFilter === 'hat'}
-							onclick={() => setFilter('hat')}
-						>Hats</button>
-						<button 
-							class="filter-tab px-4 py-1" 
-							class:active={activeFilter === 'face'}
-							onclick={() => setFilter('face')}
-						>Faces</button>
-						<button 
-							class="filter-tab px-4 py-1" 
-							class:active={activeFilter === 'shirt'}
-							onclick={() => setFilter('shirt')}
-						>Shirts</button>
-						<button 
-							class="filter-tab px-4 py-1" 
-							class:active={activeFilter === 'pants'}
-							onclick={() => setFilter('pants')}
-						>Pants</button>
+						{#if loadingCategories}
+							<span class="text-xs text-neutral-500 self-center">Loading categories...</span>
+						{:else}
+							{#each categories as cat}
+								<button 
+									class="filter-tab px-4 py-1" 
+									class:active={activeFilter === cat.title}
+									onclick={() => setFilter(cat.title)}
+								>{cat.title}</button>
+							{/each}
+						{/if}
 					</div>
 					<!-- Items Grid -->
 					<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2">
