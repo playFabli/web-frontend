@@ -114,6 +114,21 @@
 		return wearing.some((w: WornItem) => w.item_id === itemId);
 	}
 
+	// Check if the user already has a restricted-category item equipped (Face, Avatar Poses)
+	function hasCategoryEquipped(categoryTitle: string): boolean {
+		return wearing.some((w: WornItem) => w.item?.category?.title === categoryTitle);
+	}
+
+	// Categories that can only have one item equipped at a time
+	const restrictedCategories = ['Face', 'Avatar Poses'];
+
+	// Check if wearing an item from this category is blocked
+	function isWearBlocked(categoryTitle: string | undefined): boolean {
+		if (!categoryTitle) return false;
+		if (!restrictedCategories.includes(categoryTitle)) return false;
+		return hasCategoryEquipped(categoryTitle);
+	}
+
 	// Wear an item
 	async function wearItem(inventoryId: number): Promise<void> {
 		try {
@@ -442,6 +457,14 @@
 											onclick={() => removeItem(invObj.id)}
 										>
 											Remove
+										</button>
+									{:else if isWearBlocked(invObj.item?.category?.title)}
+										<button 
+											class="btn-glossy w-full mt-1 text-xs py-0.5 opacity-50 cursor-not-allowed"
+											disabled
+											title={"Remove the current " + invObj.item?.category?.title + " item first"}
+										>
+											Wear
 										</button>
 									{:else}
 										<button 

@@ -20,6 +20,7 @@
 	let modelFile = $state(null);
 	let displayImageFile = $state(null);
 	let stylesheetFile = $state(null);
+	let definition = $state('');
 
 	let error = $state('');
 	let success = $state('');
@@ -62,6 +63,10 @@
 
 			if (stylesheetFile) {
 				formData.append('stylesheet', stylesheetFile);
+			}
+
+			if (definition) {
+				formData.append('definition', definition);
 			}
 
 			const response = await fetch(`${config.api}/admin/assets`, {
@@ -251,6 +256,17 @@
 						<label class="form-label" for="displayImage">Display Image</label>
 						<input onchange={handleDisplayImageSelect} type="file" id="displayImage" class="form-input" accept="image/png,image/jpg,image/jpeg,image/gif,image/svg+xml">
 						<p class="text-xs text-gray-500 mt-1">Required for categories without rendering. Will be saved as items/id.png</p>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Avatar Pose Definition (only for Avatar Poses) -->
+			{#if selectedCategory && selectedCategory.title === 'Avatar Poses'}
+				<div class="border-t border-gray-200 pt-4 mt-4">
+					<div class="mb-3">
+						<label class="form-label" for="definition">Pose Definition</label>
+						<textarea bind:value={definition} id="definition" rows="6" class="form-input font-mono text-xs" placeholder="Paste pose definition here..."></textarea>
+						<p class="text-xs text-gray-500 mt-1">Paste the avatar pose definition data. This will be stored in the avatar_pose_definitions table.</p>
 					</div>
 				</div>
 			{/if}
