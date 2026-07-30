@@ -132,7 +132,7 @@
 	let creationsTotal = $state(0);
 
 	async function fetchCreations(page = 1) {
-		const res = await fetch(`${config.api}/user/creations/${data.user.id}?page=${page}`, {
+		const res = await fetch(`${config.api}/user/creations/${data.user.id}?page=${page}&limit=18`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -165,7 +165,7 @@
 	let inventoryTotal = $state(0);
 
 	async function fetchInventory(page = 1) {
-		const res = await fetch(`${config.api}/user/inventory/${data.user.id}?page=${page}`, {
+		const res = await fetch(`${config.api}/user/inventory/${data.user.id}?page=${page}&limit=18`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

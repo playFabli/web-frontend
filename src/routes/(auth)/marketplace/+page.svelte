@@ -58,6 +58,12 @@
 </script>
 <main class="py-6">
 	<div class="max-w-container mx-auto px-4">
+		{#if data.marketplaceBannerImage}
+			<div class="mb-5 rounded overflow-hidden">
+				<img src={config.storage + '/' + data.marketplaceBannerImage} alt="Marketplace Banner" class="w-full h-auto object-cover" />
+			</div>
+		{/if}
+
 		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
 			<h1 class="text-xl font-bold text-gray-900">Marketplace</h1>
 		</div>

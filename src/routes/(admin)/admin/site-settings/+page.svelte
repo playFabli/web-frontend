@@ -8,20 +8,30 @@
 	let settings = $state({ ...data.settings });
 	let saving = $state(false);
 	let message = $state('');
+	let bannerFile = $state(null);
+	let bannerPreview = $state(data.settings?.marketplace_banner_image ? `${config.storage}/${data.settings.marketplace_banner_image}` : null);
 
 	async function saveSettings() {
 		saving = true;
 		message = '';
 
 		try {
+			const formData = new FormData();
+			formData.append('starting_currency', settings.starting_currency);
+			formData.append('daily_bonus', settings.daily_bonus);
+			formData.append('maintenance_mode', settings.maintenance_mode);
+			formData.append('registration_open', settings.registration_open);
+			if (bannerFile) {
+				formData.append('marketplace_banner_image', bannerFile);
+			}
+
 			const response = await fetch(`${config.api}/admin/site-settings`, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json',
 					'Accept': 'application/json',
 					Authorization: `Bearer ${data.token}`
 				},
-				body: JSON.stringify(settings)
+				body: formData
 			});
 
 			const json = await response.json();
@@ -29,6 +39,9 @@
 				message = json?.message || 'Failed to save settings';
 			} else {
 				message = 'Settings saved successfully!';
+				if (json.data?.marketplace_banner_image) {
+					bannerPreview = `${config.storage}/${json.data.marketplace_banner_image}`;
+				}
 				setTimeout(() => {
 					message = '';
 				}, 3000);
@@ -38,6 +51,14 @@
 			console.error(err);
 		} finally {
 			saving = false;
+		}
+	}
+
+	function handleBannerUpload(e) {
+		const file = e.target.files?.[0];
+		if (file) {
+			bannerFile = file;
+			bannerPreview = URL.createObjectURL(file);
 		}
 	}
 </script>
@@ -85,6 +106,17 @@
 						<label for="registration_open" class="block text-sm font-semibold text-gray-700">Registration Open</label>
 						<p class="text-xs text-gray-500">Allow new users to create accounts.</p>
 					</div>
+				</div>
+
+				<div>
+					<label class="block text-sm font-semibold text-gray-700 mb-1">Marketplace Banner Image</label>
+					{#if bannerPreview}
+						<div class="mb-2 rounded overflow-hidden border border-gray-200">
+							<img src={bannerPreview} alt="Marketplace banner preview" class="w-full h-auto max-h-48 object-cover" />
+						</div>
+					{/if}
+					<input type="file" accept="image/*" onchange={handleBannerUpload} class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer" />
+					<p class="text-xs text-gray-500 mt-1">Upload a banner image to display at the top of the marketplace page.</p>
 				</div>
 
 				<div class="flex gap-3 pt-3">

@@ -31,10 +31,26 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 		collections = collectionsJson.data || [];
 	}
 
+	// Fetch site settings for marketplace banner
+	const settingsResponse = await fetch(`${config.internalApi}/admin/site-settings`, {
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		}
+	});
+
+	let marketplaceBannerImage = null;
+	if (settingsResponse.ok) {
+		const settingsJson = await settingsResponse.json();
+		marketplaceBannerImage = settingsJson.data?.marketplace_banner_image || null;
+	}
+
 	return {
 		title: "Marketplace",
 		categories: categories.data,
 		token,
-		collections
+		collections,
+		marketplaceBannerImage
 	};
 };

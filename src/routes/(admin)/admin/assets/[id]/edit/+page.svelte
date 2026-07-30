@@ -15,6 +15,8 @@
 	let stockCount = $state(data.item.stock_count);
 	let stockLeft = $state(data.item.stock_left);
 	let isOffsale = $state(data.item.is_offsale);
+	let isTimed = $state(data.item.is_timed ?? false);
+	let timedEndAt = $state(data.item.timed_end_at ? data.item.timed_end_at.slice(0, 16) : '');
 	let moderationStatus = $state(data.item.moderation_status);
 	let collectionId = $state(data.item.collections?.[0]?.id || '');
 
@@ -86,6 +88,10 @@
 				formData.append('stock_count', String(stockCount));
 				formData.append('stock_left', String(stockLeft));
 				formData.append('is_offsale', String(isOffsale));
+				formData.append('is_timed', String(isTimed));
+				if (isTimed && timedEndAt) {
+					formData.append('timed_end_at', new Date(timedEndAt).toISOString());
+				}
 				formData.append('moderation_status', moderationStatus);
 
 				if (stylesheetFile) {
@@ -314,6 +320,19 @@
 								<span class="font-medium text-gray-700">Offsale</span>
 							</label>
 						</div>
+						<div>
+							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
+								<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded border-gray-300 text-primary">
+								<span class="font-medium text-gray-700">Timed (auto offsale)</span>
+							</label>
+						</div>
+						{#if isTimed}
+						<div class="sm:col-span-2">
+							<label class="form-label" for="timedEndAt">End Date & Time</label>
+							<input bind:value={timedEndAt} type="datetime-local" id="timedEndAt" class="form-input">
+							<p class="text-xs text-gray-500 mt-1">The item will automatically go offsale at this date and time.</p>
+						</div>
+						{/if}
 						{#if isLimited}
 							<div>
 								<label class="form-label" for="stockCount">Stock Count</label>
