@@ -568,15 +568,15 @@
 	<main class="py-6">
 		<div class="max-w-container mx-auto px-4">
 			<div class="border border-gray-200 rounded p-3 mb-3">
-				<div class="grid grid-cols-12 gap-4">
-					<div class="col-span-2">
+				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+					<div class="col-span-1 md:col-span-2">
 						<img
 							class="avatar-frame w-lg h-lg border border-gray-200 p-2"
 							src={`${config.headshotStorage}/${data.user.id}.png?t=${Date.now()}`}
 							alt=""
 						/>
 					</div>
-					<div class="col-span-9">
+					<div class="col-span-1 md:col-span-9">
 						<div class="flex items-center gap-2">
 							<span class="relative flex h-3 w-3">
 								<span class="relative inline-flex rounded-full h-3 w-3 {data.user.is_online ? 'bg-green-500' : 'bg-gray-500'}"></span>
@@ -613,7 +613,7 @@
 								</div>
 							{/if}
 						</div>
-						<div class="flex items-center justify-around w-full min-w-full">
+						<div class="flex items-center justify-around w-full min-w-full flex-wrap gap-2">
 							<div class="text-center flex-1">
 								<h3 class="text-lg text-primary font-semibold">{format.format(friendsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Friends</p>
@@ -638,7 +638,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="grid grid-cols-10 gap-4 mb-3">
+			<div class="grid grid-cols-1 sm:grid-cols-10 gap-4 mb-3">
 				<div class="col-span-2">
 					<button 
 						class="btn-secondary px-4 py-1 text-sm w-full {tab === 0 ? 'bg-primary text-white' : ''}"
@@ -674,8 +674,8 @@
 			<!-- Tab Content -->			
 			{#if tab === 0}
 				<!-- Overview Tab -->
-				<div class="grid grid-cols-12 gap-4">
-					<div class="col-span-4">
+				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+					<div class="col-span-1 md:col-span-4">
 						<div class="border border-gray-200 rounded p-3">
 							<h5 class="text-sm font-semibold mb-3">Avatar</h5>
 							<div class="text-center mb-3">
@@ -687,7 +687,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-span-8">
+					<div class="col-span-1 md:col-span-8">
 						<div class="border border-gray-200 rounded p-3 mb-5">
 							<h5 class="text-sm font-semibold mb-3">About</h5>
 							<p class="mb-3">

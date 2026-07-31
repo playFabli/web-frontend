@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 	let newestItems: any[] = [];
 	let newestPosts: any[] = [];
 	let newestBlogPosts: any[] = [];
-	let frameCss: Record<string, string> = {};
 
 	try {
 		const [questRes, activityRes, itemsRes, postsRes, blogRes] = await Promise.all([
@@ -33,7 +32,7 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 
 		if (questRes.ok) {
 			const json = await questRes.json();
-			quests = json.data ?? [];
+			quests = json ?? [];
 		}
 		if (activityRes.ok) {
 			const json = await activityRes.json();
@@ -54,28 +53,49 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 	} catch (e) {
 		console.error('Failed to load homepage data', e);
 	}
-
-	// Collect unique avatar frame IDs from the current user and activity feed users.
-	const frameIds = new Set<number>();
-	if (activities?.length) {
-		for (const activity of activities) {
-			if (activity.user?.avatar_frame_id) {
-				frameIds.add(activity.user.avatar_frame_id);
-			}
+	
+	let globalUserAvatarFrameId = 0;
+	try {
+		const meRes = await fetch(`${config.internalApi}/user/me`, {
+			headers: {
+				'Authorization': `Bearer ${token}`,
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+		});
+		if (meRes.ok) {
+			const meJson = await meRes.json();
+			globalUserAvatarFrameId = meJson.data?.avatar_frame_id ?? 0;
 		}
+	} catch (e) {
+		console.error('Failed to load user data for frame CSS', e);
 	}
 
-	if (frameIds.size > 0) {
+	const frameIds = Array.from(
+		new Set(
+			[
+				globalUserAvatarFrameId,
+				...activities.map((a) => a.user?.avatar_frame_id),
+				...newestItems.map((item) => item.user?.avatar_frame_id),
+				...newestPosts.map((post) => post.user?.avatar_frame_id),
+			].filter((id) => id && id > 0)
+		)
+	);
+
+	// Fetch each frame's CSS server-side (no CORS issues), scope .avatar-frame to
+	// a unique class (.avatar-frame-{id}) so multiple frames don't collide, and
+	// accumulate into a single string.
+	let frameCss = '';
+	for (const frameId of frameIds) {
 		try {
-			const res = await fetch(`${config.internalApi}/user/avatar/frames?ids=${Array.from(frameIds).join(',')}`, {
-				headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-			});
-			if (res.ok) {
-				const json = await res.json();
-				frameCss = json.data ?? {};
+			const cssRes = await fetch(`${config.storage}/stylesheets/${frameId}.css`);
+			if (cssRes.ok) {
+				const css = await cssRes.text();
+				const scoped = css.replace(/\.avatar-frame\b/g, `.avatar-frame-${frameId}`);
+				frameCss += scoped + '\n';
 			}
 		} catch (e) {
-			console.error('Failed to load avatar frames', e);
+			console.error(`Failed to load frame CSS ${frameId}`, e);
 		}
 	}
 

@@ -21,6 +21,7 @@
 	let challengeQuests = $derived(quests.filter((q) => q.type === 'challenge'));
 
 	function getCurrentQuests() {
+		console.log(quests);
 		if (activeTab === 'daily') return dailyQuests;
 		if (activeTab === 'weekly') return weeklyQuests;
 		return challengeQuests;
@@ -92,16 +93,16 @@
 </svelte:head>
 <main class="py-6">
 	<div class="max-w-container mx-auto px-4">
-		<div class="flex items-center mb-5">
-			<img
-				class="{page.data.globalUser.avatar_frame_id > 0 ? `avatar-frame-${page.data.globalUser.avatar_frame_id}` : ''} p-1 w-24 h-24 border border-gray-200 mr-3"
-				src={`${config.headshotStorage}/${page.data.globalUser.id}.png?t=${Date.now()}`}
-				alt=""
-			/>
-			<h1 class="text-xl font-semibold">Hello, {page.data.globalUser.username}!</h1>
-		</div>
-		<div class="grid grid-cols-12 gap-4">
-			<div class="col-span-6">
+	<div class="flex flex-col md:flex-row md:items-center mb-5 gap-3">
+		<img
+			class="{page.data.globalUser.avatar_frame_id > 0 ? `avatar-frame-${page.data.globalUser.avatar_frame_id}` : ''} p-1 w-24 h-24 border border-gray-200"
+			src={`${config.headshotStorage}/${page.data.globalUser.id}.png?t=${Date.now()}`}
+			alt=""
+		/>
+		<h1 class="text-xl font-semibold">Hello, {page.data.globalUser.username}!</h1>
+	</div>
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+		<div class="col-span-1 md:col-span-6">
 				<div class="h-full border border-gray-200 rounded p-4 mb-4 bg-white">
 					<div class="flex items-center justify-between mb-3">
 						<h2 class="text-sm font-semibold">Quests</h2>
@@ -197,7 +198,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-span-6">
+			<div class="col-span-1 md:col-span-6">
 				<div class="h-full rounded border border-gray-200 p-3">
 					<h2 class="text-sm font-semibold mb-3">Activity Feed</h2>
 					<div class="space-y-2 max-h-[280px] overflow-y-auto">
@@ -220,7 +221,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-span-6">
+			<div class="col-span-1 md:col-span-6">
 				<div class="border border-gray-200 rounded p-4 mb-4 bg-white h-full">
 					<h2 class="text-sm font-semibold mb-3">Newest Marketplace Items</h2>
 					{#if newestItems.length === 0}
@@ -244,7 +245,7 @@
 					{/if}
 				</div>
 			</div>
-			<div class="col-span-6">
+			<div class="col-span-1 md:col-span-6">
 				<div class="border border-gray-200 rounded p-4 mb-4 bg-white h-full">
 					<h2 class="text-sm font-semibold mb-3">Newest Forum Posts</h2>
 						{#if newestPosts.length === 0}
@@ -268,7 +269,7 @@
 						{/if}
 				</div>
 			</div>
-			<div class="col-span-12">
+			<div class="col-span-1 md:col-span-12">
 				<div class="border border-gray-200 p-3 rounded">
 					<h2 class="text-sm font-semibold mb-3">Events & Announcements</h2>
 					{#if newestBlogPosts.length === 0}
