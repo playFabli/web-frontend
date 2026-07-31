@@ -15,15 +15,25 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
   if (collectionsResponse.ok) {
     const colJson = await collectionsResponse.json();
     collections = colJson.data || [];
-    console.log(colJson);
-  } else {
-    const colJson = await collectionsResponse.json();
-    console.log(colJson);
+  }
+
+  const tagsResponse = await fetch(`${config.api}/admin/forum-tags`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    }
+  });
+
+  let forumTags = [];
+  if (tagsResponse.ok) {
+    const tagsJson = await tagsResponse.json();
+    forumTags = tagsJson.data || [];
   }
 
   return {
     title: 'Manage Collections',
     token,
-    collections
+    collections,
+    forumTags
   };
 };

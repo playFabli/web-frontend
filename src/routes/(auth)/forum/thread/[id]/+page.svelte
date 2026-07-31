@@ -203,6 +203,9 @@
 						<div class="flex-1">
 							<div class="flex items-center gap-2 flex-wrap">
 								<a href={`/user/profile/${data.thread.user.id}`} class="post-author">{data.thread.user.username}</a>
+								{#if data.thread.user.selected_forum_tag}
+									<span style={data.thread.user.selected_forum_tag.style}>{data.thread.user.selected_forum_tag.name}</span>
+								{/if}
 								<span class="post-time">Posted {timeSince(new Date(data.thread.created_at))} ago</span>
 							</div>
 							<p class="post-content">
@@ -231,8 +234,11 @@
 								<img src={config.avatarStorage  + "/" + reply.user.id + ".png"} alt="{reply.user.username} avatar" class="rounded-full w-32 h-32">
 								<div class="flex-1">
 									<div class="flex items-center gap-2 flex-wrap">
-										<a href={`/user/profile/${reply.user.id}`} class="post-author">{reply.user.username}</a>
-										<span class="post-time">Posted {timeSince(new Date(reply.created_at))} ago</span>
+									<a href={`/user/profile/${reply.user.id}`} class="post-author">{reply.user.username}</a>
+									{#if reply.user.selected_forum_tag}
+										<span style={reply.user.selected_forum_tag.style}>{reply.user.selected_forum_tag.name}</span>
+									{/if}
+									<span class="post-time">Posted {timeSince(new Date(reply.created_at))} ago</span>
 									</div>
 									<p class="post-content">
 										{reply.content}
@@ -344,9 +350,19 @@
         .pagination a:hover {
             background: #f3f4f6;
         }
-        .pagination a.active-page {
+	.pagination a.active-page {
             background: #f3f4f6;
             border-color: #9ca3af;
             font-weight: 600;
         }
+	.forum-tag-badge {
+		display: inline-flex;
+		align-items: center;
+		font-size: 0.65rem;
+		font-weight: 600;
+		padding: 0.1rem 0.5rem;
+		border-radius: 3px;
+		border: 1px solid currentColor;
+		line-height: 1;
+	}
 </style>

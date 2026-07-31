@@ -8,6 +8,7 @@
 	let activities = $state(data.activities ?? []);
 	let newestItems = $state(data.newestItems ?? []);
 	let newestPosts = $state(data.newestPosts ?? []);
+	let newestBlogPosts = $state(data.newestBlogPosts ?? []);
 	let activeTab = $state('daily');
 	let claimingId = $state(null);
 
@@ -270,6 +271,31 @@
 			<div class="col-span-12">
 				<div class="border border-gray-200 p-3 rounded">
 					<h2 class="text-sm font-semibold mb-3">Events & Announcements</h2>
+					{#if newestBlogPosts.length === 0}
+						<p class="text-xs text-center text-gray-500 py-2">No announcements yet.</p>
+					{:else}
+						<div class="flex gap-3 overflow-x-auto pb-2">
+							{#each newestBlogPosts as post}
+								<a href="/blog/post/{post.id}" class="min-w-[200px] max-w-[200px] border border-gray-200 rounded p-3 bg-gray-50/30 hover:shadow-sm transition-shadow">
+									{#if post.banner_path}
+										<img loading="lazy" src="{config.storage}/{post.banner_path}" alt="" class="w-full h-20 object-cover rounded mb-2" />
+									{:else}
+										<div class="w-full h-20 bg-gradient-to-br from-gray-100 to-gray-50 rounded mb-2 flex items-center justify-center">
+											<span class="text-lg font-bold text-gray-300">{post.title.charAt(0)}</span>
+										</div>
+									{/if}
+									<p class="text-sm font-medium text-gray-900 truncate">{post.title}</p>
+									<p class="text-xs text-gray-500 mt-1">by {post.user?.username}</p>
+									<div class="flex items-center gap-2 mt-2">
+										{#if post.is_featured}
+											<span class="text-[10px] font-semibold text-primary uppercase tracking-wide">Featured</span>
+										{/if}
+										<span class="text-xs text-gray-400 whitespace-nowrap">{new Date(post.created_at).toLocaleDateString()}</span>
+									</div>
+								</a>
+							{/each}
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>

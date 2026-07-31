@@ -5,15 +5,24 @@
 	let { data } = $props();
 
 	let collectionsPromise = $state(Promise.resolve(data.collections));
+	let forumTags = data.forumTags;
 
 	let showCreateModal = $state(false);
 	let createName = $state('');
 	let createDescription = $state('');
+	let createImage = $state('');
+	let createForumTagId = $state(null);
+	let createCoinReward = $state(0);
+	let createXpReward = $state(0);
 	let createError = $state('');
 
 	let editModal = $state(null);
 	let editName = $state('');
 	let editDescription = $state('');
+	let editImage = $state('');
+	let editForumTagId = $state(null);
+	let editCoinReward = $state(0);
+	let editXpReward = $state(0);
 
 	let addItemModal = $state(null);
 	let addItemId = $state('');
@@ -39,7 +48,14 @@
 					'Accept': 'application/json',
 					'Authorization': `Bearer ${data.token}`
 				},
-				body: JSON.stringify({ name: createName, description: createDescription })
+				body: JSON.stringify({
+					name: createName,
+					description: createDescription,
+					image: createImage || null,
+					forum_tag_id: createForumTagId || null,
+					coin_reward: createCoinReward || 0,
+					xp_reward: createXpReward || 0
+				})
 			});
 			const json = await res.json();
 			if (!res.ok) {
@@ -49,6 +65,10 @@
 			showCreateModal = false;
 			createName = '';
 			createDescription = '';
+			createImage = '';
+			createForumTagId = null;
+			createCoinReward = 0;
+			createXpReward = 0;
 			collectionsPromise = fetchCollections();
 		} catch (err) {
 			createError = 'Failed to create collection.';
@@ -65,7 +85,14 @@
 					'Accept': 'application/json',
 					'Authorization': `Bearer ${data.token}`
 				},
-				body: JSON.stringify({ name: editName, description: editDescription })
+				body: JSON.stringify({
+					name: editName,
+					description: editDescription,
+					image: editImage || null,
+					forum_tag_id: editForumTagId || null,
+					coin_reward: editCoinReward || 0,
+					xp_reward: editXpReward || 0
+				})
 			});
 			if (!res.ok) return;
 			editModal = null;
@@ -153,12 +180,16 @@
 					{#each collections as collection}
 						<div class="border border-gray-200 rounded p-4 bg-white">
 							<div class="flex items-center justify-between mb-2">
-								<div>
+								<div class="flex-1">
 									<h3 class="text-base font-semibold text-gray-900">{collection.name}</h3>
 									<p class="text-sm text-gray-500">{collection.description || 'No description'}</p>
+									<div class="mt-1 flex flex-wrap gap-3 text-xs text-gray-600">
+										<span><strong>Forum Tag:</strong> {collection.forum_tag?.name || 'None'}</span>
+										<span><strong>Reward:</strong> {collection.coin_reward} coins / {collection.xp_reward} XP</span>
+									</div>
 								</div>
 								<div class="flex gap-2">
-									<button onclick={() => { editModal = collection; editName = collection.name; editDescription = collection.description || ''; }} class="btn-secondary px-3 py-1 text-xs">Edit</button>
+									<button onclick={() => { editModal = collection; editName = collection.name; editDescription = collection.description || ''; editImage = collection.image || ''; editForumTagId = collection.forum_tag_id || null; editCoinReward = collection.coin_reward || 0; editXpReward = collection.xp_reward || 0; }} class="btn-secondary px-3 py-1 text-xs">Edit</button>
 									<button onclick={() => { addItemModal = collection.id; }} class="btn-secondary px-3 py-1 text-xs">Add Item</button>
 									<button onclick={() => deleteCollection(collection.id)} class="btn-danger px-3 py-1 text-xs">Delete</button>
 								</div>
@@ -192,6 +223,27 @@
 				<label class="form-label" for="createDesc">Description</label>
 				<textarea bind:value={createDescription} id="createDesc" rows="2" class="form-input" placeholder="Optional description"></textarea>
 			</div>
+			<div class="mb-3">
+				<label class="form-label" for="createImage">Image URL</label>
+				<input bind:value={createImage} type="text" id="createImage" class="form-input" placeholder="Optional image URL">
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="createForumTag">Reward Forum Tag</label>
+				<select bind:value={createForumTagId} id="createForumTag" class="form-input">
+					<option value={null}>None</option>
+					{#each forumTags as tag}
+						<option value={tag.id}>{tag.name}</option>
+					{/each}
+				</select>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="createCoinReward">Coin Reward</label>
+				<input bind:value={createCoinReward} type="number" id="createCoinReward" class="form-input" placeholder="0" min="0">
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="createXpReward">XP Reward</label>
+				<input bind:value={createXpReward} type="number" id="createXpReward" class="form-input" placeholder="0" min="0">
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button onclick={() => showCreateModal = false} class="btn-secondary px-4 py-1 text-sm">Cancel</button>
@@ -217,6 +269,27 @@
 			<div class="mb-3">
 				<label class="form-label" for="editDesc">Description</label>
 				<textarea bind:value={editDescription} id="editDesc" rows="2" class="form-input"></textarea>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="editImage">Image URL</label>
+				<input bind:value={editImage} type="text" id="editImage" class="form-input" placeholder="Optional image URL">
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="editForumTag">Reward Forum Tag</label>
+				<select bind:value={editForumTagId} id="editForumTag" class="form-input">
+					<option value={null}>None</option>
+					{#each forumTags as tag}
+						<option value={tag.id}>{tag.name}</option>
+					{/each}
+				</select>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="editCoinReward">Coin Reward</label>
+				<input bind:value={editCoinReward} type="number" id="editCoinReward" class="form-input" min="0">
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="editXpReward">XP Reward</label>
+				<input bind:value={editXpReward} type="number" id="editXpReward" class="form-input" min="0">
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -248,6 +321,8 @@
 	</div>
 </div>
 {/if}
+
+<!-- Remove Item Confirmation is done inline -->
 
 <style>
 	.modal-overlay {

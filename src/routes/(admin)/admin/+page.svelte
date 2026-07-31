@@ -72,10 +72,14 @@
 				<span class="text-lg font-semibold text-accent">Categories</span>
 				<p class="text-sm text-gray-600 mt-1">Manage marketplace categories</p>
 			</a>
-			<a href="/admin/collections" class="admin-link-card card-shadow flex flex-col items-start">
-				<span class="text-lg font-semibold text-accent">Collections</span>
-				<p class="text-sm text-gray-600 mt-1">Manage item collections</p>
-			</a>
+		<a href="/admin/collections" class="admin-link-card card-shadow flex flex-col items-start">
+			<span class="text-lg font-semibold text-accent">Collections</span>
+			<p class="text-sm text-gray-600 mt-1">Manage item collections</p>
+		</a>
+		<a href="/admin/forum-tags" class="admin-link-card card-shadow flex flex-col items-start">
+			<span class="text-lg font-semibold text-accent">Forum Tags</span>
+			<p class="text-sm text-gray-600 mt-1">Manage user forum tags</p>
+		</a>
 			<a href="/admin/site-settings" class="admin-link-card card-shadow flex flex-col items-start">
 				<span class="text-lg font-semibold text-accent">Site Settings</span>
 				<p class="text-sm text-gray-600 mt-1">General configuration, maintenance</p>

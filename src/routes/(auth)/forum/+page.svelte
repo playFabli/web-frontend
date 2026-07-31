@@ -41,6 +41,23 @@
 	let threadsPromise = $state(fetchThreads(categoryId,1));
 
 	let query = $state("");
+	let selectedTagId = $state(data.selectedForumTag?.id || null);
+
+	async function changeSelectedTag() {
+		try {
+			await fetch(`${config.api}/forum/tags/select`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${token}`
+				},
+				body: JSON.stringify({ forum_tag_id: selectedTagId || null })
+			});
+		} catch (err) {
+			console.error('Failed to update selected forum tag.');
+		}
+	}
 </script>
 
 <main class="py-6">
@@ -72,15 +89,28 @@
 			<div class="flex-1">
 				<div class="flex items-center justify-between mb-4">
 					<h1 class="text-xl font-bold text-gray-900">Forums</h1>
-					<div class="flex gap-2">
-						<input
-							type="text"
-							placeholder="Search threads..."
-							class="border border-gray-300 rounded px-2 py-1 text-sm w-40"
-							bind:value={query}
-						/>
-						<button onclick={() => threadsPromise = fetchThreads(categoryId, 1, query)} class="btn-secondary px-3 py-1 text-sm">Search</button>
-					</div>
+				<div class="flex gap-2 items-center">
+					<input
+						type="text"
+						placeholder="Search threads..."
+						class="border border-gray-300 rounded px-2 py-1 text-sm w-40"
+						bind:value={query}
+					/>
+					<button onclick={() => threadsPromise = fetchThreads(categoryId, 1, query)} class="btn-secondary px-3 py-1 text-sm">Search</button>
+					{#if data.forumTags && data.forumTags.length > 0}
+						<select
+							bind:value={selectedTagId}
+							onchange={changeSelectedTag}
+							class="border border-gray-300 rounded px-2 py-1 text-sm max-w-32"
+							title="Forum tag"
+						>
+							<option value={null}>Tag: None</option>
+							{#each data.forumTags as tag}
+								<option value={tag.id}>{tag.name}</option>
+							{/each}
+						</select>
+					{/if}
+				</div>
 				</div>
 
 				<div
