@@ -42,8 +42,8 @@
 
 	async function saveTag() {
 		const url = editingTag
-			? `${config.internalApi}/admin/forum-tags/${editingTag.id}`
-			: `${config.internalApi}/admin/forum-tags`;
+			? `${config.api}/admin/forum-tags/${editingTag.id}`
+			: `${config.api}/admin/forum-tags`;
 
 		const body = {
 			name: formName,
@@ -71,7 +71,7 @@
 	async function deleteTag(tag) {
 		if (!confirm(`Are you sure you want to delete "${tag.name}"?`)) return;
 
-		const response = await fetch(`${config.internalApi}/admin/forum-tags/${tag.id}`, {
+		const response = await fetch(`${config.api}/admin/forum-tags/${tag.id}`, {
 			method: 'DELETE',
 			headers: {
 				'Accept': 'application/json',

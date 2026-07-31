@@ -46,8 +46,8 @@
 
 	async function saveCategory() {
 		const url = editingCategory
-			? `${config.internalApi}/admin/categories/${editingCategory.id}`
-			: `${config.internalApi}/admin/categories`;
+			? `${config.api}/admin/categories/${editingCategory.id}`
+			: `${config.api}/admin/categories`;
 
 		const method = editingCategory ? 'POST' : 'POST';
 
@@ -82,7 +82,7 @@
 	async function deleteCategory(category) {
 		if (!confirm(`Are you sure you want to delete "${category.title}"?`)) return;
 
-		const response = await fetch(`${config.internalApi}/admin/categories/${category.id}`, {
+		const response = await fetch(`${config.api}/admin/categories/${category.id}`, {
 			method: 'DELETE',
 			headers: {
 				'Accept': 'application/json',
@@ -98,7 +98,7 @@
 	}
 
 	async function loadCategories() {
-		const response = await fetch(`${config.internalApi}/admin/categories`, {
+		const response = await fetch(`${config.api}/admin/categories`, {
 			headers: {
 				'Accept': 'application/json',
 				'Authorization': `Bearer ${data.token}`
