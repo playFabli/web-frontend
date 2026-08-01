@@ -9,6 +9,7 @@
 	let scene: BABYLON.Scene;
 	let camera: BABYLON.UniversalCamera;
 	let gizmoManager: BABYLON.GizmoManager;
+	let handleLayer: BABYLON.UtilityLayerRenderer;
  
 	// Flips to true once the scene/camera/light exist, so the $effect below
 	// knows it's safe to start creating meshes.
@@ -148,6 +149,40 @@
 		selectedId = part.id;
 	}
  
+	// --- Copy / paste / delete ---
+ 
+	let clipboard: Part | null = null;
+ 
+	function copySelected() {
+		if (!selected) return;
+		clipboard = structuredClone($state.snapshot(selected));
+	}
+ 
+	function pasteClipboard() {
+		if (!clipboard) return;
+ 
+		// Fresh deep clone per paste so multiple pasted parts don't end up
+		// sharing the same position/rotation/scale object.
+		const cloned = structuredClone(clipboard);
+		const part: Part = {
+			...cloned,
+			id: crypto.randomUUID(),
+			name: `${cloned.name} Copy`,
+			position: { x: cloned.position.x + 2, y: cloned.position.y, z: cloned.position.z }
+		};
+ 
+		parts = [...parts, part];
+		selectedId = part.id;
+	}
+ 
+	function deleteSelected() {
+		if (!selected) return;
+ 
+		const remaining = parts.filter((p) => p.id !== selectedId);
+		parts = remaining;
+		selectedId = remaining[0]?.id;
+	}
+ 
 	function savePlace() {
 		localStorage.setItem("place", JSON.stringify(parts));
 		alert("Saved!");
@@ -249,7 +284,7 @@
 			mesh.scaling.set(part.scale.x, part.scale.y, part.scale.z);
  
 			const mat = mesh.material as BABYLON.StandardMaterial;
-			mat.diffuseColor = BABYLON.Color3.FromHexString(part.color);
+			mat.diffuseColor = Color3.FromHexString(part.color);
 		}
 	}
  
@@ -289,7 +324,7 @@
  
 	// --- Hover + selection outlines ---
  
-	function applyOutline(mesh: BABYLON.Mesh, outline: { color: BABYLON.Color3; width: number }) {
+	function applyOutline(mesh: BABYLON.Mesh, outline: { color: Color3; width: number }) {
 		mesh.renderOutline = true;
 		mesh.outlineColor = outline.color;
 		mesh.outlineWidth = outline.width;
@@ -388,7 +423,7 @@
 	interface FaceHandleDef {
 		axis: "x" | "y" | "z";
 		sign: 1 | -1;
-		color: BABYLON.Color3;
+		color: Color3;
 	}
  
 	const FACE_HANDLE_DEFS: FaceHandleDef[] = [
@@ -411,13 +446,14 @@
 	}
  
 	function createFaceHandles() {
+		const handleScene = handleLayer.utilityLayerScene;
+ 
 		for (const def of FACE_HANDLE_DEFS) {
-			const mesh = BABYLON.MeshBuilder.CreateBox(`faceHandle-${def.axis}${def.sign}`, { size: 0.25 }, scene);
-			const mat = new BABYLON.StandardMaterial(`faceHandleMat-${def.axis}${def.sign}`, scene);
+			const mesh = BABYLON.MeshBuilder.CreateBox(`faceHandle-${def.axis}${def.sign}`, { size: 0.25 }, handleScene);
+			const mat = new BABYLON.StandardMaterial(`faceHandleMat-${def.axis}${def.sign}`, handleScene);
 			mat.diffuseColor = def.color;
 			mat.emissiveColor = def.color.scale(0.6);
 			mesh.material = mat;
-			mesh.renderingGroupId = 1;
 			mesh.setEnabled(false);
  
 			const drag = new BABYLON.PointerDragBehavior({ dragAxis: localNormalOf(def) });
@@ -462,7 +498,7 @@
  
 			// Keep handles a roughly constant on-screen size regardless of the
 			// mesh's own (possibly extreme) non-uniform scale or camera distance.
-			const size = BABYLON.Vector3.Distance(camera.position, mesh.position) * 0.05;
+			const size = BABYLON.Vector3.Distance(camera.position, mesh.position) * 0.03;
 			mesh.scaling.set(size, size, size);
 		}
 	}
@@ -518,6 +554,15 @@
 			} else if (ctrlOrCmd && (key === "y" || (key === "z" && e.shiftKey))) {
 				e.preventDefault();
 				redo();
+			} else if (ctrlOrCmd && key === "c") {
+				e.preventDefault();
+				copySelected();
+			} else if (ctrlOrCmd && key === "v") {
+				e.preventDefault();
+				pasteClipboard();
+			} else if (!ctrlOrCmd && key === "delete") {
+				e.preventDefault();
+				deleteSelected();
 			} else if (!ctrlOrCmd && key === "1") {
 				mode = "move";
 			} else if (!ctrlOrCmd && key === "2") {
@@ -562,6 +607,11 @@
 		gizmoManager = new BABYLON.GizmoManager(scene);
 		gizmoManager.usePointerToAttachGizmos = false;
  
+		// Face handles live in their own utility layer scene (same trick
+		// Babylon's built-in gizmos use) so they always win picking priority
+		// over the actual part meshes, even the far side of a box facing away
+		// from the camera.
+		handleLayer = new BABYLON.UtilityLayerRenderer(scene);
 		createFaceHandles();
  
 		// Hover outline + click-to-select. We call scene.pick() ourselves on
@@ -626,7 +676,6 @@
 		};
 	});
 </script>
-
 
 <style>
 	.btn-secondary {

@@ -524,17 +524,17 @@
 </script>
 <svelte:head>
 	{#if selectedThemeId > 0}
-		<link 
-			id="profile-theme-stylesheet" 
-			rel="stylesheet" 
-			href={`${config.storage}/stylesheets/${selectedThemeId}.css?t=${Date.now()}`} 
+		<link
+			id="profile-theme-stylesheet"
+			rel="stylesheet"
+			href={`${config.storage}/stylesheets/${selectedThemeId}.css?t=${Date.now()}`}
 		/>
 	{/if}
 	{#if selectedFrameId > 0}
-		<link 
-			id="avatar-frame-stylesheet" 
-			rel="stylesheet" 
-			href={`${config.storage}/stylesheets/${selectedFrameId}.css?t=${Date.now()}`} 
+		<link
+			id="avatar-frame-stylesheet"
+			rel="stylesheet"
+			href={`${config.storage}/stylesheets/${selectedFrameId}.css?t=${Date.now()}`}
 		/>
 	{/if}
 </svelte:head>
@@ -640,38 +640,38 @@
 			</div>
 			<div class="grid grid-cols-1 sm:grid-cols-10 gap-4 mb-3">
 				<div class="col-span-2">
-					<button 
+					<button
 						class="btn-secondary px-4 py-1 text-sm w-full {tab === 0 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 0}
 					>Overview</button>
 				</div>
 				<div class="col-span-2">
-					<button 
+					<button
 						class="btn-secondary px-4 py-1 text-sm w-full {tab === 1 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 1}
 					>Creations</button>
 				</div>
 				<div class="col-span-2">
-					<button 
+					<button
 						class="btn-secondary px-4 py-1 text-sm w-full {tab === 2 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 2}
 					>Inventory</button>
 				</div>
 				<div class="col-span-2">
-					<button 
+					<button
 						class="btn-secondary px-4 py-1 text-sm w-full {tab === 3 ? 'bg-primary text-white' : ''}"
 						onclick={() => tab = 3}
 					>Collections</button>
 				</div>
 			<div class="col-span-2">
-				<button 
+				<button
 					class="btn-secondary px-4 py-1 text-sm w-full {tab === 4 ? 'bg-primary text-white' : ''}"
 					onclick={() => tab = 4}
 				>Friends</button>
 			</div>
 			</div>
-			
-			<!-- Tab Content -->			
+
+			<!-- Tab Content -->
 			{#if tab === 0}
 				<!-- Overview Tab -->
 				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -681,7 +681,7 @@
 							<div class="text-center mb-3">
 								<img
 									class="inline h-64 w-64"
-									src={`${config.avatarStorage}/${data.user.id}.png`}
+									src={`${config.avatarStorage}/${data.user.id}.png?t=${Date.now()}`}
 									alt=""
 								/>
 							</div>
@@ -693,12 +693,27 @@
 							<p class="mb-3">
 								{data.user.description}
 							</p>
+							<hr class="bg-primary text-primary mb-3 mt-3">
+							<div class="grid grid-cols-2 gap-1">
+								<div class="text-sm font-semibold col-span-1 text-gray-600/70">
+									Created at
+								</div>
+								<div class="col-span-1 text-right">
+									{new Date(data.user.created_at).toLocaleDateString()}
+								</div>
+								<div class="text-sm font-semibold col-span-1 text-gray-600/70">
+									Last seen at
+								</div>
+								<div class="col-span-1 text-right">
+									{timeSince(data.user.last_seen_at)} ago
+								</div>
+							</div>
 						</div>
 						<div class="border border-gray-200 rounded p-3">
 							<div class="flex items-center justify-between mb-3">
 								<h5 class="text-sm font-semibold">Item Wall</h5>
 								{#if isOwnProfile}
-									<button 
+									<button
 										class="btn-glossy px-3 py-1 text-sm"
 										onclick={openEditModal}
 									>Edit</button>
@@ -713,8 +728,8 @@
 									{#each profileItems as profileItem}
 										<div class="cursor-pointer item-card card-shadow">
 											<div class="relative">
-												<img 
-													loading="lazy" 
+												<img
+													loading="lazy"
 													src={`${config.storage}/items/${profileItem.item.id}.png`}
 													alt={profileItem.item.title}
 												/>
@@ -748,7 +763,7 @@
 						{:else}
 							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
 								{#each creations as creation}
-									<ItemCard 
+									<ItemCard
 										item={creation}
 										formatter={format}
 									/>
@@ -760,13 +775,13 @@
 					{/await}
 					{#if creationsTotalPages > 1}
 						<div class="flex items-center justify-center gap-2 mt-4">
-							<button 
+							<button
 								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 								disabled={creationsPage <= 1}
 								onclick={() => updateCreations(creationsPage - 1)}
 							>Previous</button>
 							<span class="text-sm text-gray-600">Page {creationsPage} of {creationsTotalPages}</span>
-							<button 
+							<button
 								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 								disabled={creationsPage >= creationsTotalPages}
 								onclick={() => updateCreations(creationsPage + 1)}
@@ -786,7 +801,7 @@
 						{:else}
 							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
 								{#each inventory as item}
-									<ItemCard 
+									<ItemCard
 										item={item.item}
 										serial={item.serial}
 										formatter={format}
@@ -799,13 +814,13 @@
 					{/await}
 					{#if inventoryTotalPages > 1}
 						<div class="flex items-center justify-center gap-2 mt-4">
-							<button 
+							<button
 								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 								disabled={inventoryPage <= 1}
 								onclick={() => updateInventory(inventoryPage - 1)}
 							>Previous</button>
 							<span class="text-sm text-gray-600">Page {inventoryPage} of {inventoryTotalPages}</span>
-							<button 
+							<button
 								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 								disabled={inventoryPage >= inventoryTotalPages}
 								onclick={() => updateInventory(inventoryPage + 1)}
@@ -858,15 +873,15 @@
 										<Tooltip text="This user is a Fabli moderator!">
 											<img src="/badges/ModeratorBadge.png" alt="">
 										</Tooltip>
-									</div>							
-									{/if}		
+									</div>
+									{/if}
 									{#if data.user.role == "admin"}
 									<div class="col-span-3">
 										<Tooltip text="This user is a Fabli administrator!">
 											<img src="/badges/AdminBadge.png" alt="">
 										</Tooltip>
-									</div>							
-									{/if}	
+									</div>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -910,13 +925,13 @@
 					{/await}
 					{#if friendsTotalPages > 1}
 						<div class="flex items-center justify-center gap-2 mt-4">
-							<button 
+							<button
 								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 								disabled={friendsPage <= 1}
 								onclick={() => updateFriends(friendsPage - 1)}
 							>Previous</button>
 							<span class="text-sm text-gray-600">Page {friendsPage} of {friendsTotalPages}</span>
-							<button 
+							<button
 								class="btn-glossy px-3 py-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 								disabled={friendsPage >= friendsTotalPages}
 								onclick={() => updateFriends(friendsPage + 1)}
@@ -939,7 +954,7 @@
 		<div class="bg-white rounded border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
 			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
 				<h3 class="text-lg font-semibold">Edit Item Wall</h3>
-				<button 
+				<button
 					class="cursor-pointer text-gray-500 hover:text-gray-700"
 					onclick={() => showEditModal = false}
 				>
@@ -948,14 +963,14 @@
 			</div>
 			<div class="p-3 border-b border-gray-200">
 				<div class="flex gap-2">
-					<input 
-						type="text" 
-						placeholder="Search items..." 
+					<input
+						type="text"
+						placeholder="Search items..."
 						class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm"
 						bind:value={itemSearch}
 						oninput={() => fetchAvailableItems()}
 					/>
-					<select 
+					<select
 						class="px-3 py-1 border border-gray-300 rounded text-sm"
 						bind:value={itemCategory}
 						onchange={() => fetchAvailableItems()}
@@ -975,7 +990,7 @@
 				{:else}
 					<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
 						{#each availableItems as item}
-							<button 
+							<button
 								class="border-1 cursor-pointer rounded p-2 transition-all {selectedItems.some(si => si.id === item.id) ? 'border-primary bg-blue-50' : 'border-transparent hover:border-gray-300'}"
 								onclick={() => {
 									if (selectedItems.some(si => si.id === item.id)) {
@@ -985,8 +1000,8 @@
 									}
 								}}
 							>
-								<img 
-									loading="lazy" 
+								<img
+									loading="lazy"
 									src={`${config.storage}/items/${item.id}.png`}
 									alt={item.title}
 									class="w-full aspect-square object-cover"
@@ -999,11 +1014,11 @@
 				{/if}
 			</div>
 			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
-				<button 
+				<button
 					class="btn-secondary px-4 py-1 text-sm"
 					onclick={() => showEditModal = false}
 				>Close</button>
-				<button 
+				<button
 					class="btn-glossy px-4 py-1 text-sm"
 					onclick={saveProfileItems}
 				>Save Changes</button>
@@ -1018,7 +1033,7 @@
 		<div class="bg-white rounded border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
 			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
 				<h3 class="text-lg font-semibold">Customize Profile</h3>
-				<button 
+				<button
 					class="cursor-pointer text-gray-500 hover:text-gray-700"
 					onclick={() => showCustomizeModal = false}
 				>
@@ -1037,7 +1052,7 @@
 						{:else}
 							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
 								<!-- Default option (no theme) -->
-								<button 
+								<button
 									class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === 0 ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
 									onclick={() => selectedThemeId = 0}
 								>
@@ -1047,12 +1062,12 @@
 									<p class="text-sm font-medium text-gray-900 truncate mt-2">Default</p>
 								</button>
 								{#each customizationData.themes as theme}
-									<button 
+									<button
 										class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === theme.id ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
 										onclick={() => selectedThemeId = theme.id}
 									>
-										<img 
-											loading="lazy" 
+										<img
+											loading="lazy"
 											src={`${config.storage}/items/${theme.id}.png`}
 											alt={theme.title}
 											class="w-full aspect-square object-cover"
@@ -1077,7 +1092,7 @@
 						{:else}
 							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
 								<!-- Default option (no frame) -->
-								<button 
+								<button
 									class="border-1 cursor-pointer rounded p-2 transition-all {selectedFrameId === 0 ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
 									onclick={() => selectedFrameId = 0}
 								>
@@ -1087,12 +1102,12 @@
 									<p class="text-sm font-medium text-gray-900 truncate mt-2">Default</p>
 								</button>
 								{#each customizationData.frames as frame}
-									<button 
+									<button
 										class="border-1 cursor-pointer rounded p-2 transition-all {selectedFrameId === frame.id ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
 										onclick={() => selectedFrameId = frame.id}
 									>
-										<img 
-											loading="lazy" 
+										<img
+											loading="lazy"
 											src={`${config.storage}/items/${frame.id}.png`}
 											alt={frame.title}
 											class="w-full aspect-square object-cover"
@@ -1118,11 +1133,11 @@
 				{/if}
 			</div>
 			<div class="p-3 border-t border-gray-200 flex justify-end gap-2">
-				<button 
+				<button
 					class="btn-secondary px-4 py-1 text-sm"
 					onclick={() => showCustomizeModal = false}
 				>Close</button>
-				<button 
+				<button
 					class="btn-glossy px-4 py-1 text-sm"
 					onclick={saveCustomization}
 					disabled={savingCustomization}

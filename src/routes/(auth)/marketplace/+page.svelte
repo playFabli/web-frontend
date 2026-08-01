@@ -18,7 +18,7 @@
 
 
 	let query = $state("");
-	let categoriesSelected = $state([1,2,3]);
+	let categoriesSelected = $state([1,2,3,4,7,8,9]);
 	let selectedCollection = $state('');
 	let itemsPromise = $state(fetchItems());
 	function selectCategory(id) {
