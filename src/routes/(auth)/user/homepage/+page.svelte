@@ -99,13 +99,16 @@
 			src={`${config.headshotStorage}/${page.data.globalUser.id}.png?t=${Date.now()}`}
 			alt=""
 		/>
-		<h1 class="text-xl font-semibold">Hello, {page.data.globalUser.username}!</h1>
+		<h1 class="text-xl font-bold">
+			Hello, {page.data.globalUser.username}!
+			<p class="mt-1 text-sm font-semibold">Level {page.data.globalUser.level} ({page.data.globalUser.exp} / {Math.floor(10 * page.data.globalUser.level * Math.log(page.data.globalUser.level + 1) * 1.25)} XP)</p>
+		</h1>
 	</div>
 	<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 		<div class="col-span-1 md:col-span-6">
 				<div class="h-full border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white">
 					<div class="flex items-center justify-between mb-3">
-						<h2 class="text-sm font-semibold">Quests</h2>
+						<h2 class="text-sm font-bold">Quests</h2>
 						<div class="flex gap-1">
 							<button
 								class="btn-secondary px-3 py-1 text-xs {activeTab === 'daily' ? 'active-tab' : ''}"
@@ -142,7 +145,7 @@
 								class="flex items-center justify-between border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30"
 							>
 								<div class="flex-1 min-w-0">
-									<p class="text-sm font-medium text-gray-900">{quest.name}</p>
+									<p class="text-sm font-bold text-gray-900">{quest.name}</p>
 									{#if quest.description}
 										<p class="text-xs text-gray-600">{quest.description}</p>
 									{/if}
@@ -159,7 +162,7 @@
 									</p>
 								</div>
 								<div class="flex items-center gap-2 ml-3 flex-shrink-0">
-									<span class="text-xs font-semibold text-primary whitespace-nowrap">
+									<span class="text-xs font-bold text-primary whitespace-nowrap">
 										+{quest.coin_reward}
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +203,7 @@
 			</div>
 			<div class="col-span-1 md:col-span-6">
 				<div class="h-full rounded-lg border border-[#EFE6E2] p-4">
-					<h2 class="text-sm font-semibold mb-3">Activity Feed</h2>
+					<h2 class="text-sm font-bold mb-3">Activity Feed</h2>
 					<div class="space-y-2 max-h-[280px] overflow-y-auto">
 						{#each activities as activity}
 							<div class="flex items-start gap-2 py-2 border-b border-gray-100 last:border-b-0">
@@ -223,7 +226,7 @@
 			</div>
 			<div class="col-span-1 md:col-span-6">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white h-full">
-					<h2 class="text-sm font-semibold mb-3">Newest Marketplace Items</h2>
+					<h2 class="text-sm font-bold mb-3">Newest Marketplace Items</h2>
 					{#if newestItems.length === 0}
 						<p class="text-xs text-center text-gray-500 py-2">No items available.</p>
 					{:else}
@@ -237,7 +240,7 @@
 										{#if item.is_limited}
 											<span class="text-[10px] text-gray-500">Stock: {item.stock_left ?? '∞'}</span>
 										{/if}
-										<span class="text-xs font-semibold text-primary whitespace-nowrap">{item.price} 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="inline size-4 mb-1"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" /><path d="M15 6h1v4" /><path d="m6.134 14.768.866-.5 2 3.464" /><circle cx="16" cy="8" r="6" /></svg></span>
+										<span class="text-xs font-bold text-primary whitespace-nowrap">{item.price} 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="inline size-4 mb-1"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" /><path d="M15 6h1v4" /><path d="m6.134 14.768.866-.5 2 3.464" /><circle cx="16" cy="8" r="6" /></svg></span>
 									</div>
 								</a>
 							{/each}
@@ -247,7 +250,7 @@
 			</div>
 			<div class="col-span-1 md:col-span-6">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white h-full">
-					<h2 class="text-sm font-semibold mb-3">Newest Forum Posts</h2>
+					<h2 class="text-sm font-bold mb-3">Newest Forum Posts</h2>
 						{#if newestPosts.length === 0}
 							<p class="text-xs text-center text-gray-500 py-2">No forum posts available.</p>
 						{:else}
@@ -259,7 +262,7 @@
 										<p class="text-xs text-gray-500 mt-1">{post.category?.name} • by {post.user?.username}</p>
 										<div class="flex items-center gap-2 mt-2">
 											{#if post.is_pinned}
-												<span class="text-[10px] font-semibold text-red-600 uppercase tracking-wide">Pinned</span>
+												<span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Pinned</span>
 											{/if}
 											<span class="text-xs text-gray-400 whitespace-nowrap">{new Date(post.created_at).toLocaleDateString()}</span>
 										</div>
@@ -271,7 +274,7 @@
 			</div>
 			<div class="col-span-1 md:col-span-12">
 				<div class="border border-[#EFE6E2] p-4 rounded-lg">
-					<h2 class="text-sm font-semibold mb-3">Events & Announcements</h2>
+					<h2 class="text-sm font-bold mb-3">Events & Announcements</h2>
 					{#if newestBlogPosts.length === 0}
 						<p class="text-xs text-center text-gray-500 py-2">No announcements yet.</p>
 					{:else}
@@ -289,7 +292,7 @@
 									<p class="text-xs text-gray-500 mt-1">by {post.user?.username}</p>
 									<div class="flex items-center gap-2 mt-2">
 										{#if post.is_featured}
-											<span class="text-[10px] font-semibold text-primary uppercase tracking-wide">Featured</span>
+											<span class="text-[10px] font-bold text-primary uppercase tracking-wide">Featured</span>
 										{/if}
 										<span class="text-xs text-gray-400 whitespace-nowrap">{new Date(post.created_at).toLocaleDateString()}</span>
 									</div>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from "$app/navigation";
 	import { config } from "$lib/config";
+	import { LogIn, UserPlus } from "lucide-svelte";
 
 	let { data } = $props();
 	let newestUsers = data.newestUsers || [];
@@ -75,7 +76,6 @@
 			</p>
 			<div class="flex justify-center gap-4">
 				<a href="/user/register" class="btn-glossy px-6 py-2 text-sm">Join Now — It's Free!</a>
-				<a href="#" class="btn-secondary px-4 py-1 text-sm">Learn More</a>
 			</div>
 		</div>
 	</div>
@@ -83,7 +83,7 @@
 	<div class="py-6">
 		<div class="max-w-[70%] mx-auto px-4 flex flex-col md:flex-row gap-4">
 			<div class="flex-1 space-y-5">
-				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white card-shadow">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 					<h2 class="text-lg font-semibold mb-2">Featured Game</h2>
 					<img src="https://placehold.co/600x120/D9C5B2/1A4D4F?text=None" alt="Epic Quest" class="w-full border border-[#EFE6E2] rounded-lg mb-2" loading="lazy">
 					<div class="flex items-center justify-between">
@@ -95,7 +95,7 @@
 					</div>
 				</div>
 
-				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white card-shadow">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 					<h2 class="text-lg font-semibold mb-2">Newest Users</h2>
 					<div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
 						{#each newestUsers as user}
@@ -105,12 +105,12 @@
 							</div>
 						{/each}
 					</div>
-					<a href="#" class="text-xs text-primary hover:underline mt-2 inline-block">View all members →</a>
+					<a href="/users" class="text-xs text-primary hover:underline mt-2 inline-block">View all members →</a>
 				</div>
 			</div>
 
 			<aside class="md:w-60 flex-shrink-0">
-				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white card-shadow">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 					<h2 class="text-lg font-semibold mb-3">Login</h2>
 					<form onsubmit={login}>
 						{#if error}
@@ -128,14 +128,14 @@
 							{#if loading}
 								Logging in...
 							{:else}
-								Login
+								<LogIn strokeWidth="3" class="size-3.5 inline mb-0.5" /> Login
 							{/if}
 						</button>
-						<a href="#" class="text-xs text-primary hover:underline">Forgot password?</a>
+						<a href="/user/forgot-password" class="text-xs text-primary hover:underline">Forgot password?</a>
 					</form>
 					<hr class="my-3 border-[#EFE6E2]">
 					<p class="text-sm text-gray-700 mb-2">New to Fabli?</p>
-					<a href="/user/register" class="btn-secondary w-full py-1 text-sm text-center block">Create Account</a>
+					<a href="/user/register" class="btn-secondary w-full py-1 text-sm text-center block"><UserPlus strokeWidth="3" class="size-3.5 inline mb-0.5" /> Create Account</a>
 				</div>
 			</aside>
 		</div>

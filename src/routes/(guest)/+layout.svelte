@@ -18,7 +18,7 @@
             </a> -->
 			<a href="/" class="inline-flex items-baseline font-bold text-gray-900 text-base tracking-tight whitespace-nowrap select-none">
 				<img class="inline-block !h-[32px]" src="/logo_full.png"> 
-				<span class="text-sm font-medium text-[#A2574F] ml-1">alpha</span>
+				<span class="text-sm font-bold text-[#A2574F] ml-1">alpha</span>
 			</a>
 
             <div class="flex items-center gap-4 flex-wrap text-sm text-gray-600 font-medium">
