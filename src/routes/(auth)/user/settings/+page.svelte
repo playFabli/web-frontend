@@ -207,22 +207,22 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Account Settings</h1>
 		{#if settingsError}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 				{settingsError}
 			</div>
 		{/if}
 		{#if success}
-			<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+			<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
 				{success}
 			</div>
 		{/if}
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<div class="md:col-span-2 space-y-2">
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Profile</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Profile</h2>
 					<div class="mb-3">
 						<label class="form-label" for="description">Profile Description</label>
 						<textarea
@@ -241,8 +241,8 @@
 					</button>
 				</div>
 
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Account</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Account</h2>
 					<div class="mb-3">
 						<label class="form-label" for="email">Email</label>
 						<input type="email" id="email" class="form-input" bind:value={email} />
@@ -256,8 +256,8 @@
 					</button>
 				</div>
 
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Password</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Password</h2>
 					<div class="mb-3">
 						<label class="form-label" for="current-password">Current Password</label>
 						<input
@@ -287,8 +287,8 @@
 					</button>
 				</div>
 
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Change Username</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Change Username</h2>
 					<p class="text-xs text-gray-600 mb-2">
 						Changing your username costs <span class="font-bold text-primary"
 							>500 <svg
@@ -344,15 +344,15 @@
 			</div>
 
 			<div class="md:col-span-1">
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Privacy</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Privacy</h2>
 					<div class="setting-group">
 						<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none group">
 						<div class="relative flex items-center justify-center">
 							<input 
 							bind:checked={profileVisible}
 							type="checkbox" 
-							class="peer appearance-none w-4 h-4 rounded-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
+							class="peer appearance-none w-4 h-4 rounded-lg-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
 							/>
 						
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="absolute w-3 h-3 text-white pointer-events-none opacity-0 scale-50 peer-checked:opacity-100 peer-checked:scale-100 transition-all duration-150 ease-out"><path d="M20 6 9 17l-5-5"/></svg>
@@ -370,7 +370,7 @@
 							<input 
 							bind:checked={showLastOnlineTime}
 							type="checkbox" 
-							class="peer appearance-none w-4 h-4 rounded-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
+							class="peer appearance-none w-4 h-4 rounded-lg-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
 							/>
 						
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="absolute w-3 h-3 text-white pointer-events-none opacity-0 scale-50 peer-checked:opacity-100 peer-checked:scale-100 transition-all duration-150 ease-out"><path d="M20 6 9 17l-5-5"/></svg>
@@ -403,7 +403,7 @@
 							<input 
 							bind:checked={showRAP}
 							type="checkbox" 
-							class="peer appearance-none w-4 h-4 rounded-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
+							class="peer appearance-none w-4 h-4 rounded-lg-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
 							/>
 						
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="absolute w-3 h-3 text-white pointer-events-none opacity-0 scale-50 peer-checked:opacity-100 peer-checked:scale-100 transition-all duration-150 ease-out"><path d="M20 6 9 17l-5-5"/></svg>

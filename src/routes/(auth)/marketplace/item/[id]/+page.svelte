@@ -2,6 +2,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { config } from '$lib/config.js';
 	import { timeSince } from '$lib/timeAgo';
+	import { Flag, Loader, Send, Share, ShoppingCart, X } from 'lucide-svelte';
 	import { onMount, onDestroy } from 'svelte';
 
 	let { data } = $props();
@@ -431,7 +432,7 @@
 			</div>
 			<div class="modal-body">
 				{#if buyError}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{buyError}
 					</div>
 				{/if}
@@ -458,10 +459,10 @@
 				</p>
 			</div>
 			<div class="modal-footer">
-				<button onclick={() => (buyModalOpen = false)} class="btn-secondary px-4 py-1.5 text-sm"
+				<button onclick={() => (buyModalOpen = false)} class="btn-secondary px-4 py-1 text-sm"
 					>Cancel</button
 				>
-				<button disabled={buyLoading} onclick={buy} class="btn-glossy px-4 py-1.5 text-sm">
+				<button disabled={buyLoading} onclick={buy} class="btn-glossy px-4 py-1 text-sm">
 					{#if buyLoading}
 						Buying...
 					{:else}
@@ -483,7 +484,7 @@
 			</div>
 			<div class="modal-body">
 				{#if saleError}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{saleError}
 					</div>
 				{/if}
@@ -499,10 +500,10 @@
 				<input bind:value={salePrice} type="number" class="form-input" placeholder="Price">
 			</div>
 			<div class="modal-footer">
-				<button onclick={() => (saleModalOpen = false)} class="btn-secondary px-4 py-1.5 text-sm"
+				<button onclick={() => (saleModalOpen = false)} class="btn-secondary px-4 py-1 text-sm"
 					>Cancel</button
 				>
-				<button onclick={sell} class="btn-glossy px-4 py-1.5 text-sm">
+				<button onclick={sell} class="btn-glossy px-4 py-1 text-sm">
 					{#if saleLoading}
 						Creating...
 					{:else}
@@ -539,7 +540,7 @@
 			</div>
 			<div class="modal-body">
 				{#if privateBuyError}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{privateBuyError}
 					</div>
 				{/if}
@@ -566,10 +567,10 @@
 				</p>
 			</div>
 			<div class="modal-footer">
-				<button onclick={() => (privateBuyModalOpen = false)} class="btn-secondary px-4 py-1.5 text-sm"
+				<button onclick={() => (privateBuyModalOpen = false)} class="btn-secondary px-4 py-1 text-sm"
 					>Cancel</button
 				>
-				<button disabled={privateBuyLoading} onclick={buyFromPrivate} class="btn-glossy px-4 py-1.5 text-sm">
+				<button disabled={privateBuyLoading} onclick={buyFromPrivate} class="btn-glossy px-4 py-1 text-sm">
 					{#if privateBuyLoading}
 						Buying...
 					{:else}
@@ -597,18 +598,18 @@
 
 {#if resultModalOpen}
 	<div id="resultModalOverlay" class="modal-overlay" onclick={() => (resultModalOpen = false)}>
-		<div class="result-modal rounded border-gray-200 border" onclick={(e) => e.stopPropagation()}>
-			<div class="p-3 text-center">
+		<div class="result-modal rounded-lg border-[#EFE6E2] border" onclick={(e) => e.stopPropagation()}>
+			<div class="p-4 text-center">
 				<h2 class="text-lg font-semibold mb-4">You won!</h2>
 				
 				{#if openError}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{openError}
 					</div>
 				{/if}
 				
 				{#if openedItem}
-					<div class="flex flex-col items-center gap-3 mb-6">
+					<div class="flex flex-col items-center gap-4 mb-6">
 						<img
 							src="{config.storage}/items/{openedItem.item.id}.png"
 							alt="{openedItem.item.title}"
@@ -633,7 +634,7 @@
 {/if}
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/marketplace" class="hover:text-primary">Marketplace</a> ›
 			<span class="text-gray-700">{data.item.title}</span>
@@ -641,14 +642,14 @@
 
 		{#if data.item.moderation_status === 'pending'}
 			<div class="max-w-md mx-auto text-center py-12">
-				<div class="border border-yellow-200 bg-yellow-50 rounded p-6">
+				<div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
 					<h2 class="text-lg font-semibold text-yellow-800 mb-2">Pending Approval</h2>
 					<p class="text-sm text-yellow-700">This item is currently pending review by our moderation team. It will be visible once approved.</p>
 				</div>
 			</div>
 		{:else if data.item.moderation_status === 'unapproved'}
 			<div class="max-w-md mx-auto text-center py-12">
-				<div class="border border-red-200 bg-red-50 rounded p-6">
+				<div class="border border-red-200 bg-red-50 rounded-lg p-4">
 					<h2 class="text-lg font-semibold text-red-800 mb-2">Denied</h2>
 					<p class="text-sm text-red-700">This item has been denied by our moderation team and is not available.</p>
 				</div>
@@ -657,7 +658,7 @@
 
 		<div class="item-detail-container">
 			<div class="flex-shrink-0">
-				<div class="border border-gray-200 rounded p-2 bg-gray-50/30 inline-block">
+				<div class="border border-[#EFE6E2] rounded-lg p-2 bg-gray-50/30 inline-block">
 				{#if data.item.moderation_status == "approved"}
 					<img
 						src={`${config.storage}/items/${data.item.id}.png`}
@@ -762,9 +763,9 @@
 							class="btn-glossy px-4 py-1 text-sm"
 						>
 							{#if data.item.is_limited && data.item.stock_left == 0}
-								Sold Out
+								<X strokeWidth="3" class="inline mb-1 size-3.5"/> Sold Out
 							{:else}
-								Buy Now
+								<ShoppingCart strokeWidth="3" class="inline mb-1 size-3.5"/> Buy Now
 							{/if}
 						</button>
 					{/if}
@@ -776,42 +777,44 @@
 					{/if}
 					<button
 						class="btn-secondary px-4 py-1 text-sm text-red-600 border-red-300 hover:bg-red-50"
-						>Report</button
+						>
+						<Flag strokeWidth="3" class="inline mb-1 size-3.5"/>
+						Report</button
 					>
 				</div>
 			</div>
 		</div>
 		{#if data.item.category.title == 'Boxes' || data.item.is_limited}
-		<div class="mt-5 border border-gray-200 rounded">
-			<div class="flex border-b border-gray-200">
+		<div class="mt-5 border border-[#EFE6E2] rounded-lg">
+			<div class="flex border-b border-[#EFE6E2]">
 				{#if data.item.category.title == 'Boxes'}
 					<button
 						onclick={() => (tabActive = 0)}
-						class="btn-secondary px-4 py-2 !text-sm !rounded-none !border-0"
+						class="btn-secondary px-4 py-2 !text-sm !rounded-lg-none !border-0"
 						class:active={tabActive === 0}>Contents</button
 					>
 				{/if}
 				{#if data.item.is_limited && data.item.stock_left <= 0}
 					<button
 						onclick={() => (tabActive = 1)}
-						class="btn-secondary active-tab px-4 py-2 !text-sm rounded-none !border-0 !border-r !border-gray-200"
+						class="btn-secondary active-tab px-4 py-2 !text-sm rounded-lg-none !border-0 !border-r !border-[#EFE6E2]"
 						>Owners ({data.item.sold_count})</button
 					>
 					{#await sellersPromise}
 					<button
 						onclick={() => (tabActive = 2)}
-						class="btn-secondary px-4 py-2 !text-sm !rounded-none !border-0">Sellers (...)</button
+						class="btn-secondary px-4 py-2 !text-sm !rounded-lg-none !border-0">Sellers (...)</button
 					>
 					{:then sellers}
 					<button
 						onclick={() => (tabActive = 2)}
-						class="btn-secondary px-4 py-2 !text-sm !rounded-none !border-0">Sellers ({sellers.total})</button
+						class="btn-secondary px-4 py-2 !text-sm !rounded-lg-none !border-0">Sellers ({sellers.total})</button
 					>
 					{/await}
 					{#if owns}
 					<button
 						onclick={() => (saleModalOpen = true)}
-						class="btn-secondary px-4 py-2 !text-sm !rounded-none !border-0">Put up for sale</button
+						class="btn-secondary px-4 py-2 !text-sm !rounded-lg-none !border-0">Put up for sale</button
 					>
 					{/if}
 				{/if}
@@ -836,7 +839,7 @@
 										<img
 											src={`${config.storage}/items/${caseContent.item.id}.png`}
 											alt="Retro Cap"
-											class="w-7 h-7 rounded border border-gray-200"
+											class="w-7 h-7 rounded-lg border border-[#EFE6E2]"
 										/>
 										<span class="text-sm font-medium text-gray-900">{caseContent.item.title}</span>
 									</div>
@@ -868,15 +871,15 @@
 							{/each}
 						{/await}
 					</ul>
-					<div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 						{#await ownersPromise}
 							<div class="flex items-center gap-2">
 								<button
-									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 									disabled>Prev</button
 								>
 								<button
-									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 									>Next</button
 								>
 							</div>
@@ -885,25 +888,25 @@
 							<div class="flex items-center gap-2">
 								{#if owners.prev_page_url === null}
 									<button
-										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 										disabled>Prev</button
 									>
 								{:else}
 									<button
 										onclick={() => (ownersPromise = fetchOwners(owners.current_page - 1))}
-										class="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 										>Prev</button
 									>
 								{/if}
 								{#if owners.next_page_url === null}
 									<button
-										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 										disabled>Next</button
 									>
 								{:else}
 									<button
 										onclick={() => (ownersPromise = fetchOwners(owners.current_page + 1))}
-										class="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 										>Next</button
 									>
 								{/if}
@@ -938,7 +941,7 @@
 											>{seller.user.username} (#{seller.inventory.serial})</a
 										>
 									</div>
-								<div class="flex items-center gap-3">
+								<div class="flex items-center gap-4">
 									<span class="text-sm font-semibold text-primary"
 										><svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -970,36 +973,36 @@
 					<div class="flex items-center gap-2">
 						{#await sellersPromise}
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 							disabled>Prev</button
 						>
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 							>Next</button
 						>
 						{:then sellers}
 						{#if sellers.prev_page_url === null}
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 							disabled>Prev</button
 						>
 						{:else}
 						<button
 							onclick={() => (sellersPromise = fetchSellers(sellers.current_page - 1))}
-							class="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 						>Prev</button
 						>
 						{/if}
 						{#if sellers.next_page_url === null}
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 							disabled
 							>Next</button
 						>
 						{:else}
 						<button
 							onclick={() => (sellersPromise = fetchSellers(sellers.current_page + 1))}
-							class="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
 							>Next</button
 						>
 						{/if}
@@ -1010,34 +1013,31 @@
 		</div>
 		{/if}
 
-		<div class="mt-6 border border-gray-200 rounded p-4">
-			<h2 class="text-lg font-semibold text-accent mb-3">Comments ({data.item.comment_count})</h2>
-
-			<div class="border border-gray-200 rounded p-3 mb-4 bg-gray-50/30">
-				{#if error}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-						{error}
-					</div>
-				{/if}
-				<textarea
-					bind:value={content}
-					rows="3"
-					placeholder="Write a comment..."
-					class="w-full border border-gray-300 rounded px-3 py-2 text-sm resize-none"></textarea>
-				<div class="flex justify-end mt-2">
-					<button onclick={comment} disabled={loading} class="btn-secondary px-4 py-1.5 text-sm">
-						{#if loading}
-							Posting...
-						{:else}
-							Post Comment
-						{/if}
-					</button>
+		<div class="mt-6 border border-[#EFE6E2] rounded-lg p-4">
+			<h2 class="text-lg font-semibold mb-3">Comments ({data.item.comment_count})</h2>
+			{#if error}
+				<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					{error}
 				</div>
+			{/if}
+			<textarea
+				bind:value={content}
+				rows="3"
+				placeholder="Write a comment..."
+				class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none"></textarea>
+			<div class="flex justify-end mt-2">
+				<button onclick={comment} disabled={loading} class="btn-secondary px-4 py-1 text-sm">
+					{#if loading}
+						<Loader strokeWidth="3" class="size-3.5 inline mb-0.5"/> Posting...
+					{:else}
+						<Send strokeWidth="3" class="size-3.5 inline mb-0.5"/> Post
+					{/if}
+				</button>
 			</div>
 
 			<div class="space-y-0">
 				{#each comments as comment}
-					<div class="comment flex gap-3 items-start">
+					<div class="comment flex gap-4 items-start">
 						<img src={config.avatarStorage + "/" + comment.user.id + ".png"} alt="avatar" class="rounded-full w-18 h-18 mt-0.5" />
 						<div class="flex-1">
 							<div class="flex items-center gap-2 mb-0.5">

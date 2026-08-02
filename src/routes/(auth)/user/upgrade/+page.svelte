@@ -88,13 +88,13 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Buy Currency</h1>
 
 		<!-- Currency Packs Section -->
 		<div class="mb-6">
-			<h2 class="text-lg font-semibold text-accent mb-3">Coin Packs</h2>
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+			<h2 class="text-lg font-semibold mb-3">Coin Packs</h2>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{#each currencyPacks as pack}
 					<div class="currency-pack {pack.bestValue ? 'best-value' : ''}">
 						{#if pack.bestValue}
@@ -121,8 +121,8 @@
 
 		<!-- Pro Membership Section -->
 		<!-- <div>
-			<h2 class="text-lg font-semibold text-accent mb-3">pro Membership</h2>
-			<div class="border border-gray-200 rounded p-4 bg-white flex flex-col lg:flex-row gap-4">
+			<h2 class="text-lg font-semibold mb-3">pro Membership</h2>
+			<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white flex flex-col lg:flex-row gap-4">
 				<div class="flex-1">
 					<div class="flex items-center gap-2 mb-3">
 						<span class="text-xl font-bold text-gray-900">pro</span>
@@ -138,7 +138,7 @@
 						<div class="pro-benefit">And more!</div>
 					</div>
 				</div>
-				<div class="lg:w-48 flex flex-col items-center justify-center border-t lg:border-t-0 lg:border-l border-gray-200 pt-4 lg:pt-0 lg:pl-4">
+				<div class="lg:w-48 flex flex-col items-center justify-center border-t lg:border-t-0 lg:border-l border-[#EFE6E2] pt-4 lg:pt-0 lg:pl-4">
 					<p class="text-lg font-bold text-gray-900 mb-1">$8.99<span class="text-sm font-normal text-gray-500">/mo</span></p>
 					<p class="text-xs text-gray-600 mb-3">Cancel anytime</p>
 					<button class="btn-glossy w-full py-2 text-sm">Subscribe Now</button>

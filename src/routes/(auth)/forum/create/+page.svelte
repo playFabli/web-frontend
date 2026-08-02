@@ -43,7 +43,7 @@
 	}
 </script>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/forum" class="hover:text-primary">Forums</a> ›
 			<span class="text-gray-700">New Thread</span>
@@ -52,9 +52,9 @@
 		<div class="max-w-2xl mx-auto">
 			<h1 class="text-xl font-bold text-gray-900 mb-5">Create New Thread</h1>
 
-			<div class="border border-gray-200 rounded p-5 bg-white">
+			<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white">
 				{#if error}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{error}
 					</div>
 				{/if}

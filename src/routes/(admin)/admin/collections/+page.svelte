@@ -159,7 +159,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<span class="text-gray-700">Collections</span>
@@ -172,18 +172,18 @@
 
 		{#await collectionsPromise then collections}
 			{#if collections.length === 0}
-				<div class="border border-gray-200 rounded p-8 text-center">
+				<div class="border border-[#EFE6E2] rounded-lg p-8 text-center">
 					<p class="text-gray-500">No collections yet. Create one to get started.</p>
 				</div>
 			{:else}
 				<div class="space-y-4">
 					{#each collections as collection}
-						<div class="border border-gray-200 rounded p-4 bg-white">
+						<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 							<div class="flex items-center justify-between mb-2">
 								<div class="flex-1">
 									<h3 class="text-base font-semibold text-gray-900">{collection.name}</h3>
 									<p class="text-sm text-gray-500">{collection.description || 'No description'}</p>
-									<div class="mt-1 flex flex-wrap gap-3 text-xs text-gray-600">
+									<div class="mt-1 flex flex-wrap gap-4 text-xs text-gray-600">
 										<span><strong>Forum Tag:</strong> {collection.forum_tag?.name || 'None'}</span>
 										<span><strong>Reward:</strong> {collection.coin_reward} coins / {collection.xp_reward} XP</span>
 									</div>
@@ -213,7 +213,7 @@
 		</div>
 		<div class="modal-body">
 			{#if createError}
-				<div class="mb-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{createError}</div>
+				<div class="mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{createError}</div>
 			{/if}
 			<div class="mb-3">
 				<label class="form-label" for="createName">Name</label>

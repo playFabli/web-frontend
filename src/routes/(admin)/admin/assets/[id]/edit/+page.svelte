@@ -215,7 +215,7 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<a href="/admin/assets" class="hover:text-primary">Assets</a> ›
@@ -228,16 +228,16 @@
 		</div>
 
 		{#if error}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 		{/if}
 		{#if success}
-			<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
+			<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
 		{/if}
 
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<div class="md:col-span-1">
-				<div class="border border-gray-200 rounded p-4 bg-white text-center">
-					<img src={config.storage + "/items/" + data.item.id + ".png"} alt={data.item.title} class="w-full border border-gray-300 rounded" loading="lazy">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
+					<img src={config.storage + "/items/" + data.item.id + ".png"} alt={data.item.title} class="w-full border border-gray-300 rounded-lg" loading="lazy">
 					<p class="text-sm text-gray-600 mt-2">Creator: {data.item.user?.username || 'N/A'}</p>
 					{#if data.item.category.title === "Shirts" || data.item.category.title === "Pants"}
 						<button onclick={requestTemplate} class="btn-secondary px-4 py-1 text-sm mt-3 w-full">
@@ -252,20 +252,20 @@
 
 			{#if templateImageUrl}
 				<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onclick={() => { templateImageUrl = ''; }}>
-					<div class="bg-white rounded-lg p-4 max-w-lg w-full mx-4" onclick={(e) => e.stopPropagation()}>
+					<div class="bg-white rounded-lg-lg p-4 max-w-lg w-full mx-4" onclick={(e) => e.stopPropagation()}>
 						<div class="flex items-center justify-between mb-3">
 							<h3 class="text-lg font-semibold text-gray-900">Texture Template</h3>
 							<button onclick={() => { templateImageUrl = ''; }} class="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
 						</div>
-						<img src={templateImageUrl} alt="Texture template" class="w-full border border-gray-300 rounded">
+						<img src={templateImageUrl} alt="Texture template" class="w-full border border-gray-300 rounded-lg">
 					</div>
 				</div>
 			{/if}
 
 			<div class="md:col-span-2 space-y-4">
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Basic Information</h2>
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Basic Information</h2>
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="name">Name</label>
 							<input bind:value={title} type="text" id="name" class="form-input">
@@ -310,19 +310,19 @@
 						</div>
 						<div>
 							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
-								<input type="checkbox" bind:checked={isLimited} class="w-4 h-4 rounded border-gray-300 text-primary">
+								<input type="checkbox" bind:checked={isLimited} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
 								<span class="font-medium text-gray-700">Limited</span>
 							</label>
 						</div>
 						<div>
 							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
-								<input type="checkbox" bind:checked={isOffsale} class="w-4 h-4 rounded border-gray-300 text-primary">
+								<input type="checkbox" bind:checked={isOffsale} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
 								<span class="font-medium text-gray-700">Offsale</span>
 							</label>
 						</div>
 						<div>
 							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
-								<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded border-gray-300 text-primary">
+								<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
 								<span class="font-medium text-gray-700">Timed (auto offsale)</span>
 							</label>
 						</div>
@@ -347,7 +347,7 @@
 				</div>
 
 				{#if categoryId && (data.item.category.title === 'Profile Themes' || data.item.category.title === 'Avatar Frames')}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="stylesheet">Stylesheet (.css)</label>
 						<input onchange={handleStylesheetSelect} type="file" id="stylesheet" class="form-input" accept=".css">
@@ -357,8 +357,8 @@
 			{/if}
 
 				{#if data.collections && data.collections.length > 0}
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Collection Assignment</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Collection Assignment</h2>
 					<div class="mb-3">
 						<label class="form-label" for="collection">Collection</label>
 						<select bind:value={collectionId} id="collection" class="form-input">
@@ -372,15 +372,15 @@
 				</div>
 				{/if}
 
-				<div class="flex justify-end gap-3">
+				<div class="flex justify-end gap-4">
 					<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">Back</a>
 					<button onclick={saveAsset} disabled={loading} class="btn-glossy px-4 py-1 text-sm">
 						{#if loading}Saving...{:else}Save Changes{/if}
 					</button>
 				</div>
 				{#if page.data.globalUser.role == "admin"}
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-2">Grant Item to User</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-2">Grant Item to User</h2>
 					<p class="text-sm text-gray-600 mb-3">Give this item to a user by ID.</p>
 					<div class="flex gap-2">
 						<input bind:value={grantUserId} type="number" placeholder="User ID" class="form-input" min="1">

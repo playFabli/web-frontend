@@ -4,8 +4,8 @@
 
 <main class="py-10">
 	<div class="max-w-3xl mx-auto px-4">
-		<div class="bg-white border border-gray-200 rounded">
-			<div class="p-6 sm:p-8">
+		<div class="bg-white border border-[#EFE6E2] rounded-lg">
+			<div class="p-4 sm:p-8">
 				<h1 class="text-2xl font-bold text-gray-900 mb-6">Terms of Service</h1>
 
 				<div class="prose prose-gray max-w-none text-sm text-gray-700 leading-relaxed space-y-6">

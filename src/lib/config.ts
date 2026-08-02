@@ -1,4 +1,4 @@
-const isProduction = true;
+const isProduction = false;
 export const config = {
 	api: isProduction ? "https://backend.playfabli.com/api" : "http://127.0.0.1:8000/api",
 	avatarStorage: isProduction ? "https://backend.playfabli.com/storage/avatars" : "http://127.0.0.1:8000/storage/avatars",

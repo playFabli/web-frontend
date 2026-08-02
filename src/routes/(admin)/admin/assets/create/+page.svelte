@@ -145,7 +145,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<a href="/admin/assets" class="hover:text-primary">Assets</a> ›
@@ -154,18 +154,18 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Create Asset</h1>
-			<a href="/admin/assets" class="btn-secondary px-4 py-1.5 text-sm">← Back to Assets</a>
+			<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">← Back to Assets</a>
 		</div>
 
 		{#if error}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 		{/if}
 		{#if success}
-			<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
+			<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
 		{/if}
 
-		<div class="border border-gray-200 rounded p-4 bg-white card-shadow space-y-4">
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white card-shadow space-y-4">
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<div>
 					<label class="form-label" for="name">Name</label>
 					<input bind:value={title} type="text" id="name" class="form-input" placeholder="Asset name">
@@ -211,19 +211,19 @@
 				</div>
 				<div>
 					<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
-						<input type="checkbox" bind:checked={isLimited} class="w-4 h-4 rounded border-gray-300 text-primary">
+						<input type="checkbox" bind:checked={isLimited} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
 						<span class="font-medium text-gray-700">Limited</span>
 					</label>
 				</div>
 				<div>
 					<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
-						<input type="checkbox" bind:checked={isOffsale} class="w-4 h-4 rounded border-gray-300 text-primary">
+						<input type="checkbox" bind:checked={isOffsale} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
 						<span class="font-medium text-gray-700">Offsale</span>
 					</label>
 				</div>
 				<div>
 					<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
-						<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded border-gray-300 text-primary">
+						<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
 						<span class="font-medium text-gray-700">Timed (auto offsale)</span>
 					</label>
 				</div>
@@ -247,7 +247,7 @@
 			</div>
 
 			{#if data.collections && data.collections.length > 0}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="collection">Collection</label>
 						<select bind:value={collectionId} id="collection" class="form-input">
@@ -262,7 +262,7 @@
 			{/if}
 
 			{#if selectedCategory && selectedCategory.has_model}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="itemModel">3D Model (.obj)</label>
 						<input onchange={handleModelSelect} type="file" id="itemModel" class="form-input" accept=".obj">
@@ -272,7 +272,7 @@
 			{/if}
 
 			{#if selectedCategory && (selectedCategory.has_model || selectedCategory.has_texture)}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="itemTexture">Texture</label>
 						<input onchange={handleTextureSelect} type="file" id="itemTexture" class="form-input" accept="image/png,image/jpg,image/jpeg,image/gif,image/svg+xml">
@@ -282,7 +282,7 @@
 			{/if}
 
 			{#if selectedCategory && !selectedCategory.needs_rendering}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="displayImage">Display Image</label>
 						<input onchange={handleDisplayImageSelect} type="file" id="displayImage" class="form-input" accept="image/png,image/jpg,image/jpeg,image/gif,image/svg+xml">
@@ -293,7 +293,7 @@
 
 			<!-- Avatar Pose Definition (only for Avatar Poses) -->
 			{#if selectedCategory && selectedCategory.title === 'Avatar Poses'}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="definition">Pose Definition</label>
 						<textarea bind:value={definition} id="definition" rows="6" class="form-input font-mono text-xs" placeholder="Paste pose definition here..."></textarea>
@@ -304,7 +304,7 @@
 
 			<!-- Stylesheet Upload (only for Profile Themes or Avatar Frames) -->
 			{#if selectedCategory && (selectedCategory.title === 'Profile Themes' || selectedCategory.title === 'Avatar Frames')}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="stylesheet">Stylesheet (.css)</label>
 						<input onchange={handleStylesheetSelect} type="file" id="stylesheet" class="form-input" accept=".css">
@@ -315,7 +315,7 @@
 
 			<!-- Unboxing Video (only for Boxes) -->
 			{#if selectedCategory && selectedCategory.title === 'Boxes'}
-				<div class="border-t border-gray-200 pt-4 mt-4">
+				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
 						<label class="form-label" for="unboxingVideo">Unboxing Video (.webp)</label>
 						<input onchange={handleUnboxingVideoSelect} type="file" id="unboxingVideo" class="form-input" accept=".webp">
@@ -324,7 +324,7 @@
 				</div>
 			{/if}
 
-			<div class="flex justify-end gap-3 pt-2">
+			<div class="flex justify-end gap-4 pt-2">
 				<a href="/admin/assets" class="btn-secondary px-6 py-1 text-sm">Cancel</a>
 				<button onclick={createAsset} disabled={loading} class="btn-glossy px-6 py-1 text-sm">
 					{#if loading}Creating...{:else}Create Asset{/if}

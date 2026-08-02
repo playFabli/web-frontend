@@ -1,6 +1,8 @@
 <script>
+	import { page } from '$app/state';
 	import { config } from '$lib/config';
 	import { timeSince } from '$lib/timeAgo.js';
+	import { Search } from 'lucide-svelte';
 
 	let { data } = $props();
 	const token = data.token;
@@ -41,7 +43,7 @@
 	let threadsPromise = $state(fetchThreads(categoryId,1));
 
 	let query = $state("");
-	let selectedTagId = $state(data.selectedForumTag?.id || null);
+	let selectedTagId = $derived(page.data.globalUser.selected_forum_tag_id || null);
 
 	async function changeSelectedTag() {
 		try {
@@ -61,24 +63,24 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
-		<div class="flex flex-col items-start md:flex-row gap-6">
+	<div class="max-w-[70%] mx-auto px-4">
+		<div class="flex flex-col items-start md:flex-row gap-4">
 			<aside class="w-full md:w-44 flex-shrink-0">
-				<div class="border border-gray-200 rounded p-3 bg-gray-50/30">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
 					<h3 class="text-sm font-semibold text-gray-900 mb-3">Categories</h3>
 					<div class="space-y-1.5">
 						<a
 							onclick={() => selectCategory({ id: 0, name: 'All' })}
-							class="cursor-pointer block text-sm text-primary font-medium">All</a
+							class="cursor-pointer block text-sm text-primary font-bold">All</a
 						>
 						{#each data.categories as category}
 							<a
 								onclick={() => selectCategory(category)}
-								class="cursor-pointer block text-sm text-primary font-medium">{category.name}</a
+								class="cursor-pointer block text-sm text-primary font-bold">{category.name}</a
 							>
 						{/each}
 					</div>
-					<div class="mt-3 pt-3 border-t border-gray-200">
+					<div class="mt-3 pt-3 border-t border-[#EFE6E2]">
 						<a href="/forum/create" class="btn-glossy w-full text-center px-3 py-1 text-sm"
 							>+ New Thread</a
 						>
@@ -93,15 +95,17 @@
 					<input
 						type="text"
 						placeholder="Search threads..."
-						class="border border-gray-300 rounded px-2 py-1 text-sm w-40"
+						class="border border-gray-300 rounded-lg px-2 py-1 text-sm w-40"
 						bind:value={query}
 					/>
-					<button onclick={() => threadsPromise = fetchThreads(categoryId, 1, query)} class="btn-secondary px-3 py-1 text-sm">Search</button>
+					<button onclick={() => threadsPromise = fetchThreads(categoryId, 1, query)} class="btn-secondary px-3 py-1 text-sm">
+						<Search strokeWidth="3" class="size-3.5 mb-0.5 inline"/> Search
+					</button>
 					{#if data.forumTags && data.forumTags.length > 0}
 						<select
 							bind:value={selectedTagId}
 							onchange={changeSelectedTag}
-							class="border border-gray-300 rounded px-2 py-1 text-sm max-w-32"
+							class="border border-gray-300 rounded-lg px-2 py-1 text-sm max-w-32"
 							title="Forum tag"
 						>
 							<option value={null}>Tag: None</option>
@@ -114,7 +118,7 @@
 				</div>
 
 				<div
-					class="border border-gray-200 rounded p-3 mb-4 bg-white flex items-center justify-between"
+					class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white flex items-center justify-between"
 				>
 					<div>
 						<span class="text-xs text-gray-500"
@@ -122,16 +126,16 @@
 						>
 						<h2 class="text-sm font-semibold text-gray-900">Latest threads</h2>
 					</div>
-					<div class="flex items-center gap-2 text-xs text-gray-500">
+					<!-- <div class="flex items-center gap-2 text-xs text-gray-500">
 						<span>Sort by:</span>
-						<select class="border border-gray-300 rounded px-1 py-0.5 text-xs">
+						<select class="border border-gray-300 rounded-lg px-1 py-0.5 text-xs">
 							<option>Recent</option>
 							<option>Popular</option>
 						</select>
-					</div>
+					</div> -->
 				</div>
 
-				<div class="border border-gray-200 rounded overflow-hidden">
+				<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
 					<table class="forum-table">
 						<thead>
 							<tr>
@@ -163,7 +167,7 @@
 										{/if}
 										<td>
 											<div class="flex flex-col">
-												<a href="/forum/thread/{thread.id}" class="thread-title text-sm">{thread.title.length > 30 ? thread.title.slice(0, 30) + '...' : thread.title}</a>
+												<a href="/forum/thread/{thread.id}" class="text-sm">{thread.title.length > 30 ? thread.title.slice(0, 30) + '...' : thread.title}</a>
 												<span class="text-xs text-gray-500 mt-0.5"
 													>by <a href={`/user/profile/${thread.user.id}`} class="text-primary">{thread.user.username}</a> ·
 													<span class="category-tag">{thread.category.name}</span></span

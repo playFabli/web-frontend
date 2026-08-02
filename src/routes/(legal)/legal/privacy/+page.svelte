@@ -1,7 +1,7 @@
 <main class="py-10">
 	<div class="max-w-3xl mx-auto px-4">
-		<div class="bg-white border border-gray-200 rounded">
-			<div class="p-6 sm:p-8">
+		<div class="bg-white border border-[#EFE6E2] rounded-lg">
+			<div class="p-4 sm:p-8">
 				<h1 class="text-2xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
 				<p class="text-sm text-gray-500 mb-6">Effective Date: July 23, 2026</p>
 

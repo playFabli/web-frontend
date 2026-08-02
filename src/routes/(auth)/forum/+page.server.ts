@@ -32,12 +32,11 @@ export async function load({ cookies }) {
         const tagsJson = await tagsRes.json();
         forumTags = tagsJson.data || [];
         console.log(forumTags.length);
-        selectedForumTag = tagsJson.data?.selected || null;
     } else {
         console.log(await tagsRes.json);
     }
 
     return {
-        title: "Forum", token, categories, forumTags, selectedForumTag
+        title: "Forum", token, categories, forumTags
     };
 }

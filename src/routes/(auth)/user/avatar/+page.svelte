@@ -44,9 +44,9 @@
 	let { data } = $props();
 	
 	// State
-	let inventory = $state<InventoryItem[]>(data.inventory || []);
-	let wearing = $state<WornItem[]>(data.wearing || []);
-	let avatarColors = $state<AvatarColors>(data.avatarColors || {
+	let inventory = $derived(data.inventory.data || []);
+	let wearing = $derived<WornItem[]>(data.wearing || []);
+	let avatarColors = $derived<AvatarColors>(data.avatarColors || {
 		left_arm_color: '#D9C5B2',
 		right_arm_color: '#D9C5B2',
 		torso_color: '#D9C5B2',
@@ -59,7 +59,7 @@
 	let activeFilter = $state<string>('all');
 	let isLoading = $state<boolean>(false);
 	let currentPage = $state<number>(1);
-	let totalPages = $state<number>(1);
+	let totalPages = $derived<number>(data.inventory.last_page || 1);
 	
 	// Color state
 	let leftArmColor = $state<string>('#D9C5B2');
@@ -84,7 +84,7 @@
 	async function fetchInventory(filter: string = 'all', page: number = 1): Promise<void> {
 		isLoading = true;
 		try {
-			const res = await fetch(`${config.api}/user/inventory/me?category=${getFilterCategory(filter)}&page=${page}&limit=20&show_duplicates=0`, {
+			const res = await fetch(`${config.api}/user/inventory/me?category=${getFilterCategory(filter)}&page=${page}&limit=10&show_duplicates=0`, {
 				headers: {
 					'Authorization': `Bearer ${data.token}`,
 					'Content-Type': 'application/json',
@@ -280,9 +280,7 @@
 	.filter-tab {
 		background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
 		border: 1px solid #9ca3af;
-		border-radius: 4px;
 		color: #374151;
-		font-weight: 500;
 		cursor: pointer;
 		font-size: 0.8rem;
 		transition: all 0.15s ease;
@@ -296,7 +294,6 @@
 		background: #f3f4f6;
 		border-color: #6b7280;
 		color: #1f2937;
-		font-weight: 600;
 	}
 	.inventory-card {
 		background: white;
@@ -384,12 +381,12 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Customize Avatar</h1>
 
 		<div class="flex flex-col lg:flex-row gap-5">
 			<div class="lg:w-1/3">
-				<div class="border border-gray-200 rounded p-3 bg-white text-center">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
 					<div class="border border-gray-300 avatar-preview relative aspect-square w-full overflow-hidden">
 					
 					{#if !avatarLoading}
@@ -401,7 +398,7 @@
 					{/if}
 
 					</div>
-					<h2 class="text-sm font-semibold text-accent mt-2">Current Look</h2>
+					<h2 class="text-sm font-semibold mt-2">Current Look</h2>
 					<ul class="text-xs text-gray-600 mt-1 space-y-0.5 text-left list-disc list-inside">
 						{#if wearing.length === 0}
 							<li>No items equipped</li>
@@ -418,27 +415,28 @@
 			<!-- Right: Inventory & Colors -->
 			<div class="lg:w-2/3 space-y-4">
 				<!-- Inventory Section -->
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-sm font-semibold text-accent mb-3">Inventory</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-sm font-semibold mb-3">Inventory</h2>
 					<!-- Filter Tabs -->
-					<div class="flex flex-wrap gap-1 mb-3">
+					<div class="flex flex-wrap gap-1 mb-3 w-full">
 						<button 
-							class="filter-tab px-4 py-1" 
+							class="font-bold flex-1 rounded-lg filter-tab px-4 py-1 whitespace-nowrap" 
 							class:active={activeFilter === 'all'}
 							onclick={() => setFilter('all')}
 						>All</button>
 						{#if loadingCategories}
-							<span class="text-xs text-neutral-500 self-center">Loading categories...</span>
+							<span class="text-xs text-neutral-500 self-center flex-1 text-center">Loading categories...</span>
 						{:else}
 							{#each categories as cat}
 								<button 
-									class="filter-tab px-4 py-1" 
+									class="font-bold flex-1 rounded-lg filter-tab px-4 py-1 whitespace-nowrap" 
 									class:active={activeFilter === cat.title}
 									onclick={() => setFilter(cat.title)}
 								>{cat.title}</button>
 							{/each}
 						{/if}
 					</div>
+
 					<!-- Items Grid -->
 					<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2">
 						{#if isLoading}
@@ -504,9 +502,9 @@
 				</div>
 
 				<!-- Limb Colors Section -->
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-sm font-semibold text-accent mb-3">Limb Colors</h2>
-					<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-sm font-semibold mb-3">Limb Colors</h2>
+					<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
 						<div class="flex items-center gap-2">
 							<label class="text-xs font-medium w-20">Left Arm</label>
 							<input type="color" class="color-swatch" bind:value={leftArmColor}>

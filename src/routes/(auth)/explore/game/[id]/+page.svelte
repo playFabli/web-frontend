@@ -145,7 +145,7 @@
 	}
 </style>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		{#if !game}
 			<div class="text-center py-12">
 				<p class="text-gray-500">Game not found.</p>
@@ -160,8 +160,8 @@
 			<div class="flex flex-col lg:flex-row gap-5">
 				<!-- Left: Thumbnail & Play Button -->
 				<div class="lg:w-2/5">
-					<div class="border border-gray-200 rounded p-2 bg-white">
-						<img src={game.thumbnail_url || `https://placehold.co/600x340/D9C5B2/1A4D4F?text=${encodeURIComponent(game.title)}`} alt={game.title} class="w-full rounded" loading="lazy">
+					<div class="border border-[#EFE6E2] rounded-lg p-2 bg-white">
+						<img src={game.thumbnail_url || `https://placehold.co/600x340/D9C5B2/1A4D4F?text=${encodeURIComponent(game.title)}`} alt={game.title} class="w-full rounded-lg" loading="lazy">
 					</div>
 					<div class="mt-3 text-center">
 						<button onclick={()=>goto(`/explore/game/${game.id}/play`)} class="w-full play-btn">▶ Play Now</button>
@@ -170,7 +170,7 @@
 
 				<!-- Right: Info & Stats -->
 				<div class="lg:w-3/5">
-					<div class="border border-gray-200 rounded p-4 bg-white">
+					<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 						<h1 class="text-xl font-bold text-gray-900 mb-1">{game.title}</h1>
 						<p class="text-sm text-gray-600 mb-3">
 							By <a href={`/user/profile/${game.creator?.id}`} class="text-primary hover:underline font-medium">{game.creator?.username || 'Unknown'}</a>
@@ -181,7 +181,7 @@
 						</p>
 
 						<!-- Stats row -->
-						<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm mb-4">
+						<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm mb-4">
 							<div>
 								<span class="text-gray-500">Plays</span>
 								<p class="font-semibold text-gray-900">{formatPlays(game.plays_count)}</p>
@@ -208,14 +208,14 @@
 						<div class="border-t border-gray-100 pt-3">
 							<div class="flex items-center gap-2 mb-1">
 								<button 
-									class="px-3 py-1 text-xs flex items-center gap-1 rounded border transition-colors
+									class="px-3 py-1 text-xs flex items-center gap-1 rounded-lg border transition-colors
 										{userVote === 'like' ? 'bg-green-100 border-green-500 text-green-700' : 'btn-secondary'}" 
 									onclick={likeGame}
 								>
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-3 mb-1 inline"><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/><path d="M7 10v12"/></svg> <span>{game.likes_count}</span>
 								</button>
 								<button 
-									class="px-3 py-1 text-xs flex items-center gap-1 rounded border transition-colors
+									class="px-3 py-1 text-xs flex items-center gap-1 rounded-lg border transition-colors
 										{userVote === 'dislike' ? 'bg-red-100 border-red-500 text-red-700' : 'btn-secondary'}" 
 									onclick={dislikeGame}
 								>
@@ -234,24 +234,22 @@
 			</div>
 
 			<!-- Comments Section -->
-			<div class="mt-5 border border-gray-200 rounded p-4 bg-white">
-				<h2 class="text-lg font-semibold text-accent mb-3">Comments ({game.comments?.length || 0})</h2>
+			<div class="mt-5 border border-[#EFE6E2] rounded-lg p-4 bg-white">
+				<h2 class="text-lg font-semibold mb-3">Comments ({game.comments?.length || 0})</h2>
 
 				<!-- Comment Form -->
-				<div class="border border-gray-200 rounded p-3 mb-4 bg-gray-50/30">
-					<textarea rows="3" placeholder="Write a comment..." bind:value={commentContent} class="form-input w-full border border-gray-300 rounded px-3 py-2 text-sm resize-none"></textarea>
-					<div class="flex justify-end mt-2">
-						<button class="btn-secondary px-4 py-1.5 text-sm" onclick={postComment} disabled={submittingComment}>
-							{submittingComment ? 'Posting...' : 'Post Comment'}
-						</button>
-					</div>
+				<textarea rows="3" placeholder="Write a comment..." bind:value={commentContent} class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none"></textarea>
+				<div class="flex justify-end mt-2">
+					<button class="btn-secondary px-4 py-1 text-sm" onclick={postComment} disabled={submittingComment}>
+						{submittingComment ? 'Posting...' : 'Post Comment'}
+					</button>
 				</div>
 
 				<!-- Existing Comments -->
 				<div class="space-y-0">
 					{#if game.comments && game.comments.length > 0}
 						{#each game.comments as comment}
-							<div class="comment flex gap-3">
+							<div class="comment flex gap-4">
 								<img src={`${config.avatarStorage}/${comment.user.id}.png`} alt="avatar" class="w-18 h-18 mt-0.5">
 								<div>
 									<div class="flex items-center gap-2 mb-0.5">

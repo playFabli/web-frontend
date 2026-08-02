@@ -123,26 +123,26 @@
 	}
 </style>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<!-- Search and Title -->
-		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 			<h1 class="text-xl font-bold text-gray-900">Discover Games</h1>
 			<div class="flex gap-2 w-full sm:w-auto">
-				<input type="text" placeholder="Search games..." bind:value={searchQuery} oninput={onFilterChange} class="border border-gray-300 rounded px-3 py-1.5 text-sm flex-1 sm:w-48">
+				<input type="text" placeholder="Search games..." bind:value={searchQuery} oninput={onFilterChange} class="border border-gray-300 rounded-lg px-3 py-1 text-sm flex-1 sm:w-48">
 			</div>
 		</div>
 
-		<div class="flex flex-col md:flex-row gap-6">
+		<div class="flex flex-col md:flex-row gap-4">
 			<!-- Sidebar Filters -->
 			<aside class="w-full md:w-44 flex-shrink-0">
 				<!-- <a href="/explore/game/create" class="btn-glossy px-4 py-1 mb-3 w-full">Create</a> -->
-				<div class="border border-gray-200 rounded p-3 bg-gray-50/30">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
 					<h3 class="text-sm font-semibold text-gray-900 mb-3">Filters</h3>
 
 					<!-- Sort Filter -->
 					<div class="filter-section">
 						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Sort By</h4>
-						<select bind:value={selectedSort} onchange={onFilterChange} class="w-full border border-gray-300 rounded px-2 py-1 text-sm">
+						<select bind:value={selectedSort} onchange={onFilterChange} class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm">
 							<option value="popular">Most Popular</option>
 							<option value="newest">Newest</option>
 							<option value="rated">Highest Rated</option>
@@ -155,22 +155,22 @@
 						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Genre</h4>
 						<div class="space-y-1.5">
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-								<input type="radio" bind:group={selectedGenre} value="" checked onchange={onFilterChange} class="rounded border-gray-300 text-primary focus:ring-primary"> All
+								<input type="radio" bind:group={selectedGenre} value="" checked onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> All
 							</label>
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-								<input type="radio" bind:group={selectedGenre} value="adventure" onchange={onFilterChange} class="rounded border-gray-300 text-primary focus:ring-primary"> Adventure
+								<input type="radio" bind:group={selectedGenre} value="adventure" onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> Adventure
 							</label>
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-								<input type="radio" bind:group={selectedGenre} value="obby" onchange={onFilterChange} class="rounded border-gray-300 text-primary focus:ring-primary"> Obby
+								<input type="radio" bind:group={selectedGenre} value="obby" onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> Obby
 							</label>
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-								<input type="radio" bind:group={selectedGenre} value="tycoon" onchange={onFilterChange} class="rounded border-gray-300 text-primary focus:ring-primary"> Tycoon
+								<input type="radio" bind:group={selectedGenre} value="tycoon" onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> Tycoon
 							</label>
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-								<input type="radio" bind:group={selectedGenre} value="rpg" onchange={onFilterChange} class="rounded border-gray-300 text-primary focus:ring-primary"> RPG
+								<input type="radio" bind:group={selectedGenre} value="rpg" onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> RPG
 							</label>
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-								<input type="radio" bind:group={selectedGenre} value="showcase" onchange={onFilterChange} class="rounded border-gray-300 text-primary focus:ring-primary"> Showcase
+								<input type="radio" bind:group={selectedGenre} value="showcase" onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> Showcase
 							</label>
 						</div>
 					</div>
@@ -188,7 +188,7 @@
 						<p class="text-red-500">{error}</p>
 					</div>
 				{:else}
-					<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+					<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
 						{#if games && games.length > 0}
 							{#each games as game}
 								<a href={`/explore/game/${game.id}`} class="game-card card-shadow">
@@ -211,7 +211,7 @@
 					</div>
 
 					<!-- Pagination -->
-					<div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-200">
+					<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
 						<span class="text-sm text-gray-600">Page {pagination.current_page} of {pagination.last_page}</span>
 						<div class="flex gap-1">
 							{#if pagination.prev_page_url}

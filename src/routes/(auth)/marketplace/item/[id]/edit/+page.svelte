@@ -69,7 +69,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/marketplace" class="hover:text-primary">Marketplace</a> ›
 			<a href="/marketplace/item/{data.item.id}" class="hover:text-primary">{data.item.title}</a> ›
@@ -82,31 +82,31 @@
 		</div>
 
 		{#if error}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 		{/if}
 		{#if success}
-			<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
+			<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
 		{/if}
 
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<div class="md:col-span-1">
 				{#if textureFile}
-					<div class="border border-gray-200 rounded p-4 bg-white text-center">
+					<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
 						<TexturePreview {textureFile} categoryId={categoryId} token={data.token} />
 						<p class="text-sm text-gray-600 mt-2">New Texture Preview</p>
 					</div>
 				{:else}
-					<div class="border border-gray-200 rounded p-4 bg-white text-center">
-						<img src={config.storage + "/items/" + data.item.id + ".png"} alt={data.item.title} class="w-full border border-gray-300 rounded" loading="lazy">
+					<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
+						<img src={config.storage + "/items/" + data.item.id + ".png"} alt={data.item.title} class="w-full border border-gray-300 rounded-lg" loading="lazy">
 						<p class="text-sm text-gray-600 mt-2">Current Render</p>
 					</div>
 				{/if}
 			</div>
 
 			<div class="md:col-span-2 space-y-4">
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Basic Information</h2>
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Basic Information</h2>
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="name">Name</label>
 							<input bind:value={title} type="text" id="name" class="form-input">
@@ -135,7 +135,7 @@
 					</div>
 				</div>
 
-				<div class="flex justify-end gap-3">
+				<div class="flex justify-end gap-4">
 					<a href="/marketplace/item/{data.item.id}" class="btn-secondary px-4 py-1 text-sm">Cancel</a>
 					<button onclick={saveItem} disabled={loading} class="btn-glossy px-4 py-1 text-sm">
 						{#if loading}Saving...{:else}Save Changes{/if}

@@ -92,19 +92,19 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<span class="text-gray-700">Forum Tags</span>
 		</div>
 
-		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 			<h1 class="text-xl font-bold text-gray-900">Manage Forum Tags</h1>
 			<button onclick={() => openModal()} class="text-sm btn-glossy px-4 py-1">Create Tag</button>
 		</div>
 
 		{#await tagsPromise then tags}
-			<div class="border border-gray-200 rounded overflow-hidden">
+			<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
 				<table class="forum-tags-table">
 					<thead>
 						<tr>
@@ -162,8 +162,8 @@
 		</div>
 
 		<div class="flex gap-2 justify-end mt-5">
-			<button onclick={closeModal} class="btn-secondary px-4 py-1.5 text-sm">Cancel</button>
-			<button onclick={saveTag} class="btn-glossy px-4 py-1.5 text-sm">Save</button>
+			<button onclick={closeModal} class="btn-secondary px-4 py-1 text-sm">Cancel</button>
+			<button onclick={saveTag} class="btn-glossy px-4 py-1 text-sm">Save</button>
 		</div>
 	</div>
 </div>

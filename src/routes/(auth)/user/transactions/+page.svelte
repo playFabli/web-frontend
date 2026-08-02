@@ -27,7 +27,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/user/homepage" class="hover:text-primary">Home</a> ›
 			<span class="text-gray-700">Transactions</span>
@@ -35,13 +35,13 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Transactions</h1>
-			<button onclick={refresh} disabled={loading} class="btn-secondary px-4 py-1.5 text-sm">
+			<button onclick={refresh} disabled={loading} class="btn-secondary px-4 py-1 text-sm">
 				{#if loading}Refreshing...{:else}Refresh{/if}
 			</button>
 		</div>
 
 		{#if error}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 		{/if}
 
 		{#if data.transactions}
@@ -70,15 +70,15 @@
 		</div>
 
 		{#if data.transactions.pending > 0}
-		<div class="border border-gray-200 rounded p-4 bg-white">
-			<h2 class="text-sm font-semibold text-accent mb-2">Pending Transactions</h2>
+		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+			<h2 class="text-sm font-semibold mb-2">Pending Transactions</h2>
 			<p class="text-sm text-gray-600">
 				You have {formatter.format(data.transactions.pending)} pending. Revenue from clothing and reselling is reviewed by an admin before it counts toward your total.
 			</p>
 		</div>
 		{/if}
 		{:else}
-		<div class="border border-gray-200 rounded p-6 bg-white">
+		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 			<p class="text-sm text-gray-600">Failed to load transactions.</p>
 		</div>
 		{/if}

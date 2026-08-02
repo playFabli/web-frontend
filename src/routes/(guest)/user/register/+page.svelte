@@ -179,22 +179,22 @@
 	};
 </script>
 <main class="py-8">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="register-container">
 			<div class="text-center mb-5">
 				<h1 class="text-2xl font-bold text-gray-900">Join Fabli</h1>
 				<p class="text-sm text-gray-600 mt-1">Create your account and start building today.</p>
 			</div>
 
-			<div class="border border-gray-200 rounded p-5 bg-white">
+			<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white">
 				<form onsubmit={handleSubmit}>
 					{#if error}
-						<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+						<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 							{error}
 						</div>
 					{/if}
 					{#if success}
-						<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+						<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
 							{success}
 						</div>
 					{/if}
@@ -215,7 +215,7 @@
 						<input type="password" id="confirm" class="form-input" placeholder="Re-enter password" bind:value={confirm} required>
 					</div>
 					<div class="mb-4 flex items-start gap-2">
-						<input type="checkbox" id="terms" class="mt-0.5 rounded border-gray-300 text-primary focus:ring-primary" required>
+						<input type="checkbox" id="terms" class="mt-0.5 rounded-lg border-gray-300 text-primary focus:ring-primary" required>
 						<label for="terms" class="text-xs text-gray-600 leading-tight">
 							I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>.
 						</label>

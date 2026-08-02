@@ -310,7 +310,7 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Your Inventory</h1>
 
 	<!-- Filter Tabs -->
@@ -330,7 +330,7 @@
 	</div>
 
 		<!-- Items Grid -->
-		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4.5">
 			{#if isLoading}
 				<p class="text-neutral-500 text-sm col-span-full">Loading...</p>
 			{:else if inventory.length === 0}
@@ -387,7 +387,7 @@
 					<img 
 						src="https://placehold.co/80x80/D9C5B2/1A4D4F" 
 						alt={finalItem?.title} 
-						class="w-20 h-20 mx-auto rounded border border-gray-200 mb-2"
+						class="w-20 h-20 mx-auto rounded-lg border border-[#EFE6E2] mb-2"
 					>
 					<p class="text-lg font-bold {rarityClass}">{finalItem?.title || '?'}</p>
 					<p class="text-xs text-gray-500">{finalItem?.rarity}</p>

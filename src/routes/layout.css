@@ -1,6 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
 
 @theme {
   --color-primary: #A2574F;
@@ -10,18 +10,23 @@
   --color-secondary-dark: #c7b3a0;
   --color-accent: #1A4D4F;
 
-  --font-sans: "Public Sans", system-ui, sans-serif;
+  --font-sans: "Fredoka", sans-serif;
 
   --max-width-container: 960px;
 }
 
 body {
   @apply bg-white font-sans text-gray-800 antialiased;
-  font-family: 'Public Sans', system-ui, sans-serif;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+}
+
+h1,h2,h3 {
+  font-family: "Quicksand", sans-serif !important;
 }
 
 .nav-link {
-  @apply text-gray-700 no-underline px-2 py-1 rounded transition-colors duration-150 text-sm whitespace-nowrap;
+  @apply text-gray-700 no-underline px-2 py-1 rounded-lg transition-colors duration-150 text-sm whitespace-nowrap;
 }
 .nav-link:hover {
   @apply bg-gray-100 text-gray-900;
@@ -31,7 +36,7 @@ body {
 }
 
 .btn-glossy {
-  @apply inline-block text-center no-underline font-bold text-white rounded cursor-pointer transition-all duration-150;
+  @apply inline-block text-center no-underline font-bold text-white rounded-lg cursor-pointer transition-all duration-150;
   background: linear-gradient(180deg, #b5685f 0%, #A2574F 100%);
   border: 1px solid #8c453e;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 1px 2px rgba(0,0,0,0.10);
@@ -40,7 +45,7 @@ body {
 .btn-glossy:hover {
   background: linear-gradient(180deg, #9e4d44 0%, #8c3f38 100%);
   border-color: #7a3630;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 3px 8px rgba(0,0,0,0.16);
+  /* box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 3px 8px rgba(0,0,0,0.16); */
 }
 .btn-glossy:active {
   background: linear-gradient(180deg, #8c3f38 0%, #7a3530 100%);
@@ -51,12 +56,12 @@ body {
 }
 
 .btn-secondary {
-  @apply inline-block no-underline font-medium text-gray-700 rounded cursor-pointer transition-all duration-150;
-  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  @apply font-bold inline-block no-underline text-gray-700 rounded-lg cursor-pointer transition-all duration-150;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f1f2 100%);
   border: 1px solid #9ca3af;
 }
 .btn-secondary:hover {
-  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+  background: linear-gradient(180deg, #f9fafb 0%, rgb(222, 223, 225) 100%);
   border-color: #6b7280;
   color: #1f2937;
 }
@@ -114,7 +119,7 @@ body {
 	@apply max-w-[400px] mx-auto;
 }
 .form-input {
-	@apply w-full border border-gray-300 rounded px-2 py-1 text-sm text-gray-900 bg-white box-border transition-colors duration-150;
+	@apply w-full border border-gray-300 rounded-lg px-2 py-1 text-sm text-gray-900 bg-white box-border transition-colors duration-150;
 }
 .form-input:focus {
 	@apply outline-none;
@@ -126,14 +131,14 @@ body {
 }
 
 .filter-section {
-  @apply border-b border-gray-200 pb-3 mb-3;
+  @apply border-b border-[#EFE6E2] pb-3 mb-3;
 }
 .filter-section:last-child {
   @apply border-b-0 mb-0;
 }
 
 .item-card {
-  @apply bg-white border border-gray-200 rounded overflow-hidden transition-shadow duration-150 relative;
+  @apply bg-white border border-[#EFE6E2] rounded-lg overflow-hidden transition-shadow duration-150 relative;
 }
 .item-card:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.07);
@@ -143,7 +148,7 @@ body {
 }
 
 .rarity-badge {
-  @apply absolute top-1 left-1 text-xs font-bold tracking-wide px-2 py-0.5 rounded text-white z-10;
+  @apply absolute top-1 left-1 text-xs font-bold tracking-wide px-2 py-0.5 rounded-lg text-white z-10;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   animation: rarityPulse 2.2s infinite ease-in-out;
@@ -169,7 +174,7 @@ body {
 }
 
 .limited-banner {
-  @apply absolute top-1 right-1 rounded px-2 py-1 text-xs font-bold text-white z-10 flex flex-col items-center leading-tight;
+  @apply absolute top-1 right-1 rounded-lg px-2 py-1 text-xs font-bold text-white z-10 flex flex-col items-center leading-tight;
   background: linear-gradient(135deg, #ef4444, #dc2626);
   border: 1px solid #b91c1c;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -181,7 +186,7 @@ body {
 }
 
 .timed-banner {
-  @apply absolute top-1 right-1 rounded px-2 py-1 text-xs font-bold text-white z-10 flex flex-col items-center leading-tight;
+  @apply absolute top-1 right-1 rounded-lg px-2 py-1 text-xs font-bold text-white z-10 flex flex-col items-center leading-tight;
   background: linear-gradient(135deg, #ef4444, #dc2626);
   border: 1px solid #b91c1c;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -202,7 +207,7 @@ body {
   @apply w-full border-collapse text-sm;
 }
 .forum-table th {
-  @apply bg-gray-50 border-b border-gray-200 px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider text-xs;
+  @apply bg-gray-50 border-b border-[#EFE6E2] px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider text-xs;
 }
 .forum-table td {
   @apply border-b border-gray-100 px-3 py-2 align-middle;
@@ -217,7 +222,7 @@ body {
   @apply text-[#A2574F] underline;
 }
 .category-tag {
-  @apply inline-block text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 text-gray-600 border border-gray-200;
+  @apply inline-block text-xs font-semibold px-2 py-0.5 rounded-lg bg-gray-100 text-gray-600 border border-[#EFE6E2];
 }
 .sticky-thread {
   @apply bg-yellow-50;
@@ -227,7 +232,7 @@ body {
 }
 
 .inventory-item {
-  @apply border border-gray-200 rounded p-2 text-center bg-white cursor-pointer transition-shadow;
+  @apply border border-[#EFE6E2] rounded-lg p-2 text-center bg-white cursor-pointer transition-shadow;
 }
 .inventory-item:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.07);
@@ -240,7 +245,7 @@ body {
 }
 
 .bubble-message {
-  @apply relative bg-gray-50 border border-gray-200 rounded-md px-3 py-1.5 text-xs italic text-gray-700 inline-block ml-2 align-middle;
+  @apply relative bg-gray-50 border border-[#EFE6E2] rounded-lg px-3 py-1 text-xs italic text-gray-700 inline-block ml-2 align-middle;
   box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 .bubble-message::after {
@@ -255,7 +260,7 @@ body {
 }
 
 .badge-tag {
-  @apply inline-block text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-600;
+  @apply inline-block text-xs font-semibold px-2 py-0.5 rounded-lg bg-gray-100 border border-[#EFE6E2] text-gray-600;
 }
 
 .wall-comment {
@@ -266,7 +271,7 @@ body {
 }
 
 .podium-card {
-  @apply text-center py-4 px-2 border rounded bg-white transition-shadow;
+  @apply text-center py-4 px-2 border-2 rounded-lg bg-white transition-shadow;
 }
 .podium-card:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.07);
@@ -288,7 +293,7 @@ body {
   @apply w-full border-collapse text-sm;
 }
 .leaderboard-table th {
-  @apply bg-gray-50 border-b border-gray-200 px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider text-xs;
+  @apply bg-gray-50 border-b border-[#EFE6E2] px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider text-xs;
 }
 .leaderboard-table td {
   @apply border-b border-gray-100 px-3 py-2 align-middle;
@@ -298,7 +303,7 @@ body {
 }
 
 .rank-badge {
-  @apply inline-block w-6 h-6 leading-6 text-center rounded font-bold text-xs;
+  @apply inline-block w-6 h-6 leading-6 text-center rounded-lg font-bold text-xs;
 }
 .rank-top3 {
   @apply bg-yellow-500 text-white;
@@ -309,7 +314,7 @@ body {
 .trend-neutral { @apply text-gray-500; }
 
 .currency-pack {
-  @apply border border-gray-200 rounded px-5 py-5 text-center bg-white transition-all duration-200 relative flex flex-col justify-between;
+  @apply border border-[#EFE6E2] rounded-lg px-5 py-5 text-center bg-white transition-all duration-200 relative flex flex-col justify-between;
 }
 .currency-pack:hover {
   box-shadow: 0 6px 12px rgba(0,0,0,0.08);
@@ -321,7 +326,7 @@ body {
 .pack-ultimate { border-top: 4px solid #a78bfa; }
 
 .best-value-badge {
-  @apply absolute -top-2.5 -right-2.5 text-white text-xs font-bold px-2 py-0.5 rounded;
+  @apply absolute -top-2.5 -right-2.5 text-white text-xs font-bold px-2 py-0.5 rounded-lg;
   background: linear-gradient(135deg, #f59e0b, #d97706);
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   animation: pulseBadge 2s infinite ease-in-out;
@@ -334,10 +339,10 @@ body {
 .pro-card {
   border: 2px solid #1A4D4F;
   background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-  @apply relative overflow-hidden rounded p-4;
+  @apply relative overflow-hidden rounded-lg p-4;
 }
 .pro-ribbon {
-  @apply absolute top-3 -right-8 text-white text-xs font-bold py-0.5 px-8 transform rotate-45;
+  @apply absolute top-4 -right-8 text-white text-xs font-bold py-0.5 px-8 transform rotate-45;
   background: #1A4D4F;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
@@ -350,12 +355,12 @@ body {
 
 .level-badge {
   background: linear-gradient(135deg, #f59e0b, #d97706);
-  @apply text-white font-bold text-xs px-2 py-0.5 rounded border border-yellow-700;
+  @apply text-white font-bold text-xs px-2 py-0.5 rounded-lg border border-yellow-700;
   text-shadow: 0 1px 1px rgba(0,0,0,0.2);
 }
 
 .case-card {
-  @apply bg-white border border-gray-200 rounded p-3 text-center transition-shadow;
+  @apply bg-white border border-[#EFE6E2] rounded-lg p-4 text-center transition-shadow;
 }
 .case-card:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.07);
@@ -368,5 +373,5 @@ body {
   @apply max-w-6xl mx-auto px-4;
 }
 .section-border {
-  @apply border-b border-gray-200;
+  @apply border-b border-[#EFE6E2];
 }

@@ -114,11 +114,11 @@
 
 <!-- Browse Users Content -->
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Browse Users</h1>
 
 		<!-- Search & Sort -->
-		<div class="border border-gray-200 rounded p-3 mb-5 bg-white flex flex-wrap gap-3 items-end">
+		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-5 bg-white flex flex-wrap gap-4 items-end">
 			<div class="flex-1 min-w-[200px]">
 				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
 				<input type="text" placeholder="Username..." class="form-input w-full" bind:value={search}>
@@ -131,7 +131,7 @@
 					<option value="highest_rap">Highest RAP</option>
 				</select>
 			</div>
-			<button class="btn-secondary px-4 py-1.5 text-sm" onclick={applyFilters}>Apply</button>
+			<button class="btn-secondary px-4 py-1 text-sm" onclick={applyFilters}>Apply</button>
 		</div>
 
 		{#if loading}
@@ -144,7 +144,7 @@
 			</div>
 		{:else}
 			<!-- Users Grid -->
-			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
 				{#each users as user}
 					<a href={`/user/profile/${user.id}`} class="user-card text-link block">
 						<img src="{config.headshotStorage}/{user.id}.png" alt={user.username} loading="lazy" onerror={handleImgError}>
@@ -156,7 +156,7 @@
 			</div>
 
 			<!-- Pagination -->
-			<div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-200">
+			<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
 				<span class="text-sm text-gray-600">Showing {pagination.from}–{pagination.to} of {pagination.total} users</span>
 				<div class="flex gap-1">
 					<button 

@@ -231,7 +231,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<a href="/admin/users" class="hover:text-primary">Users</a> ›
@@ -240,20 +240,20 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Edit User</h1>
-			<a href="/admin/users" class="btn-secondary px-4 py-1.5 text-sm">← Back to Users</a>
+			<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">← Back to Users</a>
 		</div>
 
 		{#if error}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 		{/if}
 		{#if success}
-			<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
+			<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
 		{/if}
 
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<!-- Left column: Avatar & quick info -->
 			<div class="md:col-span-1">
-				<div class="border border-gray-200 rounded p-4 bg-white text-center">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
 					<img src={config.avatarStorage + "/" + data.user.id + ".png"} alt={data.user.username} class="w-24 h-24 mx-auto rounded-full border-2 {isBanned(data.user.bans) ? 'border-red-500' : 'border-secondary'}">
 					<h2 class="text-lg font-bold text-gray-900 mt-2">{data.user.username}</h2>
 					{#if isBanned(data.user.bans)}
@@ -273,9 +273,9 @@
 			<!-- Right column: Edit form -->
 			<div class="md:col-span-2 space-y-4">
 				<!-- Account Details -->
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Account Details</h2>
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Account Details</h2>
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="username">Username</label>
 							<input bind:value={username} type="text" id="username" class="form-input">
@@ -302,8 +302,8 @@
 				</div>
 
 				<!-- Profile Info -->
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-3">Profile Info</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-3">Profile Info</h2>
 					<div class="mb-3">
 						<label class="form-label" for="description">Description</label>
 						<textarea bind:value={description} id="description" class="form-input" rows="3"></textarea>
@@ -312,7 +312,7 @@
 						<label class="form-label" for="bubble">Bubble</label>
 						<input bind:value={bubble} type="text" id="bubble" class="form-input">
 					</div>
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="coins">Currency</label>
 							<input bind:value={coins} type="number" id="coins" class="form-input" min="0">
@@ -321,15 +321,15 @@
 				</div>
 
 				<!-- Transactions -->
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-2">Transactions</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-2">Transactions</h2>
 					<p class="text-sm text-gray-600 mb-3">Review and verify pending transactions for this user.</p>
 					<a href={`/admin/user/${data.user.id}/verify-transaction`} class="btn-glossy px-4 py-1 text-sm">Verify Transactions</a>
 				</div>
 
 				<!-- User Stats & Rendering -->
-				<div class="border border-gray-200 rounded p-4 bg-white">
-					<h2 class="text-lg font-semibold text-accent mb-2">User Stats & Rendering</h2>
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-semibold mb-2">User Stats & Rendering</h2>
 					<p class="text-sm text-gray-600 mb-3">Recalculate RAP/item count, or re-render the user's avatar.</p>
 					<div class="flex flex-wrap gap-2">
 						<button onclick={recalculateStats} disabled={recalcLoading} class="btn-glossy px-4 py-1 text-sm">
@@ -354,7 +354,7 @@
 				</div>
 
 				<!-- Danger Zone -->
-				<div class="border border-red-200 rounded p-4 bg-red-50/30">
+				<div class="border border-red-200 rounded-lg p-4 bg-red-50/30">
 					<h2 class="text-lg font-semibold text-red-700 mb-2">Danger Zone</h2>
 					<div class="flex flex-wrap gap-2">
 						{#if isBanned(data.user.bans)}
@@ -381,7 +381,7 @@
 				</div>
 
 				<!-- Save Button -->
-				<div class="flex justify-end gap-3">
+				<div class="flex justify-end gap-4">
 					<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">Cancel</a>
 					<button onclick={saveUser} disabled={loading} class="btn-glossy px-4 py-1 text-sm">
 						{#if loading}Saving...{:else}Save Changes{/if}

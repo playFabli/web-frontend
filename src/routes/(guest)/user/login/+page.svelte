@@ -40,17 +40,17 @@
 
 </script>
 <main class="py-8">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="login-container">
 			<div class="text-center mb-5">
 				<h1 class="text-2xl font-bold text-gray-900">Welcome back</h1>
 				<p class="text-sm text-gray-600 mt-1">Log in to your Fabli account.</p>
 			</div>
 
-			<div class="border border-gray-200 rounded p-5 bg-white">
+			<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white">
 				<form onsubmit={login}>
 					{#if error}
-						<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+						<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 							{error}
 						</div>
 					{/if}

@@ -53,7 +53,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<!-- Breadcrumb -->
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/explore" class="hover:text-primary">Explore</a> ›
@@ -64,12 +64,12 @@
 			<h1 class="text-xl font-bold text-gray-900 mb-5">Create New Game</h1>
 
 			{#if error}
-				<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+				<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 					{error}
 				</div>
 			{/if}
 
-			<div class="border border-gray-200 rounded p-5 bg-white card-shadow">
+			<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white card-shadow">
 				<form onsubmit={handleSubmit}>
 					<!-- Title -->
 					<div class="mb-3">
@@ -111,7 +111,7 @@
 					</div>
 
 					<!-- Action Buttons -->
-					<div class="flex justify-end gap-3">
+					<div class="flex justify-end gap-4">
 						<button type="submit" class="btn-glossy px-6 py-1 text-sm" disabled={loading}>
 							{#if loading}
 								Creating...

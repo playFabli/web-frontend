@@ -70,7 +70,7 @@
         </div>
         
         <div class="modal-body" style="padding: 1rem; overflow-y-auto; flex-grow: 1;">
-			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5">
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4.5">
 				{#await inventoryPromise}
 				<p class="text-neutral-500 text-sm col-span-full">Loading inventory...</p>
 				{:then inventory}
@@ -97,20 +97,20 @@
 
 {/if}
 <main class="py-4 sm:py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-4 sm:mb-5">New Trade</h1>
 		<div id="createTrade" class="tab-content">
-			<div class="border border-gray-200 rounded-[4px] p-3 sm:p-4 bg-white">
+			<div class="border border-[#EFE6E2] rounded-lg-[4px] p-4 sm:p-4 bg-white">
 				<div class="flex flex-col lg:grid lg:grid-cols-2 gap-4 mb-4">
 
 					<div>
 						<label class="form-label mb-1.5 block text-sm font-medium text-gray-700">Your Offer</label>
-						<div class="border border-gray-200 rounded-[4px] p-2.5 min-h-[180px] bg-gray-50/30">
+						<div class="border border-[#EFE6E2] rounded-lg-[4px] p-2.5 min-h-[180px] bg-gray-50/30">
 							<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-5 xl:grid-cols-6 gap-2" id="yourOfferItems">
 								<img 
 									onclick={()=>{ modalSide = 0; inventoryPromise = fetchInventory(page.data.globalUser.id); inventoryModalOpen = true; }} 
 									src="https://placehold.co/48x48/D9C5B2/1A4D4F?text=Add" 
-									class="trade-item-thumb opacity-50 cursor-pointer w-full aspect-square object-cover rounded-[4px] border border-dashed border-gray-300 hover:opacity-75 transition-opacity" 
+									class="trade-item-thumb opacity-50 cursor-pointer w-full aspect-square object-cover rounded-lg-[4px] border border-dashed border-gray-300 hover:opacity-75 transition-opacity" 
 									title="Click to add from your inventory"
 									alt="Add item"
 								>
@@ -123,12 +123,12 @@
 
 					<div>
 						<label class="form-label mb-1.5 block text-sm font-medium text-gray-700">You Request</label>
-						<div class="border border-gray-200 rounded-[4px] p-2.5 min-h-[180px] bg-gray-50/30">
+						<div class="border border-[#EFE6E2] rounded-lg-[4px] p-2.5 min-h-[180px] bg-gray-50/30">
 							<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-5 xl:grid-cols-6 gap-2" id="theirOfferItems">
 								<img 
 									onclick={()=>{ modalSide = 1; inventoryPromise = fetchInventory(data.user.id); inventoryModalOpen = true; }} 
 									src="https://placehold.co/48x48/D9C5B2/1A4D4F?text=Add" 
-									class="trade-item-thumb opacity-50 cursor-pointer w-full aspect-square object-cover rounded-[4px] border border-dashed border-gray-300 hover:opacity-75 transition-opacity" 
+									class="trade-item-thumb opacity-50 cursor-pointer w-full aspect-square object-cover rounded-lg-[4px] border border-dashed border-gray-300 hover:opacity-75 transition-opacity" 
 									title="Click to add from their inventory"
 									alt="Add item"
 								>
@@ -141,8 +141,8 @@
 
 				</div>
 				
-				<div class="flex justify-end gap-3 pt-2 border-t border-gray-100 sm:border-none">
-					<button onclick={createTrade} disabled={offering.length == 0 && receiving.length == 0 || loading} class="btn-glossy px-4 py-1.5 text-sm rounded-[4px]">
+				<div class="flex justify-end gap-4 pt-2 border-t border-gray-100 sm:border-none">
+					<button onclick={createTrade} disabled={offering.length == 0 && receiving.length == 0 || loading} class="btn-glossy px-4 py-1 text-sm rounded-lg-[4px]">
 						{#if loading}
 							Sending...
 						{:else}

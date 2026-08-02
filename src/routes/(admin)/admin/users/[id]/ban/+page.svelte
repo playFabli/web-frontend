@@ -53,7 +53,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<a href="/admin/users" class="hover:text-primary">Users</a> ›
@@ -62,7 +62,7 @@
 		</div>
 
 		<div class="max-w-lg mx-auto">
-			<div class="border border-red-200 rounded bg-red-50/30 p-5 card-shadow">
+			<div class="border border-red-200 rounded-lg bg-red-50/30 p-5 card-shadow">
 				<h1 class="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
 					Ban User
 				</h1>
@@ -71,7 +71,7 @@
 				</p>
 
 				{#if error}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 				{/if}
 
 				<div class="space-y-4">
@@ -91,7 +91,7 @@
 						</select>
 					</div>
 
-					<div class="flex justify-end gap-3 pt-2">
+					<div class="flex justify-end gap-4 pt-2">
 						<a href={`/admin/users/${data.user.id}/edit`} class="btn-secondary px-4 py-1 text-sm">Back</a>
 						<button onclick={confirmBan} disabled={loading} class="btn-danger px-4 py-1 text-sm">
 							{#if loading}Banning...{:else}Confirm Ban{/if}

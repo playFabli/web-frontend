@@ -221,10 +221,10 @@
 
 <!-- Petitions Content -->
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Community Petitions</h1>
-			<button class="btn-glossy px-4 py-1.5 text-sm" onclick={() => showCreateModal = true}>Create Petition</button>
+			<button class="btn-glossy px-4 py-1 text-sm" onclick={() => showCreateModal = true}>Create Petition</button>
 		</div>
 
 		{#if loading}
@@ -277,7 +277,7 @@
 
 			<!-- Pagination -->
 			{#if pagination.total > 0}
-			<div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-200">
+			<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
 				<span class="text-sm text-gray-600">Showing {pagination.from}–{pagination.to} of {pagination.total} petitions</span>
 				<div class="flex gap-1">
 					<button 
@@ -321,9 +321,9 @@
 					<option value="change">Change Feature</option>
 				</select>
 			</div>
-			<div class="flex justify-end gap-3">
-				<button type="button" class="btn-secondary px-4 py-1.5 text-sm" onclick={() => showCreateModal = false}>Cancel</button>
-				<button type="button" class="btn-glossy px-4 py-1.5 text-sm" onclick={createPetition}>Submit</button>
+			<div class="flex justify-end gap-4">
+				<button type="button" class="btn-secondary px-4 py-1 text-sm" onclick={() => showCreateModal = false}>Cancel</button>
+				<button type="button" class="btn-glossy px-4 py-1 text-sm" onclick={createPetition}>Submit</button>
 			</div>
 		</div>
 	</div>

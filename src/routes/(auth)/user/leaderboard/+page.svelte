@@ -90,9 +90,9 @@
 	}
 
 	function getPodiumBg(rank) {
-		if (rank === 1) return 'bg-yellow-50';
-		if (rank === 2) return 'bg-gray-50';
-		return 'bg-orange-50';
+		if (rank === 1) return 'border-yellow-500 border-2';
+		if (rank === 2) return 'border-gray-500 border-2';
+		return 'border-orange-500 border-2';
 	}
 
 	function getRankBadgeClass(rank) {
@@ -125,8 +125,8 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
-		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+	<div class="max-w-[70%] mx-auto px-4">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 			<div>
 				<h1 class="text-xl font-bold text-gray-900">VAL Leaderboard</h1>
 				<p class="text-xs text-gray-500 mt-0.5">Top traders ranked by VALue</p>
@@ -135,7 +135,7 @@
 				<input
 					type="text"
 					placeholder="Search username..."
-					class="border border-gray-300 rounded px-3 py-1.5 text-sm flex-1 sm:w-48"
+					class="border border-gray-300 rounded-lg px-3 py-1 text-sm flex-1 sm:w-48"
 					bind:value={searchQuery}
 				>
 			</div>
@@ -155,7 +155,7 @@
 			</div>
 		{:else}
 			<!-- Top 3 Podium -->
-			<div class="grid grid-cols-3 gap-3 mb-5">
+			<div class="grid grid-cols-3 gap-4 mb-5">
 				{#each top3 as user, i}
 					{@const displayRank = i === 0 ? 1 : i === 1 ? 2 : 3}
 					<div class="podium-card {getPodiumBg(displayRank)} {getPodiumOrder(displayRank)}">
@@ -165,7 +165,7 @@
 						<img
 							src={config.headshotStorage + "/" + user.id + ".png"}
 							alt={user.username}
-							class="{getPodiumSize(displayRank)} mx-auto border-2 {getPodiumBorder(displayRank)} rounded"
+							class="{getPodiumSize(displayRank)} mx-auto border-2 {getPodiumBorder(displayRank)} rounded-lg"
 							loading="lazy"
 						>
 						<p class="text-sm font-semibold text-gray-900 mt-1 truncate max-w-full px-1">{user.username}</p>
@@ -176,7 +176,7 @@
 			</div>
 
 			<!-- Full Leaderboard Table -->
-			<div class="border border-gray-200 rounded overflow-hidden">
+			<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
 				<table class="leaderboard-table">
 					<thead>
 						<tr>
@@ -203,7 +203,7 @@
 											<img
 												src={config.headshotStorage + "/" + user.id + ".png"}
 												alt={user.username}
-												class="w-7 h-7 rounded"
+												class="w-7 h-7 rounded-lg"
 											>
 											<span class="font-medium text-gray-900">{user.username}</span>
 										</a>

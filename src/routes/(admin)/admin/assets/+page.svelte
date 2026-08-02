@@ -139,12 +139,12 @@
 	}
 </style>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<span class="text-gray-700">Assets</span>
 		</div>
-		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 		<h1 class="text-xl font-bold text-gray-900">Manage Assets</h1>
 		{#if page.data.globalUser.role == "admin"}
 			<div class="flex gap-2 w-full sm:w-auto">
@@ -153,7 +153,7 @@
 		{/if}
 		</div>
 
-		<div class="border border-gray-200 rounded p-3 mb-4 bg-white flex flex-wrap gap-3 items-end">
+		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white flex flex-wrap gap-4 items-end">
 			<div class="flex-1 min-w-[200px]">
 				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
 				<input bind:value={searchQuery} type="text" placeholder="Asset name..." class="form-input">
@@ -167,10 +167,10 @@
 					<option value="unapproved">Unapproved</option>
 				</select>
 			</div>
-			<button onclick={applyFilters} class="btn-secondary px-4 py-1.5 text-sm">Apply Filters</button>
+			<button onclick={applyFilters} class="btn-secondary px-4 py-1 text-sm">Apply Filters</button>
 		</div>
 
-		<div class="border border-gray-200 rounded overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
 			<table class="assets-table">
 				<thead>
 					<tr>

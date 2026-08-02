@@ -299,11 +299,11 @@
 
 <!-- Roadmap Content -->
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Development Roadmap</h1>
 			{#if page.data.user.role === 'admin'}
-				<button class="btn-glossy px-4 py-1.5 text-sm" onclick={() => showCreateModal = true}>Add Item</button>
+				<button class="btn-glossy px-4 py-1 text-sm" onclick={() => showCreateModal = true}>Add Item</button>
 			{/if}
 		</div>
 
@@ -319,9 +319,9 @@
 			{#each ['alpha', 'beta', 'planned'] as phase}
 				{@const phaseItems = items.filter(i => i.phase === phase)}
 				{#if phaseItems.length > 0}
-					<div class="border border-gray-200 rounded p-4 bg-white mb-5">
+					<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white mb-5">
 						<div class="flex items-center gap-2 mb-3">
-							<span class="text-lg font-semibold text-accent">{getPhaseLabel(phase)}</span>
+							<span class="text-lg font-semibold">{getPhaseLabel(phase)}</span>
 							<!-- <span class="status-badge {getStatusClass(getPhaseStatus(phase))}">{getStatusLabel(getPhaseStatus(phase))}</span> -->
 						</div>
 						<div class="space-y-2">
@@ -396,9 +396,9 @@
 				<label class="form-label" for="itemSort">Sort Order</label>
 				<input type="number" id="itemSort" class="form-input" bind:value={newSortOrder}>
 			</div>
-			<div class="flex justify-end gap-3">
-				<button type="button" class="btn-secondary px-4 py-1.5 text-sm" onclick={() => showCreateModal = false}>Cancel</button>
-				<button type="button" class="btn-glossy px-4 py-1.5 text-sm" onclick={createItem}>Create</button>
+			<div class="flex justify-end gap-4">
+				<button type="button" class="btn-secondary px-4 py-1 text-sm" onclick={() => showCreateModal = false}>Cancel</button>
+				<button type="button" class="btn-glossy px-4 py-1 text-sm" onclick={createItem}>Create</button>
 			</div>
 		</div>
 	</div>
@@ -441,9 +441,9 @@
 				<label class="form-label" for="editSort">Sort Order</label>
 				<input type="number" id="editSort" class="form-input" bind:value={editingItem.sort_order}>
 			</div>
-			<div class="flex justify-end gap-3">
-				<button type="button" class="btn-secondary px-4 py-1.5 text-sm" onclick={() => showEditModal = false}>Cancel</button>
-				<button type="button" class="btn-glossy px-4 py-1.5 text-sm" onclick={updateItem}>Save</button>
+			<div class="flex justify-end gap-4">
+				<button type="button" class="btn-secondary px-4 py-1 text-sm" onclick={() => showEditModal = false}>Cancel</button>
+				<button type="button" class="btn-glossy px-4 py-1 text-sm" onclick={updateItem}>Save</button>
 			</div>
 		</div>
 	</div>

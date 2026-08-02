@@ -78,7 +78,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<a href="/admin/users" class="hover:text-primary">Users</a> ›
@@ -88,22 +88,22 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Verify Transactions for {data.user?.username || 'User'}</h1>
-			<a href={`/admin/users/${data.userId}/edit`} class="btn-secondary px-4 py-1.5 text-sm">← Back to User</a>
+			<a href={`/admin/users/${data.userId}/edit`} class="btn-secondary px-4 py-1 text-sm">← Back to User</a>
 		</div>
 
 		{#if error}
-			<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
 		{/if}
 		{#if success}
-			<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
+			<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">{success}</div>
 		{/if}
 
 		{#if data.transactions.length === 0}
-			<div class="border border-gray-200 rounded p-6 bg-white card-shadow">
+			<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white card-shadow">
 				<p class="text-sm text-gray-600">This user has no pending transactions.</p>
 			</div>
 		{:else}
-			<div class="border border-gray-200 rounded overflow-hidden bg-white card-shadow">
+			<div class="border border-[#EFE6E2] rounded-lg overflow-hidden bg-white card-shadow">
 				<table class="loot-table">
 					<thead>
 						<tr>
@@ -120,12 +120,12 @@
 						<tr class={isSuspicious(transaction) ? 'bg-red-50' : ''}>
 							<td>
 								<div class="flex items-center gap-2">
-									<img src={config.headshotStorage + "/" + transaction.from_user_id + ".png"} alt="avatar" class="w-6 h-6 rounded-full border border-gray-200">
+									<img src={config.headshotStorage + "/" + transaction.from_user_id + ".png"} alt="avatar" class="w-6 h-6 rounded-full border border-[#EFE6E2]">
 									<span class="text-sm font-medium">
 										{transaction.fromUser?.username || `#${transaction.from_user_id}`}
 									</span>
 									{#if isSuspicious(transaction)}
-									<span class="px-1.5 py-0.5 text-xs font-bold text-red-700 bg-red-100 border border-red-300 rounded">SUSPICIOUS</span>
+									<span class="px-1.5 py-0.5 text-xs font-bold text-red-700 bg-red-100 border border-red-300 rounded-lg">SUSPICIOUS</span>
 									{/if}
 								</div>
 							</td>

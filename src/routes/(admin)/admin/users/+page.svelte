@@ -88,7 +88,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<span class="text-gray-700">Users</span>
@@ -97,25 +97,25 @@
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Manage Users</h1>
 
 		<!-- Filters & Search -->
-		<div class="border border-gray-200 rounded p-3 mb-4 bg-white card-shadow flex flex-wrap gap-3 items-end">
+		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white card-shadow flex flex-wrap gap-4 items-end">
 			<div class="flex-1 min-w-[200px]">
 				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
-				<input bind:value={searchQuery} type="text" placeholder="Username or email..." class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm">
+				<input bind:value={searchQuery} type="text" placeholder="Username or email..." class="w-full border border-gray-300 rounded-lg px-3 py-1 text-sm">
 			</div>
 			<div>
 				<label class="block text-xs font-semibold text-gray-600 mb-1">Role</label>
-				<select bind:value={selectedRole} class="border border-gray-300 rounded px-3 py-1.5 text-sm">
+				<select bind:value={selectedRole} class="border border-gray-300 rounded-lg px-3 py-1 text-sm">
 					<option value="">All</option>
 					<option value="admin">Admin</option>
 					<option value="moderator">Moderator</option>
 					<option value="user">User</option>
 				</select>
 			</div>
-			<button onclick={applyFilters} class="btn-secondary px-4 py-1.5 text-sm">Apply Filters</button>
+			<button onclick={applyFilters} class="btn-secondary px-4 py-1 text-sm">Apply Filters</button>
 		</div>
 
 		<!-- Users Table -->
-		<div class="border border-gray-200 rounded overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
 			<table class="users-table">
 				<thead>
 					<tr>

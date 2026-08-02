@@ -121,7 +121,7 @@
 				{#each requests.data as request}
 				<div class="flex items-center justify-between py-2 border-b border-gray-100 request-row">
 					<div class="flex items-center gap-2">
-						<img src={`${config.headshotStorage}/${request.from.id}.png?t=${Date.now()}`} alt="RareCollector" class="w-7 h-7 rounded-full border border-gray-200">
+						<img src={`${config.headshotStorage}/${request.from.id}.png?t=${Date.now()}`} alt="RareCollector" class="w-7 h-7 rounded-full border border-[#EFE6E2]">
 						<span class="text-sm font-medium text-gray-900">{request.from.username}</span>
 					</div>
 					<div class="flex gap-2">
@@ -136,39 +136,39 @@
 </div>
 {/if}
 <div class="min-h-screen flex flex-col">
-<nav class="bg-white border-b border-[#c7b3a0]/30 sticky top-0 z-50 min-h-[44px]">
-	<div class="max-w-container mx-auto px-4 flex items-center justify-between min-h-[44px]">
+<nav class="bg-[#fff] border-b border-[#EFE6E2] sticky top-0 z-50 min-h-[44px]">
+	<div class="max-w-[70%] mx-auto px-4 flex items-center justify-between min-h-[44px]">
 		<div class="flex items-center gap-4 lg:gap-5">
 			<a href="/user/homepage" class="inline-flex items-baseline font-bold text-gray-900 text-base tracking-tight whitespace-nowrap select-none">
 				<img class="inline-block h-[32px]" src="/logo_full.png" alt="Logo"> 
-				<span class="text-sm font-medium text-[#A2574F] ml-1">alpha</span>
+				<span class="text-sm font-bold text-[#A2574F] ml-1">alpha</span>
 			</a>
 			
 			<div class="hidden md:flex items-center gap-4 text-sm text-gray-600 font-medium">
-				<a href="/explore" class="hover:text-[#A2574F] transition-colors duration-200">Explore</a>
-				<a href="/marketplace" class="hover:text-[#A2574F] transition-colors duration-200">Marketplace</a>
-				<a href="/forum" class="hover:text-[#A2574F] transition-colors duration-200">Forum</a>
+				<a href="/explore" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Explore</a>
+				<a href="/marketplace" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Marketplace</a>
+				<a href="/forum" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Forum</a>
 				
 				<div class="relative">
 					<button
 						bind:this={moreButton}
 						onclick={toggleMoreMenu}
-						class="cursor-pointer flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-[#A2574F] p-1 rounded transition-colors duration-200"
+						class="cursor-pointer flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-[#A2574F] p-1 rounded-lg transition-colors duration-200"
 						aria-expanded={moreOpen}
 						aria-haspopup="true"
 					>
-						<span>More</span>
+						<span class="font-bold">More</span>
 						<svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 						</svg>
 					</button>
 
 					{#if moreOpen}
-					<div id="menu" bind:this={moreMenu} class="absolute left-0 mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-50" role="menu">
-						<a href="/users" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Users</a>
-						<a href="/user/leaderboard" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Leaderboard</a>
-						<a href="/roadmap" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Roadmap</a>
-						<a href="/petitions" class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Petitions</a>
+					<div id="menu" bind:this={moreMenu} class="absolute left-0 mt-1 w-40 bg-white border border-[#EFE6E2] rounded-lg shadow-lg z-50 font-bold" role="menu">
+						<a href="/users" class="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Users</a>
+						<a href="/user/leaderboard" class="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Leaderboard</a>
+						<a href="/roadmap" class="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Roadmap</a>
+						<a href="/petitions" class="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Petitions</a>
 					</div>
 					{/if}
 				</div>
@@ -177,19 +177,18 @@
 
 		<div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
 			
-			<div class="flex items-center gap-3 text-sm font-medium text-gray-700">
+			<div class="flex items-center gap-4 text-sm font-medium text-gray-700">
 				<span onclick={() => { friendRequestsPromise = getFriendRequests(); frModalOpen = true; }} class="inline-flex items-center cursor-pointer hover:text-[#A2574F] transition-colors duration-200" title="Friend Requests">
 					<span class="text-[#A2574F]">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
 					</span>
-					<span class="hidden sm:inline ml-1">Friend Requests</span>
 				</span>
 
 				<a href="/user/upgrade" class="inline-flex items-center gap-1" title="Coins">
 					<span class="text-[#A2574F]">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" /><path d="M15 6h1v4" /><path d="m6.134 14.768.866-.5 2 3.464" /><circle cx="16" cy="8" r="6" /></svg>
 					</span>
-					<span>{data.user.coins}</span>
+					<span class="font-bold">{data.user.coins}</span>
 				</a>
 			</div>
 
@@ -197,7 +196,7 @@
 				<button
 					bind:this={profileButton}
 					onclick={toggleMenu}
-					class="cursor-pointer flex items-center gap-1 sm:gap-2 text-sm font-medium text-gray-600 hover:text-[#A2574F] p-1 rounded transition-colors duration-200"
+					class="cursor-pointer flex items-center gap-1 sm:gap-2 text-sm font-medium text-gray-600 hover:text-[#A2574F] p-1 rounded-lg transition-colors duration-200"
 					aria-expanded={open}
 					aria-haspopup="true"
 				>
@@ -209,17 +208,17 @@
 				</button>
 
 				{#if open}
-				<div bind:this={menu} id="menu" class="absolute right-0 mt-1 w-36 bg-white border border-gray-200 rounded shadow-lg z-50" role="menu">
-					<a href={`/user/profile/${data.user.id}`} class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Profile</a>
-					<a href='/user/avatar' class="w-full text-left block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Avatar</a>
-					<a href='/user/trades' class="w-full text-left block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Trades</a>
-					<a href='/user/inventory/my' class="w-full text-left block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Inventory</a>
-					<a href='/user/settings' class="w-full text-left block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">Settings</a>
+				<div bind:this={menu} id="menu" class="absolute right-0 mt-1 w-36 bg-white border border-[#EFE6E2] rounded-lg shadow-lg z-50 font-bold" role="menu">
+					<a href={`/user/profile/${data.user.id}`} class="block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Profile</a>
+					<a href='/user/avatar' class="w-full text-left block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Avatar</a>
+					<a href='/user/trades' class="w-full text-left block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Trades</a>
+					<a href='/user/inventory/my' class="w-full text-left block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Inventory</a>
+					<a href='/user/settings' class="w-full text-left block px-3 py-1 text-sm text-gray-700 hover:bg-gray-50">Settings</a>
 					{#if data.globalUser.role != "user"}
-					<a href='/admin' class="w-full text-left block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50">Admin</a>
+					<a href='/admin' class="w-full text-left block px-3 py-1 text-sm text-red-500 hover:bg-red-50">Admin</a>
 					{/if}
-					<hr class="border-gray-200" />
-					<button onclick={logout} class="cursor-pointer w-full text-left block px-3 py-1.5 text-sm text-red-600 hover:bg-gray-50">Logout</button>
+					<hr class="border-[#EFE6E2]" />
+					<button onclick={logout} class="cursor-pointer w-full text-left block px-3 py-1 text-sm text-red-600 hover:bg-gray-50">Logout</button>
 				</div>
 				{/if}
 			</div>
@@ -237,14 +236,14 @@
 	</div>
 
 	{#if mobileMenuOpen}
-	<div class="md:hidden border-t border-gray-100 bg-white px-4 py-2 flex flex-col gap-2 text-sm text-gray-600 font-medium fallback-menu">
-		<a href="/explore" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Explore</a>
-		<a href="/marketplace" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Marketplace</a>
-		<a href="/forum" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Forum</a>
-		<a href="/users" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Users</a>
-		<a href="/user/leaderboard" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Leaderboard</a>
-		<a href="/roadmap" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Roadmap</a>
-		<a href="/petitions" class="py-1.5 hover:text-[#A2574F] transition-colors duration-200">Petitions</a>
+	<div class="md:hidden border-t border-gray-100 bg-white px-4 py-2 flex flex-col gap-2 text-sm text-gray-600 font-bold fallback-menu">
+		<a href="/explore" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Explore</a>
+		<a href="/marketplace" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Marketplace</a>
+		<a href="/forum" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Forum</a>
+		<a href="/users" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Users</a>
+		<a href="/user/leaderboard" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Leaderboard</a>
+		<a href="/roadmap" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Roadmap</a>
+		<a href="/petitions" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Petitions</a>
 	</div>
 	{/if}
 </nav>
@@ -254,8 +253,8 @@
 	<main class="flex-1">
 		{#if !data.user?.is_email_verified}
 		<div class="fixed inset-0 z-[200] flex items-center justify-center bg-black/50">
-			<div class="bg-white border border-gray-200 rounded shadow-xl max-w-md w-full mx-4">
-				<div class="p-6 text-center">
+			<div class="bg-white border border-[#EFE6E2] rounded-lg shadow-xl max-w-md w-full mx-4">
+				<div class="p-4 text-center">
 					<div class="text-4xl mb-3">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-10 mb-1 inline"><path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h7.5"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="M18 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><circle cx="18" cy="18" r="3"/><path d="m22 22-1.5-1.5"/></svg>
 					</div>
@@ -271,9 +270,9 @@
 	</main>
 
 	<footer class="bg-primary border-t-1 border-[#c7b3a0]/50 pt-8 pb-6 mt-12">
-		<div class="max-w-container mx-auto px-4">
+		<div class="max-w-[70%] mx-auto px-4">
 			<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b border-[#c7b3a0]/10">
-				<div class="flex items-center gap-3">
+				<div class="flex items-center gap-4">
 					<a href="/user/homepage" class="font-bold text-neutral-100 text-base tracking-tight select-none">
 						fabli <span class="text-sm">alpha</span>
 					</a>
@@ -281,7 +280,7 @@
 				</div>
 				<div class="flex items-center gap-x-6 gap-y-2 flex-wrap text-sm text-neutral-200 font-medium">
 					<a href="#" class="hover:text-white transition-colors duration-200">About</a>
-					<a href="#" class="hover:text-white transition-colors duration-200">Blog</a>
+					<a href="/blog" class="hover:text-white transition-colors duration-200">Blog</a>
 					<a href="/legal/privacy" class="hover:text-white transition-colors duration-200">Privacy</a>
 					<a href="/legal/terms-of-service" class="hover:text-white transition-colors duration-200">Terms of Service</a>
 				</div>

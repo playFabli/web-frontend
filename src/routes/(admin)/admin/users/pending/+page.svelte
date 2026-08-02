@@ -56,7 +56,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<a href="/admin/users" class="hover:text-primary">Users</a> ›
@@ -66,7 +66,7 @@
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Users with Pending Transactions</h1>
 
 		<!-- Users Table -->
-		<div class="border border-gray-200 rounded overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
 			<table class="pending-table">
 				<thead>
 					<tr>

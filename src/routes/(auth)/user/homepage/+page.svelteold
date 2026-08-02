@@ -67,9 +67,9 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<!-- Welcome & Level -->
-		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 			<div>
 				<h1 class="text-xl font-bold text-gray-900">Welcome back, {user.username}</h1>
 				<p class="text-sm text-gray-600 mt-0.5">Here's what's happening today.</p>
@@ -84,9 +84,9 @@
 		</div>
 
 		<!-- Quests Section -->
-		<div class="border border-gray-200 rounded p-4 mb-4 bg-white">
+		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white">
 			<div class="flex items-center justify-between mb-3">
-				<h2 class="text-lg font-semibold text-accent">Quests</h2>
+				<h2 class="text-lg font-semibold">Quests</h2>
 				<div class="flex gap-1">
 					<button 
 						class="btn-secondary px-3 py-1 text-xs {activeTab === 'daily' ? 'active-tab' : ''}" 
@@ -113,7 +113,7 @@
 
 			<div class="space-y-3">
 				{#each getCurrentQuests() as quest}
-					<div class="flex items-center justify-between border border-gray-200 rounded p-3 bg-gray-50/30">
+					<div class="flex items-center justify-between border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
 						<div class="flex-1 min-w-0">
 							<p class="text-sm font-medium text-gray-900">{quest.name}</p>
 							{#if quest.description}
@@ -165,10 +165,10 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-sm">
+		<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center text-sm">
 			<a
 				href="/user/inventory/my"
-				class="border border-gray-200 rounded p-3 hover:shadow-sm transition-shadow bg-white"
+				class="border border-[#EFE6E2] rounded-lg p-4 hover:shadow-sm transition-shadow bg-white"
 			>
 				<span class="text-primary font-semibold">
 					<svg
@@ -193,7 +193,7 @@
 			</a>
 			<a
 				href="/user/avatar"
-				class="border border-gray-200 rounded p-3 hover:shadow-sm transition-shadow bg-white"
+				class="border border-[#EFE6E2] rounded-lg p-4 hover:shadow-sm transition-shadow bg-white"
 			>
 				<span class="text-primary font-semibold"
 					><svg
@@ -215,7 +215,7 @@
 			</a>
 			<a
 				href="/user/transactions"
-				class="border border-gray-200 rounded p-3 hover:shadow-sm transition-shadow bg-white"
+				class="border border-[#EFE6E2] rounded-lg p-4 hover:shadow-sm transition-shadow bg-white"
 			>
 				<span class="text-primary font-semibold"
 					><svg

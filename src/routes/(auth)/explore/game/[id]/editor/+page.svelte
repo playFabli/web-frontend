@@ -697,7 +697,7 @@
 </style>
 <div class="h-[91vh] flex flex-col min-h-0">
 	<!-- Toolbar -->
-	<div class="bg-gray-50 border-b border-gray-200 px-3 py-1.5 flex flex-wrap items-center gap-2 flex-shrink-0">
+	<div class="bg-gray-50 border-b border-[#EFE6E2] px-3 py-1 flex flex-wrap items-center gap-2 flex-shrink-0">
 		<button onclick={createPart} class="btn-secondary px-2 py-1 text-sm">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
 			Create Part</button>
@@ -750,14 +750,14 @@
 	<!-- Main Editor Body -->
 	<div class="flex-1 flex min-h-0">
 		<!-- Left Explorer -->
-		<div class="w-44 border-r border-gray-200 bg-white flex-shrink-0 overflow-y-auto">
-			<div class="p-3">
-				<h2 class="text-sm font-semibold text-accent mb-2">Explorer</h2>
+		<div class="w-44 border-r border-[#EFE6E2] bg-white flex-shrink-0 overflow-y-auto">
+			<div class="p-4">
+				<h2 class="text-sm font-semibold mb-2">Explorer</h2>
 				<div class="space-y-1 text-sm">
-					<div class="hover:bg-gray-50 px-2 py-1 rounded cursor-default"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M16 12v4"/><path d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><path d="M17 6a2 2 0 011.414.586l3 3A2 2 0 0122 11v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 01.586-1.414l3-3A2 2 0 017 6z"/><path d="M2 14h20"/><path d="M8 12v4"/></svg> Workspace</div>
+					<div class="hover:bg-gray-50 px-2 py-1 rounded-lg cursor-default"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M16 12v4"/><path d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><path d="M17 6a2 2 0 011.414.586l3 3A2 2 0 0122 11v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 01.586-1.414l3-3A2 2 0 017 6z"/><path d="M2 14h20"/><path d="M8 12v4"/></svg> Workspace</div>
 					{#each parts as part}
 							<div
-								class="ml-4 px-2 py-1 rounded cursor-pointer"
+								class="ml-4 px-2 py-1 rounded-lg cursor-pointer"
 								class:bg-blue-100={selectedId === part.id}
 								onclick={() => selectedId = part.id}
 							>
@@ -770,7 +770,7 @@
 		</div>
 
 		<!-- Center Viewport -->
-		<div class="flex-1 flex flex-col bg-gray-50 border-r border-gray-200 min-h-0 overflow-hidden">
+		<div class="flex-1 flex flex-col bg-gray-50 border-r border-[#EFE6E2] min-h-0 overflow-hidden">
 			<div class="relative flex-1 min-h-0">
 				<canvas
 					bind:this={canvas}
@@ -778,9 +778,9 @@
 				></canvas>
 			</div>
 			<!-- Script Editor (Bottom of viewport) -->
-			<div class="border-t border-gray-200 bg-white flex-shrink-0" style="height: 90px;">
+			<div class="border-t border-[#EFE6E2] bg-white flex-shrink-0" style="height: 90px;">
 				<div class="p-2 h-full flex flex-col">
-					<h2 class="text-sm font-semibold text-accent mb-1">Script Editor</h2>
+					<h2 class="text-sm font-semibold mb-1">Script Editor</h2>
 					<textarea class="form-input font-mono text-xs flex-1 resize-none" readonly style="font-family: monospace;">print("Hello, world!")
 wait(1)
 part.BrickColor = "Bright red"</textarea>
@@ -789,10 +789,10 @@ part.BrickColor = "Bright red"</textarea>
 		</div>
 
 		<!-- Right Properties -->
-		<div class="w-48 border-l border-gray-200 bg-white flex-shrink-0 overflow-y-auto">
+		<div class="w-48 border-l border-[#EFE6E2] bg-white flex-shrink-0 overflow-y-auto">
 			{#if selected}
-			<div class="p-3">
-				<h2 class="text-sm font-semibold text-accent mb-2">Properties</h2>
+			<div class="p-4">
+				<h2 class="text-sm font-semibold mb-2">Properties</h2>
 				<div class="space-y-2 text-sm">
 					<div>
 						<label class="form-label">Name</label>

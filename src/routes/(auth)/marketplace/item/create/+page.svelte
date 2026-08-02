@@ -72,7 +72,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/marketplace" class="hover:text-primary">Marketplace</a> ›
 			<span class="text-gray-700">Create Item</span>
@@ -82,9 +82,9 @@
 			<h1 class="text-xl font-bold text-gray-900 mb-5">Create New Item</h1>
 
 			<div class="grid grid-cols-1 md:grid-cols-5 gap-5">
-				<div class="md:col-span-3 border border-gray-200 rounded p-5 bg-white">
+				<div class="md:col-span-3 border border-[#EFE6E2] rounded-lg p-5 bg-white">
 				{#if error}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{error}
 					</div>
 				{/if}
@@ -138,7 +138,7 @@
 				</form>
 			</div>
 
-	<div class="md:col-span-2 border border-gray-200 rounded p-5 bg-white">
+	<div class="md:col-span-2 border border-[#EFE6E2] rounded-lg p-5 bg-white">
 		<TexturePreview {textureFile} categoryId={categoryId} token={data.token} />
 	</div>
 		</div>

@@ -131,7 +131,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-semibold">Blog</h1>
 			{#if isAdmin}
@@ -142,7 +142,7 @@
 		{#if featured}
 			<a
 				href="/blog/post/{featured.id}"
-				class="block border border-gray-200 rounded overflow-hidden mb-6 hover:shadow-md transition-shadow bg-white"
+				class="block border border-[#EFE6E2] rounded-lg overflow-hidden mb-6 hover:shadow-md transition-shadow bg-white"
 			>
 				{#if featured.banner_path}
 					<img src="{config.storage}/{featured.banner_path}" alt="" class="w-full h-48 object-cover" />
@@ -153,7 +153,7 @@
 				{/if}
 				<div class="p-4">
 					<div class="flex items-center gap-2 mb-2">
-						<span class="text-[10px] font-semibold text-primary uppercase tracking-wide">Featured</span>
+						<span class="text-[10px] font-bold text-primary uppercase tracking-wide">Featured</span>
 						<span class="text-xs text-gray-400">{formatDate(featured.created_at)}</span>
 					</div>
 					<h2 class="text-lg font-semibold text-gray-900 mb-1">{featured.title}</h2>
@@ -162,7 +162,7 @@
 						<img
 							src="{config.headshotStorage}/{featured.user?.id}.png"
 							alt=""
-							class="w-6 h-6 border border-gray-200 rounded-full"
+							class="w-6 h-6 border border-[#EFE6E2] rounded-full"
 						/>
 						<span class="text-xs text-gray-500">{featured.user?.username}</span>
 					</div>
@@ -175,7 +175,7 @@
 				{#each others as post}
 					<a
 						href="/blog/post/{post.id}"
-						class="border border-gray-200 rounded overflow-hidden hover:shadow-sm transition-shadow bg-white flex flex-col"
+						class="border border-[#EFE6E2] rounded-lg overflow-hidden hover:shadow-sm transition-shadow bg-white flex flex-col"
 					>
 						{#if post.banner_path}
 							<img src="{config.storage}/{post.banner_path}" alt="" class="w-full h-32 object-cover" />
@@ -184,7 +184,7 @@
 								<span class="text-2xl font-bold text-gray-300">{post.title.charAt(0)}</span>
 							</div>
 						{/if}
-						<div class="p-3 flex-1 flex flex-col">
+						<div class="p-4 flex-1 flex flex-col">
 							<h3 class="text-sm font-semibold text-gray-900 mb-1 truncate">{post.title}</h3>
 							<p class="text-xs text-gray-600 flex-1 line-clamp-2">{post.short_body}</p>
 							<div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
@@ -192,7 +192,7 @@
 									<img
 										src="{config.headshotStorage}/{post.user?.id}.png"
 										alt=""
-										class="w-5 h-5 border border-gray-200 rounded-full"
+										class="w-5 h-5 border border-[#EFE6E2] rounded-full"
 									/>
 									<span class="text-[11px] text-gray-500">{post.user?.username}</span>
 								</div>
@@ -201,19 +201,19 @@
 							{#if isAdmin}
 								<div class="flex items-center gap-1 mt-2 pt-2 border-t border-gray-100">
 									<button
-										class="text-[10px] px-2 py-0.5 rounded border border-gray-200 hover:bg-gray-50"
+										class="text-[10px] px-2 py-0.5 rounded-lg border border-[#EFE6E2] hover:bg-gray-50"
 										onclick={() => togglePublish(post.id)}
 									>
 										{post.is_published ? 'Unpublish' : 'Publish'}
 									</button>
 									<button
-										class="text-[10px] px-2 py-0.5 rounded border border-gray-200 hover:bg-gray-50"
+										class="text-[10px] px-2 py-0.5 rounded-lg border border-[#EFE6E2] hover:bg-gray-50"
 										onclick={() => toggleFeature(post.id)}
 									>
 										{post.is_featured ? 'Unfeature' : 'Feature'}
 									</button>
 									<button
-										class="text-[10px] px-2 py-0.5 rounded border border-red-200 text-red-600 hover:bg-red-50"
+										class="text-[10px] px-2 py-0.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
 										onclick={() => deletePost(post.id)}
 									>
 										Delete
@@ -239,10 +239,10 @@
 		onclick={() => (showCreateModal = false)}
 	>
 		<div
-			class="bg-white border border-gray-200 rounded shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
+			class="bg-white border border-[#EFE6E2] rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
 			onclick={(e)=>{e.stopPropagation();}}
 		>
-			<div class="p-4 border-b border-gray-200">
+			<div class="p-4 border-b border-[#EFE6E2]">
 				<h2 class="text-base font-semibold text-gray-900">New Blog Post</h2>
 			</div>
 			<div class="p-4 space-y-3">
@@ -251,14 +251,14 @@
 					<input
 						type="text"
 						bind:value={createTitle}
-						class="w-full border border-gray-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-primary"
+						class="w-full border border-[#EFE6E2] rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-primary"
 						placeholder="Post title"
 					/>
 				</div>
 				<div>
 					<label class="block text-xs font-medium text-gray-700 mb-1">Banner Image (optional)</label>
 					{#if createBannerPreview}
-						<div class="mb-2 rounded overflow-hidden border border-gray-200">
+						<div class="mb-2 rounded-lg overflow-hidden border border-[#EFE6E2]">
 							<img src="{createBannerPreview}" alt="Banner preview" class="w-full h-32 object-cover" />
 						</div>
 					{/if}
@@ -266,7 +266,7 @@
 						type="file"
 						accept="image/*"
 						onchange={handleBannerSelect}
-						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer"
+						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer"
 					/>
 					<p class="text-xs text-gray-500 mt-1">Upload a banner image. Max 5MB.</p>
 				</div>
@@ -274,12 +274,12 @@
 					<label class="block text-xs font-medium text-gray-700 mb-1">Body (BBCode supported)</label>
 					<textarea
 						bind:value={createBody}
-						class="w-full border border-gray-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-primary min-h-[200px]"
+						class="w-full border border-[#EFE6E2] rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-primary min-h-[200px]"
 						placeholder="Write your post content here... [b]bold[/b], [i]italic[/i], [img]url[/img], [url=link]text[/url]"
 					></textarea>
 				</div>
 			</div>
-			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
+			<div class="p-4 border-t border-[#EFE6E2] flex justify-end gap-2">
 				<button class="btn-secondary px-3 py-1 text-xs" onclick={() => (showCreateModal = false)}>Cancel</button>
 				<button class="btn-glossy px-3 py-1 text-xs" onclick={createPost} disabled={saving}>
 					{saving ? 'Saving...' : 'Create'}

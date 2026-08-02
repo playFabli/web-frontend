@@ -2,6 +2,7 @@
 	import { invalidate } from '$app/navigation';
 	import { config } from '$lib/config.js';
 	import { timeSince } from '$lib/timeAgo.js';
+	import { Loader, Send } from 'lucide-svelte';
 
 	let { data } = $props();
 	let user = $derived(data.user); 
@@ -184,21 +185,21 @@
 	}
 </script>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/forum" class="hover:text-primary">Forums</a> ›
 			<span class="text-gray-700">{data.thread.title}</span>
 		</div>
 
-		<div class="border border-gray-200 rounded overflow-hidden">
-			<div class="bg-gray-50/50 border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-				<h1 class="text-lg font-bold text-gray-900">{data.thread.title}</h1>
-				<a href="/forum/create" class="btn-secondary px-4 py-1.5 text-sm">+ New Thread</a>
+		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+			<div class="bg-gray-50/50 border-b border-[#EFE6E2] px-4 py-3 flex items-center justify-between">
+				<h1 class="text-lg font-bold text-gray-900">{data.thread.title.length > 60 ? data.thread.title.slice(0, 60) + '...' : data.thread.title}</h1>
+				<a href="/forum/create" class="btn-secondary px-4 py-1 text-sm">+ New Thread</a>
 			</div>
 
 			<div class="p-4">
 				<div class="post">
-					<div class="flex gap-3">
+					<div class="flex gap-4">
 						<img src={config.avatarStorage  + "/" + data.thread.user.id + ".png"} alt="BuilderJoe avatar" class="rounded-full w-32 h-32">
 						<div class="flex-1">
 							<div class="flex items-center gap-2 flex-wrap">
@@ -211,7 +212,7 @@
 							<p class="post-content">
 								{data.thread.content}
 							</p>
-							<div class="mt-2 flex gap-3 text-xs">
+							<div class="mt-2 flex gap-4 text-xs">
 								<button class="text-link">Report</button>
 								{#if user.role == "admin" || user.role == "moderator"}
 									<button onclick={scrubThread} class="text-link !text-red-600">Scrub</button>
@@ -230,7 +231,7 @@
 				{:then replies}
 					{#each replies.data as reply}
 						<div class="post">
-							<div class="flex gap-3">
+							<div class="flex gap-4">
 								<img src={config.avatarStorage  + "/" + reply.user.id + ".png"} alt="{reply.user.username} avatar" class="rounded-full w-32 h-32">
 								<div class="flex-1">
 									<div class="flex items-center gap-2 flex-wrap">
@@ -243,7 +244,7 @@
 									<p class="post-content">
 										{reply.content}
 									</p>
-									<div class="mt-2 flex gap-3 text-xs">
+									<div class="mt-2 flex gap-4 text-xs">
 										<button class="text-link">Report</button>
 										{#if user.role == "admin" || user.role == "moderator"}
 											<button onclick={() => scrubReply(reply.id)} class="text-link !text-red-600">Scrub</button>
@@ -261,7 +262,7 @@
 			</div>
 
 			{#await repliesPromise}
-			<div class="border-t border-gray-200 px-4 py-3 flex items-center justify-between">
+			<div class="border-t border-[#EFE6E2] px-4 py-3 flex items-center justify-between">
 				<span class="text-sm text-gray-600">Page .. of ..</span>
 				<div class="pagination flex gap-1">
 					<a href="#" class="opacity-50 cursor-not-allowed">Previous ←</a>
@@ -269,7 +270,7 @@
 				</div>
 			</div>
 			{:then replies}
-			<div class="border-t border-gray-200 px-4 py-3 flex items-center justify-between">
+			<div class="border-t border-[#EFE6E2] px-4 py-3 flex items-center justify-between">
 				<span class="text-sm text-gray-600">Page {replies.current_page} of {replies.last_page}</span>
 				<div class="pagination flex gap-1">
 					{#if replies.prev_page_url != null}
@@ -288,24 +289,24 @@
 		</div>
 
 		{#if data.thread.is_locked}
-			<div class="mt-5 border border-gray-200 rounded p-4">
+			<div class="mt-5 border border-[#EFE6E2] rounded-lg p-4">
 				<p class="text-sm text-gray-500">This thread is locked. You cannot post new replies.</p>
 			</div>
 		{:else}
-		<div class="mt-5 border border-gray-200 rounded p-4">
+		<div class="mt-5 border border-[#EFE6E2] rounded-lg p-4">
 			{#if error}
-				<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+				<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 					{error}
 				</div>
 			{/if}
-			<h2 class="text-sm font-semibold text-accent mb-2">Post a Reply</h2>
-			<textarea bind:value={content} rows="4" placeholder="Write your reply..." class="w-full border border-gray-300 rounded px-3 py-2 text-sm resize-none mb-3"></textarea>
+			<h2 class="text-sm font-semibold mb-2">Post a Reply</h2>
+			<textarea bind:value={content} rows="4" placeholder="Write your reply..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none mb-3"></textarea>
 			<div class="flex gap-2">
 				<button onclick={reply} class="btn-glossy px-4 py-1 text-sm" disabled={loading}>
 					{#if loading}
-						Posting...
+						<Loader strokeWidth="3" class="size-3.5 inline mb-0.5"/> Posting...
 					{:else}
-						Post Reply
+						<Send strokeWidth="3" class="size-3.5 inline mb-0.5"/> Post
 					{/if}
 				</button>
 			</div>

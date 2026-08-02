@@ -53,21 +53,21 @@
 </script>
 
 <main class="py-8">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-center mb-5">
 			<h1 class="text-2xl font-bold text-gray-900">Reset password</h1>
 			<p class="text-sm text-gray-600 mt-1">Enter your new password below.</p>
 		</div>
 
-		<div class="border border-gray-200 rounded p-5 bg-white">
+		<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white">
 			<form onsubmit={handleSubmit}>
 				{#if error}
-					<div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 						{error}
 					</div>
 				{/if}
 				{#if success}
-					<div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+					<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
 						{success}
 					</div>
 				{/if}

@@ -55,8 +55,8 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
-		<div class="flex items-center gap-3 mb-5">
+	<div class="max-w-[70%] mx-auto px-4">
+		<div class="flex items-center gap-4 mb-5">
 			<a href={`/user/profile/${data.user.id}`} class="text-xs text-gray-500 hover:text-primary"
 				>← Back to profile</a
 			>
@@ -65,14 +65,14 @@
 				<img
 					src={`${config.headshotStorage}/${data.user.id}.png`}
 					alt="RareCollector"
-					class="w-7 h-7 rounded-full border border-gray-200"
+					class="w-7 h-7 rounded-full border border-[#EFE6E2]"
 				/>
 				<span class="font-semibold text-gray-900 text-sm">{data.user.username}'s Inventory</span>
 				<span class="text-xs text-gray-500">({data.user.item_count} items)</span>
 			</div>
 		</div>
 
-		<div class="flex gap-1.5 flex-wrap mb-4 pb-3 border-b border-gray-200">
+		<div class="flex gap-1.5 flex-wrap mb-4 pb-3 border-b border-[#EFE6E2]">
 			<button onclick={()=>setTab(0)} class="btn-secondary text-xs px-3 py-1" class:active-tab={activeTab === 0}>All</button>
 			{#each data.categories as category}
 			<button onclick={()=>setTab(category.id)} class="btn-secondary text-xs px-3 py-1" class:active-tab={activeTab === category.id}>{category.title}</button>
@@ -80,7 +80,7 @@
 		</div>
 
 		
-		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4.5">
 			{#if data.user.privacy.who_can_see_inventory != 2}
 				{#if data.user.privacy.who_can_see_inventory == 1 && data.user.friend_status != "friends"}
 				<p class="text-neutral-500 text-sm">This user has hidden their inventory.</p>
@@ -103,7 +103,7 @@
 
 		<!-- Pagination -->
 		{#await inventoryPromise}
-		<div class="flex justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
+		<div class="flex justify-end gap-2 mt-6 pt-4 border-t border-[#EFE6E2]">
 			<button
 				class="btn-secondary !px-3 !py-1 !text-sm"
 				disabled={true}
@@ -115,7 +115,7 @@
 			>Next &rarr;</button>
 		</div>
 		{:then inventory}
-		<div class="flex justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
+		<div class="flex justify-end gap-2 mt-6 pt-4 border-t border-[#EFE6E2]">
 			<button
 				class="btn-secondary !px-3 !py-1 !text-sm"
 				disabled={inventory.prev_page_url == null}

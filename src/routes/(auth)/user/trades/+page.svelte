@@ -65,17 +65,17 @@
 
 </script>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Trades</h1>
 
 		<!-- Tabs -->
-		<div class="flex border-b border-gray-200 mb-4">
+		<div class="flex border-b border-[#EFE6E2] mb-4">
 			{#await tradesPromise}
-			<button onclick={()=>setTab(0)} class="btn-secondary active-tab px-4 py-2 text-sm !rounded-none !border-0 !border-r !border-gray-200">Active</button>
+			<button onclick={()=>setTab(0)} class="btn-secondary active-tab px-4 py-2 text-sm !rounded-lg-none !border-0 !border-r !border-[#EFE6E2]">Active</button>
 			{:then trades}
-			<button onclick={()=>setTab(0)} class="btn-secondary active-tab px-4 py-2 text-sm !rounded-none !border-0 !border-r !border-gray-200">Active</button>
+			<button onclick={()=>setTab(0)} class="btn-secondary active-tab px-4 py-2 text-sm !rounded-lg-none !border-0 !border-r !border-[#EFE6E2]">Active</button>
 			{/await}
-			<button onclick={()=>setTab(1)} class="btn-secondary px-4 py-2 text-sm !rounded-none !border-0 !border-r !border-gray-200">Past</button>
+			<button onclick={()=>setTab(1)} class="btn-secondary px-4 py-2 text-sm !rounded-lg-none !border-0 !border-r !border-[#EFE6E2]">Past</button>
 		</div>
 
 		{#if activeTab == 0}
@@ -116,13 +116,13 @@
 								</div>
 								{#if t.to_id == page.data.globalUser.id}
 								<div class="flex sm:flex-col gap-2 justify-end">
-									<button disabled={loading} onclick={() => changeTradeState(t.id, 1)} class="btn-glossy px-4 py-1.5 text-xs">{#if loading}
+									<button disabled={loading} onclick={() => changeTradeState(t.id, 1)} class="btn-glossy px-4 py-1 text-xs">{#if loading}
 										Updating...
 										{:else}
 										Accept
 										{/if}
 									</button>
-									<button disabled={loading} onclick={() => changeTradeState(t.id, 2)} class="btn-danger px-4 py-1.5 text-xs">
+									<button disabled={loading} onclick={() => changeTradeState(t.id, 2)} class="btn-danger px-4 py-1 text-xs">
 										{#if loading}
 										Updating...
 										{:else}

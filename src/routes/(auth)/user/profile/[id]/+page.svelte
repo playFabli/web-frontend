@@ -539,8 +539,8 @@
 	{/if}
 </svelte:head>
 {#if data.user && !data.user.privacy?.profile_visible && data.user.id !== user?.id && data.user.friend_status !== 'friends'}
-	<div class="max-w-container mx-auto px-4 py-6">
-		<div class="max-w-md mx-auto border border-gray-200 rounded p-6 bg-white text-center">
+	<div class="max-w-[70%] mx-auto px-4 py-6">
+		<div class="max-w-md mx-auto border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
 			<p class="text-4xl mb-3">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -566,12 +566,12 @@
 	</div>
 {:else}
 	<main class="py-6">
-		<div class="max-w-container mx-auto px-4">
-			<div class="border border-gray-200 rounded p-3 mb-3">
+		<div class="max-w-[70%] mx-auto px-4">
+			<div class="border border-[#EFE6E2] rounded-lg p-4 mb-3">
 				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 					<div class="col-span-1 md:col-span-2">
 						<img
-							class="avatar-frame w-lg h-lg border border-gray-200 p-2"
+							class="avatar-frame w-lg h-lg border border-[#EFE6E2] p-2"
 							src={`${config.headshotStorage}/${data.user.id}.png?t=${Date.now()}`}
 							alt=""
 						/>
@@ -676,7 +676,7 @@
 				<!-- Overview Tab -->
 				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 					<div class="col-span-1 md:col-span-4">
-						<div class="border border-gray-200 rounded p-3">
+						<div class="border border-[#EFE6E2] rounded-lg p-4">
 							<h5 class="text-sm font-semibold mb-3">Avatar</h5>
 							<div class="text-center mb-3">
 								<img
@@ -688,7 +688,7 @@
 						</div>
 					</div>
 					<div class="col-span-1 md:col-span-8">
-						<div class="border border-gray-200 rounded p-3 mb-5">
+						<div class="border border-[#EFE6E2] rounded-lg p-4 mb-5">
 							<h5 class="text-sm font-semibold mb-3">About</h5>
 							<p class="mb-3">
 								{data.user.description}
@@ -709,7 +709,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="border border-gray-200 rounded p-3">
+						<div class="border border-[#EFE6E2] rounded-lg p-4">
 							<div class="flex items-center justify-between mb-3">
 								<h5 class="text-sm font-semibold">Item Wall</h5>
 								{#if isOwnProfile}
@@ -753,7 +753,7 @@
 				</div>
 			{:else if tab === 1}
 				<!-- Creations Tab -->
-				<div class="border border-gray-200 rounded p-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4">
 					<h3 class="text-sm font-semibold mb-4">Creations</h3>
 					{#await creationsPromise}
 						<p class="text-center text-sm text-gray-500 py-8">Loading creations...</p>
@@ -761,7 +761,7 @@
 						{#if creations.length === 0}
 							<p class="text-center text-sm text-gray-500 py-8">No creations yet.</p>
 						{:else}
-							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
 								{#each creations as creation}
 									<ItemCard
 										item={creation}
@@ -791,7 +791,7 @@
 				</div>
 			{:else if tab === 2}
 				<!-- Inventory Tab -->
-				<div class="border border-gray-200 rounded p-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4">
 					<h3 class="text-sm font-semibold mb-4">Inventory</h3>
 					{#await inventoryPromise}
 						<p class="text-center text-sm text-gray-500 py-8">Loading inventory...</p>
@@ -799,7 +799,7 @@
 						{#if !inventory || inventory.length === 0}
 							<p class="text-center text-sm text-gray-500 py-8">No items in inventory.</p>
 						{:else}
-							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
 								{#each inventory as item}
 									<ItemCard
 										item={item.item}
@@ -834,12 +834,12 @@
 					<p class="text-center text-sm text-gray-500 py-8">Loading collections...</p>
 				{:then collections}
 					{#if collections.length === 0}
-						<div class="border border-gray-200 rounded p-8 text-center">
+						<div class="border border-[#EFE6E2] rounded-lg p-8 text-center">
 							<p class="text-gray-500">No collections available.</p>
 						</div>
 					{:else}
 						<div class="grid grid-cols-2 gap-4">
-							<div class="border border-gray-200 rounded p-3">
+							<div class="border border-[#EFE6E2] rounded-lg p-4">
 								<h3 class="text-sm font-semibold mb-3">Collections</h3>
 								<div class="max-h-80 overflow-y-auto space-y-0">
 								{#each collections as collection}
@@ -854,11 +854,11 @@
 								<!-- {@const totalCollected = collections.reduce((sum, c) => sum + c.collected_items, 0)}
 								{@const totalItems = collections.reduce((sum, c) => sum + c.total_items, 0)}
 								{@const overallPercentage = totalItems > 0 ? Math.round((totalCollected / totalItems) * 100) : 0} -->
-								<div class="mt-3 pt-3 border-t border-gray-200 text-sm text-gray-600 text-center">
+								<div class="mt-3 pt-3 border-t border-[#EFE6E2] text-sm text-gray-600 text-center">
 									Collected items: {totalCollected} / {totalItems} ({overallPercentage}%)
 								</div>
 							</div>
-							<div class="border border-gray-200 rounded p-3">
+							<div class="border border-[#EFE6E2] rounded-lg p-4">
 								<h3 class="text-sm font-semibold mb-3">Achievements</h3>
 								<div class="grid grid-cols-12 gap-4">
 									{#if data.user.id < 101}
@@ -891,7 +891,7 @@
 				{/await}
 			{:else if tab === 4}
 				<!-- Friends Tab -->
-				<div class="border border-gray-200 rounded p-3">
+				<div class="border border-[#EFE6E2] rounded-lg p-4">
 					<h3 class="text-sm font-semibold mb-4">Friends</h3>
 					{#await friendsPromise}
 						<p class="text-center text-sm text-gray-500 py-8">Loading friends...</p>
@@ -901,10 +901,10 @@
 						{:else}
 							<div class="space-y-2">
 								{#each friends as friend}
-									<a href={`/user/profile/${friend.id}`} class="flex items-center justify-between p-3 border border-gray-100 rounded hover:bg-gray-50 transition-colors">
-										<div class="flex items-center gap-3">
+									<a href={`/user/profile/${friend.id}`} class="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+										<div class="flex items-center gap-4">
 											<img
-												class="w-10 h-10 border border-gray-200 rounded-full"
+												class="w-10 h-10 border border-[#EFE6E2] rounded-full"
 												src={`${config.headshotStorage}/${friend.id}.png`}
 												alt=""
 											/>
@@ -941,7 +941,7 @@
 				</div>
 			{:else}
 				<!-- Other tabs placeholder -->
-				<div class="border border-gray-200 rounded p-8 text-center">
+				<div class="border border-[#EFE6E2] rounded-lg p-8 text-center">
 					<p class="text-gray-500">Coming soon...</p>
 				</div>
 			{/if}
@@ -951,8 +951,8 @@
 
 {#if showEditModal}
 	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showEditModal = false}>
-		<div class="bg-white rounded border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
-			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
+		<div class="bg-white rounded-lg border border-[#EFE6E2] max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
+			<div class="p-4 border-b border-[#EFE6E2] flex items-center justify-between">
 				<h3 class="text-lg font-semibold">Edit Item Wall</h3>
 				<button
 					class="cursor-pointer text-gray-500 hover:text-gray-700"
@@ -961,17 +961,17 @@
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 				</button>
 			</div>
-			<div class="p-3 border-b border-gray-200">
+			<div class="p-4 border-b border-[#EFE6E2]">
 				<div class="flex gap-2">
 					<input
 						type="text"
 						placeholder="Search items..."
-						class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm"
+						class="flex-1 px-3 py-1 border border-gray-300 rounded-lg text-sm"
 						bind:value={itemSearch}
 						oninput={() => fetchAvailableItems()}
 					/>
 					<select
-						class="px-3 py-1 border border-gray-300 rounded text-sm"
+						class="px-3 py-1 border border-gray-300 rounded-lg text-sm"
 						bind:value={itemCategory}
 						onchange={() => fetchAvailableItems()}
 					>
@@ -982,16 +982,16 @@
 					</select>
 				</div>
 			</div>
-			<div class="flex-1 overflow-y-auto p-3">
+			<div class="flex-1 overflow-y-auto p-4">
 				{#if loadingAvailableItems}
 					<p class="text-center text-sm text-gray-500 py-8">Loading items...</p>
 				{:else if availableItems.length === 0}
 					<p class="text-center text-sm text-gray-500 py-8">No items found.</p>
 				{:else}
-					<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+					<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
 						{#each availableItems as item}
 							<button
-								class="border-1 cursor-pointer rounded p-2 transition-all {selectedItems.some(si => si.id === item.id) ? 'border-primary bg-blue-50' : 'border-transparent hover:border-gray-300'}"
+								class="border-1 cursor-pointer rounded-lg p-2 transition-all {selectedItems.some(si => si.id === item.id) ? 'border-primary bg-blue-50' : 'border-transparent hover:border-gray-300'}"
 								onclick={() => {
 									if (selectedItems.some(si => si.id === item.id)) {
 										selectedItems = selectedItems.filter(si => si.id !== item.id);
@@ -1013,7 +1013,7 @@
 					</div>
 				{/if}
 			</div>
-			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
+			<div class="p-4 border-t border-[#EFE6E2] flex justify-end gap-2">
 				<button
 					class="btn-secondary px-4 py-1 text-sm"
 					onclick={() => showEditModal = false}
@@ -1030,8 +1030,8 @@
 <!-- Customize Modal -->
 {#if showCustomizeModal}
 	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showCustomizeModal = false}>
-		<div class="bg-white rounded border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
-			<div class="p-3 border-b border-gray-200 flex items-center justify-between">
+		<div class="bg-white rounded-lg border border-[#EFE6E2] max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
+			<div class="p-4 border-b border-[#EFE6E2] flex items-center justify-between">
 				<h3 class="text-lg font-semibold">Customize Profile</h3>
 				<button
 					class="cursor-pointer text-gray-500 hover:text-gray-700"
@@ -1040,7 +1040,7 @@
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 				</button>
 			</div>
-			<div class="flex-1 overflow-y-auto p-3">
+			<div class="flex-1 overflow-y-auto p-4">
 				{#if loadingCustomization}
 					<p class="text-center text-sm text-gray-500 py-8">Loading customization options...</p>
 				{:else if customizationData}
@@ -1050,10 +1050,10 @@
 						{#if customizationData.themes.length === 0}
 							<p class="text-sm text-gray-500 mb-2">You don't have any themes yet.</p>
 						{:else}
-							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
+							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mb-2">
 								<!-- Default option (no theme) -->
 								<button
-									class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === 0 ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+									class="border-1 cursor-pointer rounded-lg p-2 transition-all {selectedThemeId === 0 ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-[#EFE6E2] hover:border-gray-300'}"
 									onclick={() => selectedThemeId = 0}
 								>
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
@@ -1063,7 +1063,7 @@
 								</button>
 								{#each customizationData.themes as theme}
 									<button
-										class="border-1 cursor-pointer rounded p-2 transition-all {selectedThemeId === theme.id ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+										class="border-1 cursor-pointer rounded-lg p-2 transition-all {selectedThemeId === theme.id ? '!border-primary bg-blue-50 ring-1 ring-primary' : 'border-[#EFE6E2] hover:border-gray-300'}"
 										onclick={() => selectedThemeId = theme.id}
 									>
 										<img
@@ -1090,10 +1090,10 @@
 						{#if customizationData.frames.length === 0}
 							<p class="text-sm text-gray-500 mb-2">You don't have any frames yet.</p>
 						{:else}
-							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-2">
+							<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mb-2">
 								<!-- Default option (no frame) -->
 								<button
-									class="border-1 cursor-pointer rounded p-2 transition-all {selectedFrameId === 0 ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+									class="border-1 cursor-pointer rounded-lg p-2 transition-all {selectedFrameId === 0 ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-[#EFE6E2] hover:border-gray-300'}"
 									onclick={() => selectedFrameId = 0}
 								>
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
@@ -1103,7 +1103,7 @@
 								</button>
 								{#each customizationData.frames as frame}
 									<button
-										class="border-1 cursor-pointer rounded p-2 transition-all {selectedFrameId === frame.id ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-gray-200 hover:border-gray-300'}"
+										class="border-1 cursor-pointer rounded-lg p-2 transition-all {selectedFrameId === frame.id ? 'border-primary bg-blue-50 ring-2 ring-primary' : 'border-[#EFE6E2] hover:border-gray-300'}"
 										onclick={() => selectedFrameId = frame.id}
 									>
 										<img
@@ -1126,13 +1126,13 @@
 
 					<!-- Empty state message if both are empty -->
 					{#if customizationData.themes.length === 0 && customizationData.frames.length === 0}
-						<div class="text-center py-4 border-t border-gray-200">
+						<div class="text-center py-4 border-t border-[#EFE6E2]">
 							<p class="text-sm text-gray-500">Don't have any themes or frames? <a href="/marketplace" class="text-primary hover:underline">Buy them in the marketplace!</a></p>
 						</div>
 					{/if}
 				{/if}
 			</div>
-			<div class="p-3 border-t border-gray-200 flex justify-end gap-2">
+			<div class="p-4 border-t border-[#EFE6E2] flex justify-end gap-2">
 				<button
 					class="btn-secondary px-4 py-1 text-sm"
 					onclick={() => showCustomizeModal = false}

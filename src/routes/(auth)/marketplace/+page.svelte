@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import ItemCard from '$lib/components/marketplace/ItemCard.svelte';
 	import { config } from '$lib/config.js';
+	import { Plus } from 'lucide-svelte';
 
 	let { data } = $props();
 	
@@ -57,41 +58,46 @@
 	}
 </script>
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		{#if data.marketplaceBannerImage}
-			<div class="mb-5 rounded overflow-hidden">
+			<div class="mb-5 rounded-lg overflow-hidden">
 				<img src={config.storage + '/' + data.marketplaceBannerImage} alt="Marketplace Banner" class="w-full h-auto object-cover" />
 			</div>
 		{/if}
 
-		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3">
-			<h1 class="text-xl font-bold text-gray-900">Marketplace</h1>
+		<div class="mb-3">
+			<div class="grid grid-cols-2 gap-4">
+				<div class="col-span-1 content-center">
+					<h1 class="text-xl font-bold text-gray-900">Marketplace</h1>
+				</div>
+				<div class="col-span-1 text-right">
+					<a href="/marketplace/item/create" class="text-sm btn-glossy px-4 !py-1 mb-3"><Plus strokeWidth="3" class="inline mb-0.5 size-3.5"/> Create</a>
+				</div>
+			</div>
 		</div>
 
-		<div class="flex flex-col md:flex-row gap-6">
+		<div class="flex flex-col md:flex-row gap-4">
 			
 			<aside class="w-full md:w-48 flex-shrink-0">
-				<a href="/marketplace/item/create" class="btn-glossy px-4 !py-1 w-full mb-3">Create</a>
-				<div class="border border-gray-200 rounded p-3 bg-gray-50/30">
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
 					<h3 class="text-sm font-semibold text-gray-900 mb-3">Filters</h3>
 					
 					<div class="filter-section">
 						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Type</h4>
 						<div class="space-y-1.5">
 							{#each data.categories as category}
-							<label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer select-none group">
+							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none group">
 							<div class="relative flex items-center justify-center">
 								<input 
 								checked={categoriesSelected.includes(category.id)} 
 								type="checkbox" 
-								class="peer appearance-none w-4 h-4 rounded-xs cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
+								class="peer appearance-none w-4 h-4 rounded-sm cursor-pointer border border-gray-300 bg-white checked:bg-primary checked:border-primary transition-all duration-150" 
 								onchange={() => selectCategory(category.id)}
 								/>
-							
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="absolute w-3 h-3 text-white pointer-events-none opacity-0 scale-50 peer-checked:opacity-100 peer-checked:scale-100 transition-all duration-150 ease-out"><path d="M20 6 9 17l-5-5"/></svg>
 							</div>
 							
-							<span class="group-hover:text-gray-900 transition-colors duration-150">
+							<span class="group-hover:text-gray-900 font-semibold transition-colors duration-150">
 								{category.title}
 							</span>
 							</label>
@@ -101,26 +107,26 @@
 					</div>
 
 					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Price ($)</h4>
+						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Price</h4>
 						<div class="flex items-center gap-2">
-							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded px-2 py-1 text-sm" bind:value={priceMin}>
+							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={priceMin}>
 							<span class="text-gray-400 text-sm">–</span>
-							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Max" class="w-full border border-gray-300 rounded px-2 py-1 text-sm" bind:value={priceMax}>
-						</div>
+							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Max" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={priceMax}>
+						</div>	
 					</div>
 
 					<div class="filter-section">
 						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">VAL</h4>
 						<div class="flex items-center gap-2">
-							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded px-2 py-1 text-sm" bind:value={rapMin}>
+							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={rapMin}>
 							<span class="text-gray-400 text-sm">–</span>
-							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Max" class="w-full border border-gray-300 rounded px-2 py-1 text-sm" bind:value={rapMax}>
+							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Max" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={rapMax}>
 						</div>
 					</div>
 
 				<div class="filter-section">
 					<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Search</h4>
-					<input oninput={()=> itemsPromise = fetchItems()} type="text" placeholder="Search..." bind:value={query} class="w-full border border-gray-300 rounded px-2 py-1 text-sm">
+					<input oninput={()=> itemsPromise = fetchItems()} type="text" placeholder="Search..." bind:value={query} class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm">
 				</div>
 
 				{#if data.collections && data.collections.length > 0}
@@ -129,7 +135,7 @@
 					<select 
 						onchange={(e) => selectCollection(e.target.value)} 
 						value={selectedCollection}
-						class="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+						class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm"
 					>
 						<option value="">All Collections</option>
 						{#each data.collections as collection}
@@ -143,7 +149,7 @@
 			</aside>
 
 			<div class="flex-1">				
-				<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+				<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-4">
 					{#await itemsPromise}
 						<div class="col-span-4">
 							<p class="text-center text-neutral-400">Loading...</p>
@@ -161,7 +167,7 @@
 
 				</div>
 
-				<div class="flex items-center justify-between mt-5 pt-3 border-t border-gray-200">
+				<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
 					{#await itemsPromise}
 					<span class="text-sm text-gray-600">Showing .. of .. items</span>
 					<div class="flex gap-1">

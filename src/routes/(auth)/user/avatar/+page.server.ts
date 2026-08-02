@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 	let wearing: any[] = [];
 	
 	try {
-		const invRes = await fetch(`${config.internalApi}/user/inventory/me?page=1&limit=20&show_duplicates=0`, {
+		const invRes = await fetch(`${config.internalApi}/user/inventory/me?page=1&limit=10&show_duplicates=0`, {
 			headers: {
 				'Authorization': `Bearer ${token}`,
 				'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 		});
 		const invData = await invRes.json();
 		if (invRes.ok) {
-			inventory = invData.data || [];
+			inventory = invData || [];
 		}
 	} catch (e) {
 		console.error('Failed to load inventory', e);

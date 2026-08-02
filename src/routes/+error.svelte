@@ -11,7 +11,7 @@
 
 <div class="min-h-screen flex flex-col bg-white">
 	<nav class="bg-white border-b border-[#c7b3a0]/30 sticky top-0 z-50" style="min-height: 44px;">
-		<div class="max-w-container mx-auto px-4 flex items-center justify-between" style="min-height: 44px;">
+		<div class="max-w-[70%] mx-auto px-4 flex items-center justify-between" style="min-height: 44px;">
 			<div class="flex items-center gap-5">
 				<a href="/" class="inline-flex items-baseline font-bold text-gray-900 text-base tracking-tight whitespace-nowrap select-none">
 					<img class="inline-block h-[32px]" src="/logo_full.png" alt="Logo">
@@ -27,7 +27,7 @@
 
 	<main class="flex-1 flex items-center justify-center py-16">
 		<div class="max-w-md mx-auto px-4 text-center">
-			<div class="border border-gray-200 rounded p-8 bg-white">
+			<div class="border border-[#EFE6E2] rounded-lg p-8 bg-white">
 				<div class="w-16 h-16 mx-auto mb-4 text-[#A2574F]">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<circle cx="12" cy="12" r="10" />
@@ -62,7 +62,7 @@
 					{/if}
 				</p>
 
-				<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
 					<a href="/" class="btn-glossy px-5 py-2 text-sm w-full sm:w-auto">
 						Return Home
 					</a>
@@ -72,9 +72,9 @@
 	</main>
 
 	<footer class="bg-[#A2574F] border-t-1 border-[#c7b3a0]/50 pt-8 pb-6 mt-12">
-		<div class="max-w-container mx-auto px-4">
+		<div class="max-w-[70%] mx-auto px-4">
 			<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b border-[#c7b3a0]/10">
-				<div class="flex items-center gap-3">
+				<div class="flex items-center gap-4">
 					<a href="/" class="font-bold text-neutral-100 text-base tracking-tight select-none">
 						fabli <span class="text-sm">alpha</span>
 					</a>

@@ -50,11 +50,11 @@
 		// [center]text[/center]
 		html = html.replace(/\[center\]([\s\S]*?)\[\/center\]/gi, '<div class="text-center">$1</div>');
 		// [quote]text[/quote]
-		html = html.replace(/\[quote\]([\s\S]*?)\[\/quote\]/gi, '<blockquote class="border-l-4 border-gray-300 pl-3 py-1 my-2 text-sm text-gray-600 italic bg-gray-50 rounded">$1</blockquote>');
+		html = html.replace(/\[quote\]([\s\S]*?)\[\/quote\]/gi, '<blockquote class="border-l-4 border-gray-300 pl-3 py-1 my-2 text-sm text-gray-600 italic bg-gray-50 rounded-lg">$1</blockquote>');
 		// [code]text[/code]
-		html = html.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, '<pre class="bg-gray-100 border border-gray-200 rounded p-3 my-2 text-xs overflow-x-auto font-mono">$1</pre>');
+		html = html.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, '<pre class="bg-gray-100 border border-[#EFE6E2] rounded-lg p-4 my-2 text-xs overflow-x-auto font-mono">$1</pre>');
 		// [img]url[/img]
-		html = html.replace(/\[img\]([\s\S]*?)\[\/img\]/gi, '<img src="$1" alt="" class="max-w-full h-auto my-3 rounded border border-gray-200" loading="lazy" />');
+		html = html.replace(/\[img\]([\s\S]*?)\[\/img\]/gi, '<img src="$1" alt="" class="max-w-full h-auto my-3 rounded-lg border border-[#EFE6E2]" loading="lazy" />');
 		// [url=link]text[/url]
 		html = html.replace(/\[url=([\s\S]*?)\]([\s\S]*?)\[\/url\]/gi, '<a href="$1" class="text-primary hover:underline" target="_blank" rel="noopener">$2</a>');
 		// [url]link[/url]
@@ -142,30 +142,30 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<a href="/blog" class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-primary mb-4">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"/></svg>
 			Back to Blog
 		</a>
 
-		<article class="bg-white border border-gray-200 rounded overflow-hidden">
+		<article class="bg-white border border-[#EFE6E2] rounded-lg overflow-hidden">
 			{#if post.banner_path}
 				<img src="{config.storage}/{post.banner_path}" alt="" class="w-full h-64 object-cover" />
 			{/if}
 
-			<div class="p-6 md:p-8">
-				<div class="flex items-center gap-3 mb-4">
+			<div class="p-4 md:p-8">
+				<div class="flex items-center gap-4 mb-4">
 					<img
 						src="{config.headshotStorage}/{post.user?.id}.png"
 						alt=""
-						class="w-10 h-10 border border-gray-200 rounded-full"
+						class="w-10 h-10 border border-[#EFE6E2] rounded-full"
 					/>
 					<div>
 						<p class="text-sm font-medium text-gray-900">{post.user?.username}</p>
 						<p class="text-xs text-gray-400">{formatDate(post.created_at)}</p>
 					</div>
 					{#if post.is_featured}
-						<span class="ml-auto text-[10px] font-semibold text-primary uppercase tracking-wide">Featured</span>
+						<span class="ml-auto text-[10px] font-bold text-primary uppercase tracking-wide">Featured</span>
 					{/if}
 				</div>
 
@@ -176,7 +176,7 @@
 				</div>
 
 				{#if isAdmin}
-					<div class="mt-8 pt-4 border-t border-gray-200 flex items-center gap-2">
+					<div class="mt-8 pt-4 border-t border-[#EFE6E2] flex items-center gap-2">
 						<button class="btn-secondary px-3 py-1 text-xs" onclick={() => (showEditModal = true)}>Edit</button>
 						<button class="btn-secondary px-3 py-1 text-xs" onclick={togglePublish}>
 							{post.is_published ? 'Unpublish' : 'Publish'}
@@ -198,10 +198,10 @@
 		onclick={() => (showEditModal = false)}
 	>
 		<div
-			class="bg-white border border-gray-200 rounded shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
+			class="bg-white border border-[#EFE6E2] rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
 			onclick={(e)=>{e.stopPropagation()}}
 		>
-			<div class="p-4 border-b border-gray-200">
+			<div class="p-4 border-b border-[#EFE6E2]">
 				<h2 class="text-base font-semibold text-gray-900">Edit Post</h2>
 			</div>
 			<div class="p-4 space-y-3">
@@ -210,17 +210,17 @@
 					<input
 						type="text"
 						bind:value={editTitle}
-						class="w-full border border-gray-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-primary"
+						class="w-full border border-[#EFE6E2] rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-primary"
 					/>
 				</div>
 				<div>
 					<label class="block text-xs font-medium text-gray-700 mb-1">Banner Image</label>
 					{#if editBannerPreview}
-						<div class="mb-2 rounded overflow-hidden border border-gray-200">
+						<div class="mb-2 rounded-lg overflow-hidden border border-[#EFE6E2]">
 							<img src="{editBannerPreview}" alt="Banner preview" class="w-full h-32 object-cover" />
 						</div>
 					{:else if post.banner_path}
-						<div class="mb-2 rounded overflow-hidden border border-gray-200">
+						<div class="mb-2 rounded-lg overflow-hidden border border-[#EFE6E2]">
 							<img src="{config.storage}/{post.banner_path}" alt="Current banner" class="w-full h-32 object-cover" />
 						</div>
 					{/if}
@@ -228,12 +228,12 @@
 						type="file"
 						accept="image/*"
 						onchange={handleBannerSelect}
-						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer mb-2"
+						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer mb-2"
 					/>
 					<p class="text-xs text-gray-500 mt-1">Upload a new banner image to replace the current one. Max 5MB.</p>
 					{#if post.banner_path}
 						<label class="flex items-center gap-2 text-xs text-gray-600 mt-2">
-							<input type="checkbox" bind:checked={removeBanner} class="w-4 h-4 rounded border-gray-300" />
+							<input type="checkbox" bind:checked={removeBanner} class="w-4 h-4 rounded-lg border-gray-300" />
 							Remove current banner
 						</label>
 					{/if}
@@ -242,11 +242,11 @@
 					<label class="block text-xs font-medium text-gray-700 mb-1">Body (BBCode)</label>
 					<textarea
 						bind:value={editBody}
-						class="w-full border border-gray-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-primary min-h-[300px]"
+						class="w-full border border-[#EFE6E2] rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-primary min-h-[300px]"
 					></textarea>
 				</div>
 			</div>
-			<div class="p-4 border-t border-gray-200 flex justify-end gap-2">
+			<div class="p-4 border-t border-[#EFE6E2] flex justify-end gap-2">
 				<button class="btn-secondary px-3 py-1 text-xs" onclick={() => (showEditModal = false)}>Cancel</button>
 				<button class="btn-glossy px-3 py-1 text-xs" onclick={saveEdit} disabled={saving}>
 					{saving ? 'Saving...' : 'Save'}

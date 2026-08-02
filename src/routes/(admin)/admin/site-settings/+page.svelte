@@ -64,7 +64,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-container mx-auto px-4">
+	<div class="max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
 			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
 			<span class="text-gray-700">Site Settings</span>
@@ -72,9 +72,9 @@
 
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Site Settings</h1>
 
-		<div class="border border-gray-200 rounded p-5 bg-white">
+		<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white">
 			{#if message}
-				<div class="mb-4 p-3 rounded text-sm {message.includes('success') ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}">
+				<div class="mb-4 p-4 rounded-lg text-sm {message.includes('success') ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}">
 					{message}
 				</div>
 			{/if}
@@ -92,16 +92,16 @@
 					<p class="text-xs text-gray-500 mt-1">The amount of currency users can claim daily.</p>
 				</div>
 
-				<div class="flex items-center gap-3">
-					<input type="checkbox" id="maintenance_mode" bind:checked={settings.maintenance_mode} class="w-4 h-4 text-[#A2574F] border-gray-300 rounded" />
+				<div class="flex items-center gap-4">
+					<input type="checkbox" id="maintenance_mode" bind:checked={settings.maintenance_mode} class="w-4 h-4 text-[#A2574F] border-gray-300 rounded-lg" />
 					<div>
 						<label for="maintenance_mode" class="block text-sm font-semibold text-gray-700">Maintenance Mode</label>
 						<p class="text-xs text-gray-500">When enabled, the site will be inaccessible to regular users.</p>
 					</div>
 				</div>
 
-				<div class="flex items-center gap-3">
-					<input type="checkbox" id="registration_open" bind:checked={settings.registration_open} class="w-4 h-4 text-[#A2574F] border-gray-300 rounded" />
+				<div class="flex items-center gap-4">
+					<input type="checkbox" id="registration_open" bind:checked={settings.registration_open} class="w-4 h-4 text-[#A2574F] border-gray-300 rounded-lg" />
 					<div>
 						<label for="registration_open" class="block text-sm font-semibold text-gray-700">Registration Open</label>
 						<p class="text-xs text-gray-500">Allow new users to create accounts.</p>
@@ -111,15 +111,15 @@
 				<div>
 					<label class="block text-sm font-semibold text-gray-700 mb-1">Marketplace Banner Image</label>
 					{#if bannerPreview}
-						<div class="mb-2 rounded overflow-hidden border border-gray-200">
+						<div class="mb-2 rounded-lg overflow-hidden border border-[#EFE6E2]">
 							<img src={bannerPreview} alt="Marketplace banner preview" class="w-full h-auto max-h-48 object-cover" />
 						</div>
 					{/if}
-					<input type="file" accept="image/*" onchange={handleBannerUpload} class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer" />
+					<input type="file" accept="image/*" onchange={handleBannerUpload} class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer" />
 					<p class="text-xs text-gray-500 mt-1">Upload a banner image to display at the top of the marketplace page.</p>
 				</div>
 
-				<div class="flex gap-3 pt-3">
+				<div class="flex gap-4 pt-3">
 					<button onclick={saveSettings} disabled={saving} class="btn-glossy px-4 py-1 text-sm">
 						{saving ? 'Saving...' : 'Save Changes'}
 					</button>
