@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { Color3 } from '@babylonjs/core';
 	import * as BABYLON from 'babylonjs';
 	import { onMount } from "svelte";
@@ -184,12 +185,12 @@
 	}
  
 	function savePlace() {
-		localStorage.setItem("place", JSON.stringify(parts));
+		localStorage.setItem(`place_${page.params.id}`, JSON.stringify(parts));
 		alert("Saved!");
 	}
  
 	function loadPlace() {
-		const json = localStorage.getItem("place");
+		const json = localStorage.getItem(`place_${page.params.id}`);
 		if (!json) return;
  
 		parts = JSON.parse(json);
@@ -676,25 +677,6 @@
 		};
 	});
 </script>
-
-<style>
-	.btn-secondary {
-		background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
-		border: 1px solid #9ca3af;
-		border-radius: 4px;
-		color: #374151;
-		font-weight: 500;
-		cursor: pointer;
-		transition: all 0.15s ease;
-		text-decoration: none;
-		display: inline-block;
-	}
-	.btn-secondary:hover {
-		background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
-		border-color: #6b7280;
-		color: #1f2937;
-	}
-</style>
 <div class="h-[91vh] flex flex-col min-h-0">
 	<!-- Toolbar -->
 	<div class="bg-gray-50 border-b border-[#EFE6E2] px-3 py-1 flex flex-wrap items-center gap-2 flex-shrink-0">
@@ -712,7 +694,7 @@
 		<button onclick={() => mode = 'move'} class="btn-secondary px-2 py-1 text-sm" class:bg-blue-100={mode === 'move'}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
 			Move</button>
-		<button onclick={() => mode = 'rotate'} class="btn-secondary px-2 py-1 text-sm" class:bg-blue-100={mode === 'rotate'}>
+		<button onclick={() => mode = 'rotate'} class="font-bold btn-secondary px-2 py-1 text-sm" class:bg-blue-100={mode === 'rotate'}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg>
 			Rotate</button>
 		<button onclick={() => mode = 'scale'} class="btn-secondary px-2 py-1 text-sm" class:bg-blue-100={mode === 'scale'}>
