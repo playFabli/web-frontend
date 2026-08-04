@@ -1,4 +1,4 @@
-import { Vector3, Ray, MeshBuilder } from '@babylonjs/core';
+import { Vector3, Ray, MeshBuilder, Scalar } from '@babylonjs/core';
 import type { Scene, TransformNode, Camera, Mesh } from '@babylonjs/core';
 import type { InputManager } from './input';
 
@@ -7,6 +7,7 @@ export interface PlayerControllerOptions {
 	sprintSpeed?: number; // units/sec (Shift held)
 	jumpSpeed?: number; // initial upward velocity
 	gravity?: number; // units/sec^2 (negative)
+	turnSpeed?: number; // max rotation rate while turning (radians/sec)
 }
 
 /**
@@ -31,6 +32,7 @@ export class PlayerController {
 	private readonly sprintSpeed: number;
 	private readonly jumpSpeed: number;
 	private readonly gravity: number;
+	private readonly turnSpeed: number;
 
 	constructor(
 		private scene: Scene,
@@ -43,6 +45,7 @@ export class PlayerController {
 		this.sprintSpeed = opts.sprintSpeed ?? 7.5;
 		this.jumpSpeed = opts.jumpSpeed ?? 7;
 		this.gravity = opts.gravity ?? -18;
+		this.turnSpeed = opts.turnSpeed ?? 6;
 
 		// Invisible capsule collider. Its own mesh geometry is irrelevant to
 		// physics here - what matters for Babylon's collision system is the
@@ -118,9 +121,25 @@ export class PlayerController {
 			this.grounded = false;
 		}
 
-		// Face the direction we're moving in.
+		// Smoothly turn the character toward the movement direction
+		// (ROBLOX-style). We rotate by a signed, per-frame-clamped delta
+		// instead of a raw lerp factor:
+		//   - The signed delta always takes the SHORTEST arc, so diagonal
+		//     combos never spin the long way around.
+		//   - The clamp bounds how far the character can rotate per frame,
+		//     preventing any overshoot or flip.
+		//   - Normalizing each frame keeps rotation.y inside [-PI, PI] so it
+		//     can never accumulate drift across the wrap boundary.
 		if (moveDir.lengthSquared() > 0.0001) {
-			this.modelRoot.rotation.y = Math.atan2(moveDir.x, moveDir.z);
+			const targetYaw = Math.atan2(moveDir.x, moveDir.z);
+			let currentYaw = this.modelRoot.rotation.y;
+			let delta = targetYaw - currentYaw;
+			delta = Math.atan2(Math.sin(delta), Math.cos(delta)); // wrap to [-PI, PI]
+			const maxDelta = this.turnSpeed * dt;
+			delta = Scalar.Clamp(delta, -maxDelta, maxDelta);
+			currentYaw += delta;
+			currentYaw = Math.atan2(Math.sin(currentYaw), Math.cos(currentYaw)); // keep normalized
+			this.modelRoot.rotation.y = currentYaw;
 		}
 	}
 
