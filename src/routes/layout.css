@@ -32,7 +32,7 @@ h1,h2,h3 {
   @apply bg-gray-100 text-gray-900;
 }
 .nav-link.active {
-  @apply bg-gray-100 text-gray-900 font-medium;
+  @apply bg-gray-100 text-gray-900 font-bold;
 }
 
 .btn-glossy {
@@ -88,7 +88,7 @@ h1,h2,h3 {
 
 .btn-secondary.active-tab,
 .active-tab {
-  @apply bg-gray-100 border-gray-500 text-gray-900 font-semibold;
+  @apply bg-gray-100 border-gray-500 text-gray-900 font-bold;
 }
 
 .card-shadow {
@@ -127,7 +127,7 @@ h1,h2,h3 {
 	box-shadow: 0 0 0 2px rgba(162,87,79,0.2);
 }
 .form-label {
-	@apply text-xs font-semibold text-gray-600 mb-1 block;
+	@apply text-xs font-bold text-gray-600 mb-1 block;
 }
 
 .filter-section {
@@ -207,7 +207,7 @@ h1,h2,h3 {
   @apply w-full border-collapse text-sm;
 }
 .forum-table th {
-  @apply bg-gray-50 border-b border-[#EFE6E2] px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider text-xs;
+  @apply bg-gray-50 border-b border-[#EFE6E2] px-3 py-2 text-left font-bold text-gray-600 uppercase tracking-wider text-xs;
 }
 .forum-table td {
   @apply border-b border-gray-100 px-3 py-2 align-middle;
@@ -216,13 +216,13 @@ h1,h2,h3 {
   @apply bg-gray-50;
 }
 .thread-title {
-  @apply text-gray-900 font-medium no-underline transition-colors duration-100;
+  @apply text-gray-900 font-bold no-underline transition-colors duration-100;
 }
 .thread-title:hover {
   @apply text-[#A2574F] underline;
 }
 .category-tag {
-  @apply inline-block text-xs font-semibold px-2 py-0.5 rounded-lg bg-gray-100 text-gray-600 border border-[#EFE6E2];
+  @apply inline-block text-xs font-bold px-2 py-0.5 rounded-lg bg-gray-100 text-gray-600 border border-[#EFE6E2];
 }
 .sticky-thread {
   @apply bg-yellow-50;
@@ -260,7 +260,7 @@ h1,h2,h3 {
 }
 
 .badge-tag {
-  @apply inline-block text-xs font-semibold px-2 py-0.5 rounded-lg bg-gray-100 border border-[#EFE6E2] text-gray-600;
+  @apply inline-block text-xs font-bold px-2 py-0.5 rounded-lg bg-gray-100 border border-[#EFE6E2] text-gray-600;
 }
 
 .wall-comment {
@@ -293,7 +293,7 @@ h1,h2,h3 {
   @apply w-full border-collapse text-sm;
 }
 .leaderboard-table th {
-  @apply bg-gray-50 border-b border-[#EFE6E2] px-3 py-2 text-left font-semibold text-gray-600 uppercase tracking-wider text-xs;
+  @apply bg-gray-50 border-b border-[#EFE6E2] px-3 py-2 text-left font-bold text-gray-600 uppercase tracking-wider text-xs;
 }
 .leaderboard-table td {
   @apply border-b border-gray-100 px-3 py-2 align-middle;

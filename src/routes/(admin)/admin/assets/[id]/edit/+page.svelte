@@ -254,7 +254,7 @@
 				<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onclick={() => { templateImageUrl = ''; }}>
 					<div class="bg-white rounded-lg-lg p-4 max-w-lg w-full mx-4" onclick={(e) => e.stopPropagation()}>
 						<div class="flex items-center justify-between mb-3">
-							<h3 class="text-lg font-semibold text-gray-900">Texture Template</h3>
+							<h3 class="text-lg font-bold text-gray-900">Texture Template</h3>
 							<button onclick={() => { templateImageUrl = ''; }} class="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
 						</div>
 						<img src={templateImageUrl} alt="Texture template" class="w-full border border-gray-300 rounded-lg">
@@ -264,7 +264,7 @@
 
 			<div class="md:col-span-2 space-y-4">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Basic Information</h2>
+					<h2 class="text-lg font-bold mb-3">Basic Information</h2>
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="name">Name</label>
@@ -311,19 +311,19 @@
 						<div>
 							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
 								<input type="checkbox" bind:checked={isLimited} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
-								<span class="font-medium text-gray-700">Limited</span>
+								<span class="font-bold text-gray-700">Limited</span>
 							</label>
 						</div>
 						<div>
 							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
 								<input type="checkbox" bind:checked={isOffsale} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
-								<span class="font-medium text-gray-700">Offsale</span>
+								<span class="font-bold text-gray-700">Offsale</span>
 							</label>
 						</div>
 						<div>
 							<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
 								<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
-								<span class="font-medium text-gray-700">Timed (auto offsale)</span>
+								<span class="font-bold text-gray-700">Timed (auto offsale)</span>
 							</label>
 						</div>
 						{#if isTimed}
@@ -358,7 +358,7 @@
 
 				{#if data.collections && data.collections.length > 0}
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Collection Assignment</h2>
+					<h2 class="text-lg font-bold mb-3">Collection Assignment</h2>
 					<div class="mb-3">
 						<label class="form-label" for="collection">Collection</label>
 						<select bind:value={collectionId} id="collection" class="form-input">
@@ -380,7 +380,7 @@
 				</div>
 				{#if page.data.globalUser.role == "admin"}
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-2">Grant Item to User</h2>
+					<h2 class="text-lg font-bold mb-2">Grant Item to User</h2>
 					<p class="text-sm text-gray-600 mb-3">Give this item to a user by ID.</p>
 					<div class="flex gap-2">
 						<input bind:value={grantUserId} type="number" placeholder="User ID" class="form-input" min="1">

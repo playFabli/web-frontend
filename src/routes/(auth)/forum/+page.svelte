@@ -67,7 +67,7 @@
 		<div class="flex flex-col items-start md:flex-row gap-4">
 			<aside class="w-full md:w-44 flex-shrink-0">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
-					<h3 class="text-sm font-semibold text-gray-900 mb-3">Categories</h3>
+					<h3 class="text-sm font-bold text-gray-900 mb-3">Categories</h3>
 					<div class="space-y-1.5">
 						<a
 							onclick={() => selectCategory({ id: 0, name: 'All' })}
@@ -124,7 +124,7 @@
 						<span class="text-xs text-gray-500"
 							>{#if categoryId == 0}All{:else}{category.name}{/if}</span
 						>
-						<h2 class="text-sm font-semibold text-gray-900">Latest threads</h2>
+						<h2 class="text-sm font-bold text-gray-900">Latest threads</h2>
 					</div>
 					<!-- <div class="flex items-center gap-2 text-xs text-gray-500">
 						<span>Sort by:</span>

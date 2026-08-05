@@ -61,27 +61,27 @@
 		<!-- Quick link cards to admin sections -->
 		<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 			<a href="/admin/users" class="admin-link-card card-shadow flex flex-col items-start">
-				<span class="text-lg font-semibold">Users</span>
+				<span class="text-lg font-bold">Users</span>
 				<p class="text-sm text-gray-600 mt-1">Manage accounts, moderators, bans</p>
 			</a>
 			<a href="/admin/assets" class="admin-link-card card-shadow flex flex-col items-start">
-				<span class="text-lg font-semibold">Assets</span>
+				<span class="text-lg font-bold">Assets</span>
 				<p class="text-sm text-gray-600 mt-1">Review items, reports, marketplace</p>
 			</a>
 			<a href="/admin/categories" class="admin-link-card card-shadow flex flex-col items-start">
-				<span class="text-lg font-semibold">Categories</span>
+				<span class="text-lg font-bold">Categories</span>
 				<p class="text-sm text-gray-600 mt-1">Manage marketplace categories</p>
 			</a>
 		<a href="/admin/collections" class="admin-link-card card-shadow flex flex-col items-start">
-			<span class="text-lg font-semibold">Collections</span>
+			<span class="text-lg font-bold">Collections</span>
 			<p class="text-sm text-gray-600 mt-1">Manage item collections</p>
 		</a>
 		<a href="/admin/forum-tags" class="admin-link-card card-shadow flex flex-col items-start">
-			<span class="text-lg font-semibold">Forum Tags</span>
+			<span class="text-lg font-bold">Forum Tags</span>
 			<p class="text-sm text-gray-600 mt-1">Manage user forum tags</p>
 		</a>
 			<a href="/admin/site-settings" class="admin-link-card card-shadow flex flex-col items-start">
-				<span class="text-lg font-semibold">Site Settings</span>
+				<span class="text-lg font-bold">Site Settings</span>
 				<p class="text-sm text-gray-600 mt-1">General configuration, maintenance</p>
 			</a>
 		</div>
@@ -89,39 +89,39 @@
 		<!-- Statistics Row -->
 		<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
 			<div class="stat-card card-shadow">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Users</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Users</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.stats.total_users)}</p>
 			</div>
 			<div class="stat-card card-shadow cursor-pointer" onclick={openDauHistory} role="button" tabindex="0" onkeydown={(e) => e.key === 'Enter' && openDauHistory()}>
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">DAU (Today)</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">DAU (Today)</p>
 				<p class="text-2xl font-bold mt-1">{formatter.format(data.stats.daily_active_users)}</p>
 				<p class="text-xs text-gray-400 mt-1">Click for history →</p>
 			</div>
 			<div class="stat-card card-shadow">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Items</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Items</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.stats.total_items)}</p>
 			</div>
 			<div class="stat-card card-shadow">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Inventory</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Inventory</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.stats.total_inventory)}</p>
 			</div>
 			<div class="stat-card card-shadow">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Pending Items</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Pending Items</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.stats.pending_items)}</p>
 			</div>
 			<div class="stat-card card-shadow">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Bans</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Bans</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.stats.total_bans)}</p>
 			</div>
 			<div class="stat-card card-shadow">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Admin Logs</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Admin Logs</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.stats.total_logs)}</p>
 			</div>
 		</div>
 
 		<!-- Quick Actions -->
 		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white card-shadow">
-			<h2 class="text-sm font-semibold mb-3">Quick Actions</h2>
+			<h2 class="text-sm font-bold mb-3">Quick Actions</h2>
 			<div class="flex flex-wrap gap-2">
 				<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">Manage Users</a>
 				<a href="/admin/users/pending" class="btn-secondary px-4 py-1 text-sm bg-amber-50 hover:bg-amber-100 border-amber-200">Pending Transactions</a>

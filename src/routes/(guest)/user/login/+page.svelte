@@ -74,7 +74,7 @@
 					</button>
 				</form>
 				<div class="mt-4 text-center text-sm text-gray-600">
-					Don't have an account? <a href="/user/register" class="text-primary hover:underline font-medium">Register</a>
+					Don't have an account? <a href="/user/register" class="text-primary hover:underline font-bold">Register</a>
 				</div>
 			</div>
 		</div>

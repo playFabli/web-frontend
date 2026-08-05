@@ -105,9 +105,9 @@
     <div class="modal" style="background: white; border: 1px solid #e5e7eb; border-radius: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08); width: 90%; max-width: 420px;">
         <div class="modal-header" style="padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
             {#await friendRequestsPromise}
-			<h2 class="text-base font-semibold text-gray-900">Friend Requests (Loading...)</h2>
+			<h2 class="text-base font-bold text-gray-900">Friend Requests (Loading...)</h2>
 			{:then requests}
-			<h2 class="text-base font-semibold text-gray-900">Friend Requests ({requests.total})</h2>
+			<h2 class="text-base font-bold text-gray-900">Friend Requests ({requests.total})</h2>
 			{/await}
 			<button onclick={()=>frModalOpen = false} class="close-btn" style="background: none; border: none; font-size: 1.25rem; color: #6b7280; cursor: pointer; line-height: 1; padding: 0 0.25rem;">&times;</button>
         </div>
@@ -122,7 +122,7 @@
 				<div class="flex items-center justify-between py-2 border-b border-gray-100 request-row">
 					<div class="flex items-center gap-2">
 						<img src={`${config.headshotStorage}/${request.from.id}.png?t=${Date.now()}`} alt="RareCollector" class="w-7 h-7 rounded-full border border-[#EFE6E2]">
-						<span class="text-sm font-medium text-gray-900">{request.from.username}</span>
+						<span class="text-sm font-bold text-gray-900">{request.from.username}</span>
 					</div>
 					<div class="flex gap-2">
 						<button disabled={requestLoading} onclick={()=>changeRequestState(request.id, 0)} class="btn-glossy accept-btn px-2 py-1 text-xs">Accept</button>
@@ -144,7 +144,7 @@
 				<span class="text-sm font-bold text-[#A2574F] ml-1">alpha</span>
 			</a>
 			
-			<div class="hidden md:flex items-center gap-4 text-sm text-gray-600 font-medium">
+			<div class="hidden md:flex items-center gap-4 text-sm text-gray-600 font-bold">
 				<a href="/explore" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Explore</a>
 				<a href="/marketplace" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Marketplace</a>
 				<a href="/forum" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Forum</a>
@@ -153,7 +153,7 @@
 					<button
 						bind:this={moreButton}
 						onclick={toggleMoreMenu}
-						class="cursor-pointer flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-[#A2574F] p-1 rounded-lg transition-colors duration-200"
+						class="cursor-pointer flex items-center gap-1 text-sm font-bold text-gray-600 hover:text-[#A2574F] p-1 rounded-lg transition-colors duration-200"
 						aria-expanded={moreOpen}
 						aria-haspopup="true"
 					>
@@ -177,7 +177,7 @@
 
 		<div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
 			
-			<div class="flex items-center gap-4 text-sm font-medium text-gray-700">
+			<div class="flex items-center gap-4 text-sm font-bold text-gray-700">
 				<span onclick={() => { friendRequestsPromise = getFriendRequests(); frModalOpen = true; }} class="inline-flex items-center cursor-pointer hover:text-[#A2574F] transition-colors duration-200" title="Friend Requests">
 					<span class="text-[#A2574F]">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
@@ -196,7 +196,7 @@
 				<button
 					bind:this={profileButton}
 					onclick={toggleMenu}
-					class="cursor-pointer flex items-center gap-1 sm:gap-2 text-sm font-medium text-gray-600 hover:text-[#A2574F] p-1 rounded-lg transition-colors duration-200"
+					class="cursor-pointer flex items-center gap-1 sm:gap-2 text-sm font-bold text-gray-600 hover:text-[#A2574F] p-1 rounded-lg transition-colors duration-200"
 					aria-expanded={open}
 					aria-haspopup="true"
 				>
@@ -258,7 +258,7 @@
 					<div class="text-4xl mb-3">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-10 mb-1 inline"><path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h7.5"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="M18 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><circle cx="18" cy="18" r="3"/><path d="m22 22-1.5-1.5"/></svg>
 					</div>
-					<h2 class="text-lg font-semibold text-gray-900 mb-2">Verify Your Email</h2>
+					<h2 class="text-lg font-bold text-gray-900 mb-2">Verify Your Email</h2>
 					<p class="text-sm text-gray-700 mb-4">
 						Please check your inbox and verify your email address to continue using the site.
 					</p>
@@ -278,7 +278,7 @@
 					</a>
 					<span class="text-neutral-300 text-sm">© 2026</span>
 				</div>
-				<div class="flex items-center gap-x-6 gap-y-2 flex-wrap text-sm text-neutral-200 font-medium">
+				<div class="flex items-center gap-x-6 gap-y-2 flex-wrap text-sm text-neutral-200 font-bold">
 					<a href="#" class="hover:text-white transition-colors duration-200">About</a>
 					<a href="/blog" class="hover:text-white transition-colors duration-200">Blog</a>
 					<a href="/legal/privacy" class="hover:text-white transition-colors duration-200">Privacy</a>

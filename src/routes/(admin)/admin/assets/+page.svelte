@@ -155,11 +155,11 @@
 
 		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white flex flex-wrap gap-4 items-end">
 			<div class="flex-1 min-w-[200px]">
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Search</label>
 				<input bind:value={searchQuery} type="text" placeholder="Asset name..." class="form-input">
 			</div>
 			<div>
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Status</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Status</label>
 				<select bind:value={selectedStatus} class="form-input">
 					<option value="">All</option>
 					<option value="approved">Approved</option>
@@ -188,7 +188,7 @@
 						{#each assets.data as item}
 							<tr>
 								<td class="text-xs text-gray-500">#{item.id}</td>
-								<td><span class="font-medium text-gray-900">{item.title}</span></td>
+								<td><span class="font-bold text-gray-900">{item.title}</span></td>
 								<td class="text-sm">{item.category?.title || 'N/A'}</td>
 								<td class="text-sm">{item.user?.username || 'N/A'}</td>
 								{#if !item.is_deleted}

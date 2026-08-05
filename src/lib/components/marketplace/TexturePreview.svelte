@@ -60,7 +60,7 @@
 </script>
 
 <div class="preview-container">
-	<h3 class="text-sm font-semibold text-gray-700 mb-2">Preview</h3>
+	<h3 class="text-sm font-bold text-gray-700 mb-2">Preview</h3>
 	<div class="preview-frame">
 		{#if loading}
 			<div class="loading-state">

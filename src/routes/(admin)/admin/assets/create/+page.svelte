@@ -212,19 +212,19 @@
 				<div>
 					<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
 						<input type="checkbox" bind:checked={isLimited} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
-						<span class="font-medium text-gray-700">Limited</span>
+						<span class="font-bold text-gray-700">Limited</span>
 					</label>
 				</div>
 				<div>
 					<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
 						<input type="checkbox" bind:checked={isOffsale} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
-						<span class="font-medium text-gray-700">Offsale</span>
+						<span class="font-bold text-gray-700">Offsale</span>
 					</label>
 				</div>
 				<div>
 					<label class="flex items-center gap-2 text-sm cursor-pointer mt-5">
 						<input type="checkbox" bind:checked={isTimed} class="w-4 h-4 rounded-lg border-gray-300 text-primary">
-						<span class="font-medium text-gray-700">Timed (auto offsale)</span>
+						<span class="font-bold text-gray-700">Timed (auto offsale)</span>
 					</label>
 				</div>
 				{#if isTimed}

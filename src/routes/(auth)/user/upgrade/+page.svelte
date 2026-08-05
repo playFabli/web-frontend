@@ -93,20 +93,20 @@
 
 		<!-- Currency Packs Section -->
 		<div class="mb-6">
-			<h2 class="text-lg font-semibold mb-3">Coin Packs</h2>
+			<h2 class="text-lg font-bold mb-3">Coin Packs</h2>
 			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{#each currencyPacks as pack}
 					<div class="currency-pack {pack.bestValue ? 'best-value' : ''}">
 						{#if pack.bestValue}
 							<span class="best-value-badge">BEST VALUE</span>
 						{/if}
-						<p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{pack.name}</p>
+						<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">{pack.name}</p>
 						<p class="text-2xl font-bold text-gray-900 mt-1">{pack.amount.toLocaleString()}</p>
 						<p class="text-sm text-gray-600">coins</p>
 						{#if pack.bonus > 0}
-							<p class="text-xs text-green-600 font-medium">+{pack.bonus} bonus</p>
+							<p class="text-xs text-green-600 font-bold">+{pack.bonus} bonus</p>
 						{/if}
-						<p class="text-primary font-semibold mt-2">{formatPrice(pack.price)}</p>
+						<p class="text-primary font-bold mt-2">{formatPrice(pack.price)}</p>
 						<button disabled={loading} onclick={()=>purchase(pack)} class="btn-glossy w-full mt-3 py-2 text-xs">
 							{#if loading}
 								Loading...
@@ -121,7 +121,7 @@
 
 		<!-- Pro Membership Section -->
 		<!-- <div>
-			<h2 class="text-lg font-semibold mb-3">pro Membership</h2>
+			<h2 class="text-lg font-bold mb-3">pro Membership</h2>
 			<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white flex flex-col lg:flex-row gap-4">
 				<div class="flex-1">
 					<div class="flex items-center gap-2 mb-3">

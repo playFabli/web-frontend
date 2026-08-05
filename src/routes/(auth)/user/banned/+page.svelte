@@ -105,15 +105,15 @@
 				<!-- Ban Details -->
 				<div class="border-t border-gray-100 pt-4 mb-4 text-left text-sm space-y-1">
 					<div class="ban-detail">
-						<span class="text-gray-600 font-medium">Reason:</span>
+						<span class="text-gray-600 font-bold">Reason:</span>
 						<span class="text-gray-900">{ban.reason || 'No reason provided'}</span>
 					</div>
 					<div class="ban-detail">
-						<span class="text-gray-600 font-medium">Banned At:</span>
+						<span class="text-gray-600 font-bold">Banned At:</span>
 						<span class="text-gray-900">{formatDate(ban.banned_at)}</span>
 					</div>
 					<div class="ban-detail">
-						<span class="text-gray-600 font-medium">Expires:</span>
+						<span class="text-gray-600 font-bold">Expires:</span>
 						<span class="text-gray-900">{formatDate(ban.expires_at)}</span>
 					</div>
 				</div>

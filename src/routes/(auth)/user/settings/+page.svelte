@@ -222,7 +222,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<div class="md:col-span-2 space-y-2">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Profile</h2>
+					<h2 class="text-lg font-bold mb-3">Profile</h2>
 					<div class="mb-3">
 						<label class="form-label" for="description">Profile Description</label>
 						<textarea
@@ -242,7 +242,7 @@
 				</div>
 
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Account</h2>
+					<h2 class="text-lg font-bold mb-3">Account</h2>
 					<div class="mb-3">
 						<label class="form-label" for="email">Email</label>
 						<input type="email" id="email" class="form-input" bind:value={email} />
@@ -257,7 +257,7 @@
 				</div>
 
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Password</h2>
+					<h2 class="text-lg font-bold mb-3">Password</h2>
 					<div class="mb-3">
 						<label class="form-label" for="current-password">Current Password</label>
 						<input
@@ -288,7 +288,7 @@
 				</div>
 
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Change Username</h2>
+					<h2 class="text-lg font-bold mb-3">Change Username</h2>
 					<p class="text-xs text-gray-600 mb-2">
 						Changing your username costs <span class="font-bold text-primary"
 							>500 <svg
@@ -345,7 +345,7 @@
 
 			<div class="md:col-span-1">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Privacy</h2>
+					<h2 class="text-lg font-bold mb-3">Privacy</h2>
 					<div class="setting-group">
 						<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none group">
 						<div class="relative flex items-center justify-center">
@@ -382,7 +382,7 @@
 						</label>
 					</div>
 					<div class="setting-group">
-						<label for="who-post" class="form-label text-xs font-semibold mb-1">Who can post on your wall</label>
+						<label for="who-post" class="form-label text-xs font-bold mb-1">Who can post on your wall</label>
 						<select id="who-post" bind:value={whoCanPostOnWall} class="form-input text-sm">
 							<option value={0}>Everyone</option>
 							<option value={1}>Friends</option>
@@ -390,7 +390,7 @@
 						</select>
 					</div>
 					<div class="setting-group">
-						<label for="who-inventory" class="form-label text-xs font-semibold mb-1">Who can see your inventory</label>
+						<label for="who-inventory" class="form-label text-xs font-bold mb-1">Who can see your inventory</label>
 						<select id="who-inventory" bind:value={whoCanSeeInventory} class="form-input text-sm">
 							<option value={0}>Everyone</option>
 							<option value={1}>Friends</option>
@@ -415,7 +415,7 @@
 						</label>
 					</div>
 					<div class="setting-group">
-						<label for="who-trade" class="form-label text-xs font-semibold mb-1">Who can send trade requests</label>
+						<label for="who-trade" class="form-label text-xs font-bold mb-1">Who can send trade requests</label>
 						<select id="who-trade" bind:value={whoCanTrade} class="form-input text-sm">
 							<option value={0}>Everyone</option>
 							<option value={1}>Friends</option>

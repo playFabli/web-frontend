@@ -105,7 +105,7 @@
 
 			<div class="md:col-span-2 space-y-4">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Basic Information</h2>
+					<h2 class="text-lg font-bold mb-3">Basic Information</h2>
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="name">Name</label>

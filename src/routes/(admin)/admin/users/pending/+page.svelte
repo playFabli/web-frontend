@@ -86,7 +86,7 @@
 								<td>
 									<div class="flex items-center gap-2">
 										<img src={config.headshotStorage + "/" + user.id + ".png"} alt={user.username} class="w-6 h-6 rounded-full">
-										<span class="font-medium text-gray-900">{user.username}</span>
+										<span class="font-bold text-gray-900">{user.username}</span>
 									</div>
 								</td>
 								<td><span class="role-badge {getRoleClass(user.role)}">{user.role}</span></td>
@@ -98,7 +98,7 @@
 										{#each user.pending_transactions.slice(0, 3) as txn}
 											<div class="text-xs text-gray-600 flex items-center gap-1">
 												<span class="txn-type {txn.type}">{getTypeLabel(txn.type)}</span>
-												<span class="font-medium text-amber-600">+{formatter.format(txn.amount)}</span>
+												<span class="font-bold text-amber-600">+{formatter.format(txn.amount)}</span>
 												<span class="text-gray-400">·</span>
 												<span class="text-gray-400">{formatDate(txn.created_at)}</span>
 												{#if txn.from_user}

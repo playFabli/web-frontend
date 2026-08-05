@@ -75,7 +75,7 @@
 				Fabli is the ultimate place to create your own games, share them with the world, and play with friends.
 			</p>
 			<div class="flex justify-center gap-4">
-				<a href="/user/register" class="btn-glossy px-6 py-2 text-sm">Join Now — It's Free!</a>
+				<a href="/user/register" class="btn-glossy px-6 py-2 text-sm">Join Now - It's Free!</a>
 			</div>
 		</div>
 	</div>
@@ -84,11 +84,11 @@
 		<div class="max-w-[70%] mx-auto px-4 flex flex-col md:flex-row gap-4">
 			<div class="flex-1 space-y-5">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-2">Featured Game</h2>
+					<h2 class="text-lg font-bold mb-2">Featured Game</h2>
 					<img src="https://placehold.co/600x120/D9C5B2/1A4D4F?text=None" alt="Epic Quest" class="w-full border border-[#EFE6E2] rounded-lg mb-2" loading="lazy">
 					<div class="flex items-center justify-between">
 						<div>
-							<p class="font-medium text-gray-900">None</p>
+							<p class="font-bold text-gray-900">None</p>
 							<p class="text-xs text-gray-600">by none</p>
 						</div>
 						<a href="#" class="btn-glossy px-4 py-1 text-xs">Play</a>
@@ -96,7 +96,7 @@
 				</div>
 
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-2">Newest Users</h2>
+					<h2 class="text-lg font-bold mb-2">Newest Users</h2>
 					<div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
 						{#each newestUsers as user}
 							<div class="text-center">
@@ -111,7 +111,7 @@
 
 			<aside class="md:w-60 flex-shrink-0">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Login</h2>
+					<h2 class="text-lg font-bold mb-3">Login</h2>
 					<form onsubmit={login}>
 						{#if error}
 							<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">

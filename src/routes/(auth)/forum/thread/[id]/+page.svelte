@@ -299,7 +299,7 @@
 					{error}
 				</div>
 			{/if}
-			<h2 class="text-sm font-semibold mb-2">Post a Reply</h2>
+			<h2 class="text-sm font-bold mb-2">Post a Reply</h2>
 			<textarea bind:value={content} rows="4" placeholder="Write your reply..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none mb-3"></textarea>
 			<div class="flex gap-2">
 				<button onclick={reply} class="btn-glossy px-4 py-1 text-sm" disabled={loading}>

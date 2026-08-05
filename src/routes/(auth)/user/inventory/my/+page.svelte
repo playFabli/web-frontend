@@ -378,11 +378,11 @@
 	<div class="modal-overlay">
 		<div class="modal">
 			<div class="modal-header">
-				<h2 class="text-base font-semibold text-gray-900">Case Opening</h2>
+				<h2 class="text-base font-bold text-gray-900">Case Opening</h2>
 				<button class="close-btn" onclick={closeModal} disabled={isOpeningCase}>&times;</button>
 			</div>
 			<div class="modal-body">
-				<p class="text-sm text-gray-600 mb-3">You opened a <span class="font-medium">{caseName}</span>!</p>
+				<p class="text-sm text-gray-600 mb-3">You opened a <span class="font-bold">{caseName}</span>!</p>
 				<div class="mb-2">
 					<img 
 						src="https://placehold.co/80x80/D9C5B2/1A4D4F" 

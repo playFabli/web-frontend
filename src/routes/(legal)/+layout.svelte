@@ -14,19 +14,19 @@
 
         <div class="flex items-center gap-5 flex-wrap">
             <!-- <a href="/" class="font-bold text-gray-900 text-base tracking-tight whitespace-nowrap select-none">
-                <img src="/logo.png" class="inline-block !h-[32px]"> fabli <span class="text-sm font-medium text-[#A2574F]">beta</span>
+                <img src="/logo.png" class="inline-block !h-[32px]"> fabli <span class="text-sm font-bold text-[#A2574F]">beta</span>
             </a> -->
 			<a href="/" class="inline-flex items-baseline font-bold text-gray-900 text-base tracking-tight whitespace-nowrap select-none">
 				<img class="inline-block !h-[32px]" src="/logo_full.png"> 
-				<span class="text-sm font-medium text-[#A2574F] ml-1">alpha</span>
+				<span class="text-sm font-bold text-[#A2574F] ml-1">alpha</span>
 			</a>
 
-            <div class="flex items-center gap-4 flex-wrap text-sm text-gray-600 font-medium">
+            <div class="flex items-center gap-4 flex-wrap text-sm text-gray-600 font-bold">
 
             </div>
         </div>
 
-        <div class="flex items-center gap-4 flex-shrink-0 text-sm font-medium">
+        <div class="flex items-center gap-4 flex-shrink-0 text-sm font-bold">
             <a href="/" class="btn-glossy px-4 py-1">Back</a>
         </div>
     </div>
@@ -46,7 +46,7 @@
 					</a>
 					<span class="text-neutral-300 text-sm">© 2026</span>
 				</div>
-				<div class="flex items-center gap-x-6 gap-y-2 flex-wrap text-sm text-neutral-200 font-medium">
+				<div class="flex items-center gap-x-6 gap-y-2 flex-wrap text-sm text-neutral-200 font-bold">
 					<a href="#" class="hover:text-white transition-colors duration-200">About</a>
 					<a href="#" class="hover:text-white transition-colors duration-200">Blog</a>
 					<a href="/legal/privacy" class="hover:text-white transition-colors duration-200">Privacy</a>

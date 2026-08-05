@@ -69,7 +69,7 @@
 					</button>
 				</form>
 				<div class="mt-4 text-center text-sm text-gray-600">
-					Remember your password? <a href="/user/login" class="text-primary hover:underline font-medium">Log in</a>
+					Remember your password? <a href="/user/login" class="text-primary hover:underline font-bold">Log in</a>
 				</div>
 			</div>
 		</div>

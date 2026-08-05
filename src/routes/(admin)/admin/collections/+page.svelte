@@ -181,7 +181,7 @@
 						<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 							<div class="flex items-center justify-between mb-2">
 								<div class="flex-1">
-									<h3 class="text-base font-semibold text-gray-900">{collection.name}</h3>
+									<h3 class="text-base font-bold text-gray-900">{collection.name}</h3>
 									<p class="text-sm text-gray-500">{collection.description || 'No description'}</p>
 									<div class="mt-1 flex flex-wrap gap-4 text-xs text-gray-600">
 										<span><strong>Forum Tag:</strong> {collection.forum_tag?.name || 'None'}</span>
@@ -208,7 +208,7 @@
 <div class="modal-overlay" onclick={() => showCreateModal = false}>
 	<div class="modal" onclick={(e) => e.stopPropagation()}>
 		<div class="modal-header">
-			<h2 class="text-base font-semibold text-gray-900">Create Collection</h2>
+			<h2 class="text-base font-bold text-gray-900">Create Collection</h2>
 			<button onclick={() => showCreateModal = false} class="close-btn">&times;</button>
 		</div>
 		<div class="modal-body">
@@ -258,7 +258,7 @@
 <div class="modal-overlay" onclick={() => editModal = null}>
 	<div class="modal" onclick={(e) => e.stopPropagation()}>
 		<div class="modal-header">
-			<h2 class="text-base font-semibold text-gray-900">Edit Collection</h2>
+			<h2 class="text-base font-bold text-gray-900">Edit Collection</h2>
 			<button onclick={() => editModal = null} class="close-btn">&times;</button>
 		</div>
 		<div class="modal-body">
@@ -305,7 +305,7 @@
 <div class="modal-overlay" onclick={() => addItemModal = null}>
 	<div class="modal" onclick={(e) => e.stopPropagation()}>
 		<div class="modal-header">
-			<h2 class="text-base font-semibold text-gray-900">Add Item to Collection</h2>
+			<h2 class="text-base font-bold text-gray-900">Add Item to Collection</h2>
 			<button onclick={() => addItemModal = null} class="close-btn">&times;</button>
 		</div>
 		<div class="modal-body">

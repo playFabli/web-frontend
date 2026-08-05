@@ -321,14 +321,14 @@
 				{#if phaseItems.length > 0}
 					<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white mb-5">
 						<div class="flex items-center gap-2 mb-3">
-							<span class="text-lg font-semibold">{getPhaseLabel(phase)}</span>
+							<span class="text-lg font-bold">{getPhaseLabel(phase)}</span>
 							<!-- <span class="status-badge {getStatusClass(getPhaseStatus(phase))}">{getStatusLabel(getPhaseStatus(phase))}</span> -->
 						</div>
 						<div class="space-y-2">
 							{#each phaseItems as item}
 								<div class="flex items-center justify-between border-b border-gray-100 pb-2 last:border-0 last:pb-0">
 									<div class="flex-1">
-										<p class="text-sm font-medium text-gray-900">{item.title}</p>
+										<p class="text-sm font-bold text-gray-900">{item.title}</p>
 										<p class="text-xs text-gray-600">{item.description}</p>
 									</div>
 									<div class="flex items-center gap-2">
@@ -364,7 +364,7 @@
 <div class="modal-overlay" onclick={() => { if (showCreateModal) showCreateModal = false; }}>
 	<div class="modal" onclick={(e) => e.stopPropagation()}>
 		<div class="modal-header">
-			<h2 class="text-base font-semibold text-gray-900">New Roadmap Item</h2>
+			<h2 class="text-base font-bold text-gray-900">New Roadmap Item</h2>
 			<button class="close-btn" onclick={() => showCreateModal = false}>&times;</button>
 		</div>
 		<div class="modal-body">
@@ -409,7 +409,7 @@
 <div class="modal-overlay" onclick={() => { if (showEditModal) showEditModal = false; }}>
 	<div class="modal" onclick={(e) => e.stopPropagation()}>
 		<div class="modal-header">
-			<h2 class="text-base font-semibold text-gray-900">Edit Roadmap Item</h2>
+			<h2 class="text-base font-bold text-gray-900">Edit Roadmap Item</h2>
 			<button class="close-btn" onclick={() => showEditModal = false}>&times;</button>
 		</div>
 		<div class="modal-body">

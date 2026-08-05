@@ -135,11 +135,11 @@
 		<!-- Search & Sort -->
 		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-5 bg-white flex flex-wrap gap-4 items-end">
 			<div class="flex-1 min-w-[200px]">
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Search</label>
 				<input type="text" placeholder="Username..." class="form-input w-full" bind:value={search}>
 			</div>
 			<div>
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Sort by</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Sort by</label>
 				<select class="form-input" bind:value={sortBy}>
 					<option value="newest">Newest</option>
 					<option value="oldest">Oldest</option>

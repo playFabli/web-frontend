@@ -91,9 +91,9 @@
 									<div class="flex items-center gap-2 mb-2">
 										<img src={`${config.headshotStorage}/${t.from.id}.png`} alt={t.from.username || 'user'} class="w-6 h-6 rounded-full">
 										{#if t.from_id != page.data.globalUser.id}
-										<span class="font-medium text-sm">{t.from.username}</span>
+										<span class="font-bold text-sm">{t.from.username}</span>
 										{:else}
-										<span class="font-medium text-sm">{t.to.username}</span>
+										<span class="font-bold text-sm">{t.to.username}</span>
 										{/if}
 										<span class="text-xs text-gray-500">• {timeSince(t.created_at)} ago</span>
 									</div>
@@ -173,15 +173,15 @@
 					<img src={config.headshotStorage + "/" + trade.from.id + ".png"} alt="TechieTim" class="w-6 h-6 rounded-full">
 					{/if}
 					{#if trade.from_id == page.data.globalUser.id}
-					<span class="font-medium text-sm">{trade.to.username}</span>
+					<span class="font-bold text-sm">{trade.to.username}</span>
 					{:else}
-					<span class="font-medium text-sm">{trade.from.username}</span>
+					<span class="font-bold text-sm">{trade.from.username}</span>
 					{/if}
 					<span class="text-xs text-gray-500">• {timeSince(trade.created_at)} ago</span>
 					{#if trade.status === 1}
-					<span class="text-xs text-green-600 font-medium ml-auto">Completed</span>
+					<span class="text-xs text-green-600 font-bold ml-auto">Completed</span>
 					{:else}
-					<span class="text-xs text-red-600 font-medium ml-auto">Declined</span>
+					<span class="text-xs text-red-600 font-bold ml-auto">Declined</span>
 					{/if}
 				</div>
 				<div class="flex gap-2 text-sm">

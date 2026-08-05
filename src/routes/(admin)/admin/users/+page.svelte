@@ -99,11 +99,11 @@
 		<!-- Filters & Search -->
 		<div class="border border-[#EFE6E2] rounded-lg p-4 mb-4 bg-white card-shadow flex flex-wrap gap-4 items-end">
 			<div class="flex-1 min-w-[200px]">
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Search</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Search</label>
 				<input bind:value={searchQuery} type="text" placeholder="Username or email..." class="w-full border border-gray-300 rounded-lg px-3 py-1 text-sm">
 			</div>
 			<div>
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Role</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Role</label>
 				<select bind:value={selectedRole} class="border border-gray-300 rounded-lg px-3 py-1 text-sm">
 					<option value="">All</option>
 					<option value="admin">Admin</option>
@@ -135,7 +135,7 @@
 								<td>
 									<div class="flex items-center gap-2">
 										<img src={config.headshotStorage + "/" + user.id + ".png"} alt={user.username} class="w-6 h-6 rounded-full">
-										<span class="font-medium text-gray-900">{user.username} {#if user.pending_transactions_count > 0} <strong>(!)</strong> {/if}</span>
+										<span class="font-bold text-gray-900">{user.username} {#if user.pending_transactions_count > 0} <strong>(!)</strong> {/if}</span>
 									</div>
 								</td>
 								<td><span class="role-badge {getRoleClass(user.role)}">{user.role}</span></td>

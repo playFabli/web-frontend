@@ -142,7 +142,7 @@
 						<tr>
 							<td class="text-sm text-gray-600">{category.sort_index}</td>
 							<td class="text-xs text-gray-500">#{category.id}</td>
-							<td><span class="font-medium text-gray-900">{category.title}</span></td>
+							<td><span class="font-bold text-gray-900">{category.title}</span></td>
 							<td class="text-sm">
 								{#if category.is_admin_only}
 									<span class="status-badge status-pending">Yes</span>
@@ -192,12 +192,12 @@
 
 			<div class="space-y-3">
 				<div>
-					<label class="block text-xs font-semibold text-gray-600 mb-1">Title</label>
+					<label class="block text-xs font-bold text-gray-600 mb-1">Title</label>
 					<input bind:value={formTitle} type="text" class="form-input" placeholder="Category title">
 				</div>
 
 				<div>
-					<label class="block text-xs font-semibold text-gray-600 mb-1">Sort Index</label>
+					<label class="block text-xs font-bold text-gray-600 mb-1">Sort Index</label>
 					<input bind:value={formSortIndex} type="number" class="form-input" min="0">
 				</div>
 
@@ -221,7 +221,7 @@
 				</div>
 
 				<div>
-					<label class="block text-xs font-semibold text-gray-600 mb-1">Parts Affected (comma-separated)</label>
+					<label class="block text-xs font-bold text-gray-600 mb-1">Parts Affected (comma-separated)</label>
 					<input bind:value={formPartsAffected} type="text" class="form-input" placeholder="head, torso, left_arm">
 				</div>
 			</div>

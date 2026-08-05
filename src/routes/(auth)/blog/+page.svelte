@@ -133,7 +133,7 @@
 <main class="py-6">
 	<div class="max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
-			<h1 class="text-xl font-semibold">Blog</h1>
+			<h1 class="text-xl font-bold">Blog</h1>
 			{#if isAdmin}
 				<button class="btn-glossy px-3 py-1 text-xs" onclick={() => (showCreateModal = true)}>New Post</button>
 			{/if}
@@ -156,7 +156,7 @@
 						<span class="text-[10px] font-bold text-primary uppercase tracking-wide">Featured</span>
 						<span class="text-xs text-gray-400">{formatDate(featured.created_at)}</span>
 					</div>
-					<h2 class="text-lg font-semibold text-gray-900 mb-1">{featured.title}</h2>
+					<h2 class="text-lg font-bold text-gray-900 mb-1">{featured.title}</h2>
 					<p class="text-sm text-gray-600 line-clamp-2">{featured.short_body}</p>
 					<div class="flex items-center gap-2 mt-3">
 						<img
@@ -185,7 +185,7 @@
 							</div>
 						{/if}
 						<div class="p-4 flex-1 flex flex-col">
-							<h3 class="text-sm font-semibold text-gray-900 mb-1 truncate">{post.title}</h3>
+							<h3 class="text-sm font-bold text-gray-900 mb-1 truncate">{post.title}</h3>
 							<p class="text-xs text-gray-600 flex-1 line-clamp-2">{post.short_body}</p>
 							<div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
 								<div class="flex items-center gap-1.5">
@@ -243,11 +243,11 @@
 			onclick={(e)=>{e.stopPropagation();}}
 		>
 			<div class="p-4 border-b border-[#EFE6E2]">
-				<h2 class="text-base font-semibold text-gray-900">New Blog Post</h2>
+				<h2 class="text-base font-bold text-gray-900">New Blog Post</h2>
 			</div>
 			<div class="p-4 space-y-3">
 				<div>
-					<label class="block text-xs font-medium text-gray-700 mb-1">Title</label>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Title</label>
 					<input
 						type="text"
 						bind:value={createTitle}
@@ -256,7 +256,7 @@
 					/>
 				</div>
 				<div>
-					<label class="block text-xs font-medium text-gray-700 mb-1">Banner Image (optional)</label>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Banner Image (optional)</label>
 					{#if createBannerPreview}
 						<div class="mb-2 rounded-lg overflow-hidden border border-[#EFE6E2]">
 							<img src="{createBannerPreview}" alt="Banner preview" class="w-full h-32 object-cover" />
@@ -266,12 +266,12 @@
 						type="file"
 						accept="image/*"
 						onchange={handleBannerSelect}
-						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer"
+						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer"
 					/>
 					<p class="text-xs text-gray-500 mt-1">Upload a banner image. Max 5MB.</p>
 				</div>
 				<div>
-					<label class="block text-xs font-medium text-gray-700 mb-1">Body (BBCode supported)</label>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Body (BBCode supported)</label>
 					<textarea
 						bind:value={createBody}
 						class="w-full border border-[#EFE6E2] rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-primary min-h-[200px]"

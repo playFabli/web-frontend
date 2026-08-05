@@ -86,7 +86,7 @@
 									{#if log.admin}
 										<div class="flex items-center gap-2">
 											<img src={config.headshotStorage + "/" + log.admin.id + ".png"} alt={log.admin.username} class="w-5 h-5 rounded-full">
-											<span class="font-medium text-gray-900">{log.admin.username}</span>
+											<span class="font-bold text-gray-900">{log.admin.username}</span>
 										</div>
 									{:else}
 										<span class="text-gray-500">Unknown</span>
@@ -96,7 +96,7 @@
 									{#if log.target}
 										<div class="flex items-center gap-2">
 											<img src={config.headshotStorage + "/" + log.target.id + ".png"} alt={log.target.username} class="w-5 h-5 rounded-full">
-											<span class="font-medium text-gray-900">{log.target.username}</span>
+											<span class="font-bold text-gray-900">{log.target.username}</span>
 										</div>
 									{:else}
 										<span class="text-gray-400">—</span>

@@ -78,7 +78,7 @@
 			{/if}
 		</div>
 		<div class="p-2">
-			<p class="text-sm font-medium text-gray-900 truncate">{item.title} <span class="text-xs text-gray-400">{item.category.title}</span></p>
+			<p class="text-sm font-bold text-gray-900 truncate">{item.title} <span class="text-xs text-gray-400">{item.category.title}</span></p>
 			{#if !hidePrice}
 			{#if !item.is_offsale}
 				{#if item.is_limited && item.stock_left == 0}

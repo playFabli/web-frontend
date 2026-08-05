@@ -581,7 +581,7 @@
 							<span class="relative flex h-3 w-3">
 								<span class="relative inline-flex rounded-full h-3 w-3 {data.user.is_online ? 'bg-green-500' : 'bg-gray-500'}"></span>
 							</span>
-							<h2 class="text-xl font-semibold">{data.user.username}</h2>
+							<h2 class="text-xl font-bold">{data.user.username}</h2>
 							{#if data.user.role === 'admin'}
 								<Tooltip text="This user is a Fabli administrator!">
 									<Gavel class="size-5 text-red-600"/>
@@ -615,23 +615,23 @@
 						</div>
 						<div class="flex items-center justify-around w-full min-w-full flex-wrap gap-2">
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">{format.format(friendsCount)}</h3>
+								<h3 class="text-lg text-primary font-bold">{format.format(friendsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Friends</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">{format.format(itemsCount)}</h3>
+								<h3 class="text-lg text-primary font-bold">{format.format(itemsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Items</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">{format.format(postsCount)}</h3>
+								<h3 class="text-lg text-primary font-bold">{format.format(postsCount)}</h3>
 								<p class="text-sm text-gray-600/70">Posts</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">{format.format(data.user.final_rap)}</h3>
+								<h3 class="text-lg text-primary font-bold">{format.format(data.user.final_rap)}</h3>
 								<p class="text-sm text-gray-600/70">VAL</p>
 							</div>
 							<div class="text-center flex-1">
-								<h3 class="text-lg text-primary font-semibold">{data.user.level}</h3>
+								<h3 class="text-lg text-primary font-bold">{data.user.level}</h3>
 								<p class="text-sm text-gray-600/70">Level</p>
 							</div>
 						</div>
@@ -677,7 +677,7 @@
 				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 					<div class="col-span-1 md:col-span-4">
 						<div class="border border-[#EFE6E2] rounded-lg p-4">
-							<h5 class="text-sm font-semibold mb-3">Avatar</h5>
+							<h5 class="text-sm font-bold mb-3">Avatar</h5>
 							<div class="text-center mb-3">
 								<img
 									class="inline h-64 w-64"
@@ -689,19 +689,19 @@
 					</div>
 					<div class="col-span-1 md:col-span-8">
 						<div class="border border-[#EFE6E2] rounded-lg p-4 mb-5">
-							<h5 class="text-sm font-semibold mb-3">About</h5>
+							<h5 class="text-sm font-bold mb-3">About</h5>
 							<p class="mb-3">
 								{data.user.description}
 							</p>
 							<hr class="bg-primary text-primary mb-3 mt-3">
 							<div class="grid grid-cols-2 gap-1">
-								<div class="text-sm font-semibold col-span-1 text-gray-600/70">
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
 									Created at
 								</div>
 								<div class="col-span-1 text-right">
 									{new Date(data.user.created_at).toLocaleDateString()}
 								</div>
-								<div class="text-sm font-semibold col-span-1 text-gray-600/70">
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
 									Last seen at
 								</div>
 								<div class="col-span-1 text-right">
@@ -711,7 +711,7 @@
 						</div>
 						<div class="border border-[#EFE6E2] rounded-lg p-4">
 							<div class="flex items-center justify-between mb-3">
-								<h5 class="text-sm font-semibold">Item Wall</h5>
+								<h5 class="text-sm font-bold">Item Wall</h5>
 								{#if isOwnProfile}
 									<button
 										class="btn-glossy px-3 py-1 text-sm"
@@ -738,7 +738,7 @@
 												{/if}
 											</div>
 											<div class="p-2">
-												<p class="text-sm font-medium text-gray-900 truncate">{profileItem.item.title}</p>
+												<p class="text-sm font-bold text-gray-900 truncate">{profileItem.item.title}</p>
 												<span class="text-xs text-gray-400">{profileItem.item.category?.title || ''}</span>
 												{#if profileItem.serial != null}
 													<p class="text-xs text-gray-500 mt-1">#{profileItem.serial}</p>
@@ -754,7 +754,7 @@
 			{:else if tab === 1}
 				<!-- Creations Tab -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4">
-					<h3 class="text-sm font-semibold mb-4">Creations</h3>
+					<h3 class="text-sm font-bold mb-4">Creations</h3>
 					{#await creationsPromise}
 						<p class="text-center text-sm text-gray-500 py-8">Loading creations...</p>
 					{:then creations}
@@ -792,7 +792,7 @@
 			{:else if tab === 2}
 				<!-- Inventory Tab -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4">
-					<h3 class="text-sm font-semibold mb-4">Inventory</h3>
+					<h3 class="text-sm font-bold mb-4">Inventory</h3>
 					{#await inventoryPromise}
 						<p class="text-center text-sm text-gray-500 py-8">Loading inventory...</p>
 					{:then inventory}
@@ -840,11 +840,11 @@
 					{:else}
 						<div class="grid grid-cols-2 gap-4">
 							<div class="border border-[#EFE6E2] rounded-lg p-4">
-								<h3 class="text-sm font-semibold mb-3">Collections</h3>
+								<h3 class="text-sm font-bold mb-3">Collections</h3>
 								<div class="max-h-80 overflow-y-auto space-y-0">
 								{#each collections as collection}
 									<div class="flex items-center justify-between py-2 px-2 border-b border-gray-100 last:border-b-0">
-										<span class="text-sm font-medium" style="color: {collection.status === 'completed' ? '#22c55e' : collection.status === 'in_progress' ? '#eab308' : '#6b7280'}">{collection.name}</span>
+										<span class="text-sm font-bold" style="color: {collection.status === 'completed' ? '#22c55e' : collection.status === 'in_progress' ? '#eab308' : '#6b7280'}">{collection.name}</span>
 										{#if collection.status !== 'not_started'}
 											<span class="text-xs text-gray-500">{collection.percentage}%</span>
 										{/if}
@@ -859,7 +859,7 @@
 								</div>
 							</div>
 							<div class="border border-[#EFE6E2] rounded-lg p-4">
-								<h3 class="text-sm font-semibold mb-3">Achievements</h3>
+								<h3 class="text-sm font-bold mb-3">Achievements</h3>
 								<div class="grid grid-cols-12 gap-4">
 									{#if data.user.id < 101}
 									<div class="col-span-3">
@@ -892,7 +892,7 @@
 			{:else if tab === 4}
 				<!-- Friends Tab -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4">
-					<h3 class="text-sm font-semibold mb-4">Friends</h3>
+					<h3 class="text-sm font-bold mb-4">Friends</h3>
 					{#await friendsPromise}
 						<p class="text-center text-sm text-gray-500 py-8">Loading friends...</p>
 					{:then friends}
@@ -909,7 +909,7 @@
 												alt=""
 											/>
 											<div>
-												<p class="text-sm font-medium text-gray-900">{friend.username}</p>
+												<p class="text-sm font-bold text-gray-900">{friend.username}</p>
 												<p class="text-xs text-gray-500">"{friend.bubble}"</p>
 											</div>
 										</div>
@@ -953,7 +953,7 @@
 	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showEditModal = false}>
 		<div class="bg-white rounded-lg border border-[#EFE6E2] max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
 			<div class="p-4 border-b border-[#EFE6E2] flex items-center justify-between">
-				<h3 class="text-lg font-semibold">Edit Item Wall</h3>
+				<h3 class="text-lg font-bold">Edit Item Wall</h3>
 				<button
 					class="cursor-pointer text-gray-500 hover:text-gray-700"
 					onclick={() => showEditModal = false}
@@ -1006,7 +1006,7 @@
 									alt={item.title}
 									class="w-full aspect-square object-cover"
 								/>
-								<p class="text-sm font-medium text-gray-900 truncate mt-2">{item.title}</p>
+								<p class="text-sm font-bold text-gray-900 truncate mt-2">{item.title}</p>
 								<span class="text-xs text-gray-400">{item.category_title}</span>
 							</button>
 						{/each}
@@ -1032,7 +1032,7 @@
 	<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showCustomizeModal = false}>
 		<div class="bg-white rounded-lg border border-[#EFE6E2] max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onclick={(e) => e.stopPropagation()}>
 			<div class="p-4 border-b border-[#EFE6E2] flex items-center justify-between">
-				<h3 class="text-lg font-semibold">Customize Profile</h3>
+				<h3 class="text-lg font-bold">Customize Profile</h3>
 				<button
 					class="cursor-pointer text-gray-500 hover:text-gray-700"
 					onclick={() => showCustomizeModal = false}
@@ -1046,7 +1046,7 @@
 				{:else if customizationData}
 					<!-- Profile Theme Selection -->
 					<div class="mb-6">
-						<h4 class="text-sm font-semibold mb-3">Profile Theme</h4>
+						<h4 class="text-sm font-bold mb-3">Profile Theme</h4>
 						{#if customizationData.themes.length === 0}
 							<p class="text-sm text-gray-500 mb-2">You don't have any themes yet.</p>
 						{:else}
@@ -1059,7 +1059,7 @@
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
 										<span class="text-3xl text-gray-400">—</span>
 									</div>
-									<p class="text-sm font-medium text-gray-900 truncate mt-2">Default</p>
+									<p class="text-sm font-bold text-gray-900 truncate mt-2">Default</p>
 								</button>
 								{#each customizationData.themes as theme}
 									<button
@@ -1072,7 +1072,7 @@
 											alt={theme.title}
 											class="w-full aspect-square object-cover"
 										/>
-										<p class="text-sm font-medium text-gray-900 truncate mt-2">{theme.title}</p>
+										<p class="text-sm font-bold text-gray-900 truncate mt-2">{theme.title}</p>
 									</button>
 								{/each}
 							</div>
@@ -1086,7 +1086,7 @@
 
 					<!-- Avatar Frame Selection -->
 					<div class="mb-6">
-						<h4 class="text-sm font-semibold mb-3">Avatar Frame</h4>
+						<h4 class="text-sm font-bold mb-3">Avatar Frame</h4>
 						{#if customizationData.frames.length === 0}
 							<p class="text-sm text-gray-500 mb-2">You don't have any frames yet.</p>
 						{:else}
@@ -1099,7 +1099,7 @@
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
 										<span class="text-3xl text-gray-400">—</span>
 									</div>
-									<p class="text-sm font-medium text-gray-900 truncate mt-2">Default</p>
+									<p class="text-sm font-bold text-gray-900 truncate mt-2">Default</p>
 								</button>
 								{#each customizationData.frames as frame}
 									<button
@@ -1112,7 +1112,7 @@
 											alt={frame.title}
 											class="w-full aspect-square object-cover"
 										/>
-										<p class="text-sm font-medium text-gray-900 truncate mt-2">{frame.title}</p>
+										<p class="text-sm font-bold text-gray-900 truncate mt-2">{frame.title}</p>
 									</button>
 								{/each}
 							</div>

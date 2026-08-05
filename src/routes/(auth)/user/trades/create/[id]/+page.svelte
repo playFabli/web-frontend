@@ -62,9 +62,9 @@
         
         <div class="modal-header" style="padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;">
 			{#if modalSide == 0}
-			<h2 class="text-base font-semibold text-gray-900">Your Inventory</h2>
+			<h2 class="text-base font-bold text-gray-900">Your Inventory</h2>
 			{:else}
-			<h2 class="text-base font-semibold text-gray-900">{data.user.username}'s Inventory</h2>
+			<h2 class="text-base font-bold text-gray-900">{data.user.username}'s Inventory</h2>
 			{/if}
 			<button onclick={()=>inventoryModalOpen = false} class="close-btn" style="background: none; border: none; font-size: 1.5rem; color: #6b7280; cursor: pointer; line-height: 1; padding: 0 0.5rem;">&times;</button>
         </div>
@@ -104,7 +104,7 @@
 				<div class="flex flex-col lg:grid lg:grid-cols-2 gap-4 mb-4">
 
 					<div>
-						<label class="form-label mb-1.5 block text-sm font-medium text-gray-700">Your Offer</label>
+						<label class="form-label mb-1.5 block text-sm font-bold text-gray-700">Your Offer</label>
 						<div class="border border-[#EFE6E2] rounded-lg-[4px] p-2.5 min-h-[180px] bg-gray-50/30">
 							<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-5 xl:grid-cols-6 gap-2" id="yourOfferItems">
 								<img 
@@ -122,7 +122,7 @@
 					</div>
 
 					<div>
-						<label class="form-label mb-1.5 block text-sm font-medium text-gray-700">You Request</label>
+						<label class="form-label mb-1.5 block text-sm font-bold text-gray-700">You Request</label>
 						<div class="border border-[#EFE6E2] rounded-lg-[4px] p-2.5 min-h-[180px] bg-gray-50/30">
 							<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-5 xl:grid-cols-6 gap-2" id="theirOfferItems">
 								<img 

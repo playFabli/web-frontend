@@ -67,7 +67,7 @@
 					alt="RareCollector"
 					class="w-7 h-7 rounded-full border border-[#EFE6E2]"
 				/>
-				<span class="font-semibold text-gray-900 text-sm">{data.user.username}'s Inventory</span>
+				<span class="font-bold text-gray-900 text-sm">{data.user.username}'s Inventory</span>
 				<span class="text-xs text-gray-500">({data.user.item_count} items)</span>
 			</div>
 		</div>

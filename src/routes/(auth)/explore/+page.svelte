@@ -137,11 +137,11 @@
 			<aside class="w-full md:w-44 flex-shrink-0">
 				<!-- <a href="/explore/game/create" class="btn-glossy px-4 py-1 mb-3 w-full">Create</a> -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
-					<h3 class="text-sm font-semibold text-gray-900 mb-3">Filters</h3>
+					<h3 class="text-sm font-bold text-gray-900 mb-3">Filters</h3>
 
 					<!-- Sort Filter -->
 					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Sort By</h4>
+						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Sort By</h4>
 						<select bind:value={selectedSort} onchange={onFilterChange} class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm">
 							<option value="popular">Most Popular</option>
 							<option value="newest">Newest</option>
@@ -152,7 +152,7 @@
 
 					<!-- Genre Filter -->
 					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Genre</h4>
+						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Genre</h4>
 						<div class="space-y-1.5">
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
 								<input type="radio" bind:group={selectedGenre} value="" checked onchange={onFilterChange} class="rounded-lg border-gray-300 text-primary focus:ring-primary"> All

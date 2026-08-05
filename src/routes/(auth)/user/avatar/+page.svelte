@@ -398,7 +398,7 @@
 					{/if}
 
 					</div>
-					<h2 class="text-sm font-semibold mt-2">Current Look</h2>
+					<h2 class="text-sm font-bold mt-2">Current Look</h2>
 					<ul class="text-xs text-gray-600 mt-1 space-y-0.5 text-left list-disc list-inside">
 						{#if wearing.length === 0}
 							<li>No items equipped</li>
@@ -416,7 +416,7 @@
 			<div class="lg:w-2/3 space-y-4">
 				<!-- Inventory Section -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-sm font-semibold mb-3">Inventory</h2>
+					<h2 class="text-sm font-bold mb-3">Inventory</h2>
 					<!-- Filter Tabs -->
 					<div class="flex flex-wrap gap-1 mb-3 w-full">
 						<button 
@@ -503,30 +503,30 @@
 
 				<!-- Limb Colors Section -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-sm font-semibold mb-3">Limb Colors</h2>
+					<h2 class="text-sm font-bold mb-3">Limb Colors</h2>
 					<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
 						<div class="flex items-center gap-2">
-							<label class="text-xs font-medium w-20">Left Arm</label>
+							<label class="text-xs font-bold w-20">Left Arm</label>
 							<input type="color" class="color-swatch" bind:value={leftArmColor}>
 						</div>
 						<div class="flex items-center gap-2">
-							<label class="text-xs font-medium w-20">Right Arm</label>
+							<label class="text-xs font-bold w-20">Right Arm</label>
 							<input type="color" class="color-swatch" bind:value={rightArmColor}>
 						</div>
 						<div class="flex items-center gap-2">
-							<label class="text-xs font-medium w-20">Torso</label>
+							<label class="text-xs font-bold w-20">Torso</label>
 							<input type="color" class="color-swatch" bind:value={torsoColor}>
 						</div>
 						<div class="flex items-center gap-2">
-							<label class="text-xs font-medium w-20">Left Leg</label>
+							<label class="text-xs font-bold w-20">Left Leg</label>
 							<input type="color" class="color-swatch" bind:value={leftLegColor}>
 						</div>
 						<div class="flex items-center gap-2">
-							<label class="text-xs font-medium w-20">Right Leg</label>
+							<label class="text-xs font-bold w-20">Right Leg</label>
 							<input type="color" class="color-swatch" bind:value={rightLegColor}>
 						</div>
 						<div class="flex items-center gap-2">
-							<label class="text-xs font-medium w-20">Head</label>
+							<label class="text-xs font-bold w-20">Head</label>
 							<input type="color" class="color-swatch" bind:value={headColor}>
 						</div>
 					</div>

@@ -47,23 +47,23 @@
 		{#if data.transactions}
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
 			<div class="stat-card">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Revenue</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Revenue</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.transactions.total)}</p>
 			</div>
 			<div class="stat-card">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">From Clothing</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">From Clothing</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.transactions.clothing)}</p>
 			</div>
 			<div class="stat-card">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">From Games</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">From Games</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.transactions.games)}</p>
 			</div>
 			<div class="stat-card">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">From Reselling</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">From Reselling</p>
 				<p class="text-2xl font-bold text-gray-900 mt-1">{formatter.format(data.transactions.reselling)}</p>
 			</div>
 			<div class="stat-card sm:col-span-2 md:col-span-1">
-				<p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Pending</p>
+				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Pending</p>
 				<p class="text-2xl font-bold text-yellow-700 mt-1">{formatter.format(data.transactions.pending)}</p>
 				<p class="text-xs text-gray-500 mt-0.5">Awaiting moderation</p>
 			</div>
@@ -71,7 +71,7 @@
 
 		{#if data.transactions.pending > 0}
 		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-			<h2 class="text-sm font-semibold mb-2">Pending Transactions</h2>
+			<h2 class="text-sm font-bold mb-2">Pending Transactions</h2>
 			<p class="text-sm text-gray-600">
 				You have {formatter.format(data.transactions.pending)} pending. Revenue from clothing and reselling is reviewed by an admin before it counts toward your total.
 			</p>

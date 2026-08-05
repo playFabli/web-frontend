@@ -101,7 +101,7 @@
 		/>
 		<h1 class="text-xl font-bold">
 			Hello, {page.data.globalUser.username}!
-			<p class="mt-1 text-sm font-semibold">Level {page.data.globalUser.level} ({page.data.globalUser.exp} / {Math.floor(10 * page.data.globalUser.level * Math.log(page.data.globalUser.level + 1) * 1.25)} XP)</p>
+			<p class="mt-1 text-sm font-bold">Level {page.data.globalUser.level} ({page.data.globalUser.exp} / {Math.floor(10 * page.data.globalUser.level * Math.log(page.data.globalUser.level + 1) * 1.25)} XP)</p>
 		</h1>
 	</div>
 	<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -189,7 +189,7 @@
 											{claimingId === quest.id ? '...' : 'Claim'}
 										</button>
 									{:else if quest.is_claimed}
-										<span class="text-xs text-green-600 font-medium">Claimed</span>
+										<span class="text-xs text-green-600 font-bold">Claimed</span>
 									{/if}
 								</div>
 							</div>
@@ -210,7 +210,7 @@
 								<img class="{activity.user?.avatar_frame_id > 0 ? `avatar-frame-${activity.user.avatar_frame_id}` : ''} border border-[#EFE6E2] h-10 w-10" src={`${config.headshotStorage}/${activity.user?.id}.png?t=${Date.now()}`} alt="">
 								<div class="min-w-0 flex-1">
 									<p class="text-sm text-gray-800">
-										<span class="font-medium">{activity.user?.username}</span>
+										<span class="font-bold">{activity.user?.username}</span>
 										{activity.description}
 									</p>
 									<p class="text-xs text-gray-400 mt-0.5">{timeAgo(activity.created_at)}</p>
@@ -234,7 +234,7 @@
 							{#each newestItems as item}
 								<a href="/marketplace/item/{item.id}" class="max-w-[200px] border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30 hover:shadow-sm transition-shadow">
 									<img loading="lazy" src="{config.storage}/items/{item.id}.png" alt="{item.title}" class="w-16 aspect-square object-cover rounded-lg mb-2" />
-									<p class="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+									<p class="text-sm font-bold text-gray-900 truncate">{item.title}</p>
 									<p class="text-xs text-gray-500 mt-1">{item.category?.title}</p>
 									<div class="flex items-center gap-2 mt-2">
 										{#if item.is_limited}
@@ -258,7 +258,7 @@
 								{#each newestPosts as post}
 									<a href="/forum/thread/{post.id}" class="min-w-[200px] max-w-[200px] border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30 hover:shadow-sm transition-shadow">
 										<img loading="lazy" src="{config.headshotStorage}/{post.user?.id}.png" alt="" class="w-10 h-10 border border-[#EFE6E2] rounded-full mb-2" />
-										<p class="text-sm font-medium text-gray-900 truncate">{post.title}</p>
+										<p class="text-sm font-bold text-gray-900 truncate">{post.title}</p>
 										<p class="text-xs text-gray-500 mt-1">{post.category?.name} • by {post.user?.username}</p>
 										<div class="flex items-center gap-2 mt-2">
 											{#if post.is_pinned}
@@ -288,7 +288,7 @@
 											<span class="text-lg font-bold text-gray-300">{post.title.charAt(0)}</span>
 										</div>
 									{/if}
-									<p class="text-sm font-medium text-gray-900 truncate">{post.title}</p>
+									<p class="text-sm font-bold text-gray-900 truncate">{post.title}</p>
 									<p class="text-xs text-gray-500 mt-1">by {post.user?.username}</p>
 									<div class="flex items-center gap-2 mt-2">
 										{#if post.is_featured}

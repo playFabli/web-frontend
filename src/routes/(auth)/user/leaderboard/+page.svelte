@@ -168,7 +168,7 @@
 							class="{getPodiumSize(displayRank)} mx-auto border-2 {getPodiumBorder(displayRank)} rounded-lg"
 							loading="lazy"
 						>
-						<p class="text-sm font-semibold text-gray-900 mt-1 truncate max-w-full px-1">{user.username}</p>
+						<p class="text-sm font-bold text-gray-900 mt-1 truncate max-w-full px-1">{user.username}</p>
 						<p class="text-primary font-bold text-sm mt-0.5">{formatRap(user.final_rap)} VAL</p>
 						<p class="text-xs text-gray-500">{user.item_count} items</p>
 					</div>
@@ -205,10 +205,10 @@
 												alt={user.username}
 												class="w-7 h-7 rounded-lg"
 											>
-											<span class="font-medium text-gray-900">{user.username}</span>
+											<span class="font-bold text-gray-900">{user.username}</span>
 										</a>
 									</td>
-									<td class="text-right font-semibold text-primary">{formatRap(user.final_rap)} VAL</td>
+									<td class="text-right font-bold text-primary">{formatRap(user.final_rap)} VAL</td>
 									<td class="text-right text-gray-600 hidden sm:table-cell">{user.item_count}</td>
 									<td class="text-center hidden sm:table-cell">
 										{#if user.is_online}

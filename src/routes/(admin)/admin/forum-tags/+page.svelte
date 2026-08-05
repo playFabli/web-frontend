@@ -119,7 +119,7 @@
 						{#each tags as tag}
 							<tr>
 								<td class="text-xs text-gray-500">#{tag.id}</td>
-								<td><span class="font-medium text-gray-900">{tag.name}</span></td>
+								<td><span class="font-bold text-gray-900">{tag.name}</span></td>
 								<td class="text-xs text-gray-600">{tag.style || `<span class="text-gray-400">None</span>`}</td>
 								<td class="text-sm text-gray-600">{tag.inventories_count || 0}</td>
 								<td class="text-right">
@@ -151,12 +151,12 @@
 
 		<div class="space-y-3">
 			<div>
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Name</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Name</label>
 				<input bind:value={formName} type="text" class="form-input" placeholder="Tag name">
 			</div>
 
 			<div>
-				<label class="block text-xs font-semibold text-gray-600 mb-1">Style</label>
+				<label class="block text-xs font-bold text-gray-600 mb-1">Style</label>
 				<input bind:value={formStyle} type="text" class="form-input" placeholder="Optional CSS style">
 			</div>
 		</div>

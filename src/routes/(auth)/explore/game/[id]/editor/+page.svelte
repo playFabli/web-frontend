@@ -734,7 +734,7 @@
 		<!-- Left Explorer -->
 		<div class="w-44 border-r border-[#EFE6E2] bg-white flex-shrink-0 overflow-y-auto">
 			<div class="p-4">
-				<h2 class="text-sm font-semibold mb-2">Explorer</h2>
+				<h2 class="text-sm font-bold mb-2">Explorer</h2>
 				<div class="space-y-1 text-sm">
 					<div class="hover:bg-gray-50 px-2 py-1 rounded-lg cursor-default"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-4 inline mb-1"><path d="M16 12v4"/><path d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><path d="M17 6a2 2 0 011.414.586l3 3A2 2 0 0122 11v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 01.586-1.414l3-3A2 2 0 017 6z"/><path d="M2 14h20"/><path d="M8 12v4"/></svg> Workspace</div>
 					{#each parts as part}
@@ -762,7 +762,7 @@
 			<!-- Script Editor (Bottom of viewport) -->
 			<div class="border-t border-[#EFE6E2] bg-white flex-shrink-0" style="height: 90px;">
 				<div class="p-2 h-full flex flex-col">
-					<h2 class="text-sm font-semibold mb-1">Script Editor</h2>
+					<h2 class="text-sm font-bold mb-1">Script Editor</h2>
 					<textarea class="form-input font-mono text-xs flex-1 resize-none" readonly style="font-family: monospace;">print("Hello, world!")
 wait(1)
 part.BrickColor = "Bright red"</textarea>
@@ -774,7 +774,7 @@ part.BrickColor = "Bright red"</textarea>
 		<div class="w-48 border-l border-[#EFE6E2] bg-white flex-shrink-0 overflow-y-auto">
 			{#if selected}
 			<div class="p-4">
-				<h2 class="text-sm font-semibold mb-2">Properties</h2>
+				<h2 class="text-sm font-bold mb-2">Properties</h2>
 				<div class="space-y-2 text-sm">
 					<div>
 						<label class="form-label">Name</label>

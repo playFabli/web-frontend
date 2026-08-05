@@ -80,10 +80,10 @@
 			
 			<aside class="w-full md:w-48 flex-shrink-0">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
-					<h3 class="text-sm font-semibold text-gray-900 mb-3">Filters</h3>
+					<h3 class="text-sm font-bold text-gray-900 mb-3">Filters</h3>
 					
 					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Type</h4>
+						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Type</h4>
 						<div class="space-y-1.5">
 							{#each data.categories as category}
 							<label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none group">
@@ -97,7 +97,7 @@
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="absolute w-3 h-3 text-white pointer-events-none opacity-0 scale-50 peer-checked:opacity-100 peer-checked:scale-100 transition-all duration-150 ease-out"><path d="M20 6 9 17l-5-5"/></svg>
 							</div>
 							
-							<span class="group-hover:text-gray-900 font-semibold transition-colors duration-150">
+							<span class="group-hover:text-gray-900 font-bold transition-colors duration-150">
 								{category.title}
 							</span>
 							</label>
@@ -107,7 +107,7 @@
 					</div>
 
 					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Price</h4>
+						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Price</h4>
 						<div class="flex items-center gap-2">
 							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={priceMin}>
 							<span class="text-gray-400 text-sm">–</span>
@@ -116,7 +116,7 @@
 					</div>
 
 					<div class="filter-section">
-						<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">VAL</h4>
+						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">VAL</h4>
 						<div class="flex items-center gap-2">
 							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={rapMin}>
 							<span class="text-gray-400 text-sm">–</span>
@@ -125,13 +125,13 @@
 					</div>
 
 				<div class="filter-section">
-					<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Search</h4>
+					<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Search</h4>
 					<input oninput={()=> itemsPromise = fetchItems()} type="text" placeholder="Search..." bind:value={query} class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm">
 				</div>
 
 				{#if data.collections && data.collections.length > 0}
 				<div class="filter-section">
-					<h4 class="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Collection</h4>
+					<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Collection</h4>
 					<select 
 						onchange={(e) => selectCollection(e.target.value)} 
 						value={selectedCollection}

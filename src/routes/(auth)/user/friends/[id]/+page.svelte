@@ -48,7 +48,7 @@
 				{#each friendsData.data as friend}
 				<a href={`/user/profile/${friend.id}`} class="flex flex-col items-center gap-2 p-4 border border-[#EFE6E2] rounded-lg hover:bg-gray-50 transition">
 					<img src={config.headshotStorage + "/" + friend.id + ".png?t=" + Date.now()} alt={friend.username} class="w-16 h-16 rounded-full border border-[#EFE6E2]" loading="lazy">
-					<span class="text-sm font-medium text-gray-800 truncate w-full text-center">{friend.username}</span>
+					<span class="text-sm font-bold text-gray-800 truncate w-full text-center">{friend.username}</span>
 					<span class="text-xs {friend.is_online ? 'text-green-600' : 'text-gray-400'}">
 						{friend.is_online ? 'Online' : 'Offline'}
 					</span>

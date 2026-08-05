@@ -173,7 +173,7 @@
 					<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 						<h1 class="text-xl font-bold text-gray-900 mb-1">{game.title}</h1>
 						<p class="text-sm text-gray-600 mb-3">
-							By <a href={`/user/profile/${game.creator?.id}`} class="text-primary hover:underline font-medium">{game.creator?.username || 'Unknown'}</a>
+							By <a href={`/user/profile/${game.creator?.id}`} class="text-primary hover:underline font-bold">{game.creator?.username || 'Unknown'}</a>
 						</p>
 
 						<p class="text-sm text-gray-700 leading-relaxed mb-4">
@@ -184,23 +184,23 @@
 						<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm mb-4">
 							<div>
 								<span class="text-gray-500">Plays</span>
-								<p class="font-semibold text-gray-900">{formatPlays(game.plays_count)}</p>
+								<p class="font-bold text-gray-900">{formatPlays(game.plays_count)}</p>
 							</div>
 							<div>
 								<span class="text-gray-500">Created</span>
-								<p class="font-semibold text-gray-900">{formatDate(game.created_at)}</p>
+								<p class="font-bold text-gray-900">{formatDate(game.created_at)}</p>
 							</div>
 							<div>
 								<span class="text-gray-500">Last Updated</span>
-								<p class="font-semibold text-gray-900">{formatDate(game.updated_at)}</p>
+								<p class="font-bold text-gray-900">{formatDate(game.updated_at)}</p>
 							</div>
 							<div>
 								<span class="text-gray-500">Genre</span>
-								<p class="font-semibold text-gray-900">{capitalizeFirst(game.genre)}</p>
+								<p class="font-bold text-gray-900">{capitalizeFirst(game.genre)}</p>
 							</div>
 							<div>
 								<span class="text-gray-500">Max Players</span>
-								<p class="font-semibold text-gray-900">{game.max_players}</p>
+								<p class="font-bold text-gray-900">{game.max_players}</p>
 							</div>
 						</div>
 
@@ -235,7 +235,7 @@
 
 			<!-- Comments Section -->
 			<div class="mt-5 border border-[#EFE6E2] rounded-lg p-4 bg-white">
-				<h2 class="text-lg font-semibold mb-3">Comments ({game.comments?.length || 0})</h2>
+				<h2 class="text-lg font-bold mb-3">Comments ({game.comments?.length || 0})</h2>
 
 				<!-- Comment Form -->
 				<textarea rows="3" placeholder="Write a comment..." bind:value={commentContent} class="form-input w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none"></textarea>
@@ -253,7 +253,7 @@
 								<img src={`${config.avatarStorage}/${comment.user.id}.png`} alt="avatar" class="w-18 h-18 mt-0.5">
 								<div>
 									<div class="flex items-center gap-2 mb-0.5">
-										<span class="text-sm font-semibold text-gray-900">{comment.user?.username || 'Unknown'}</span>
+										<span class="text-sm font-bold text-gray-900">{comment.user?.username || 'Unknown'}</span>
 										<span class="text-xs text-gray-500">{formatDate(comment.created_at)}</span>
 									</div>
 									<p class="text-sm text-gray-700">{comment.content}</p>

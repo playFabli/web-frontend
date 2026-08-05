@@ -410,7 +410,7 @@
 	<div id="modalOverlay" class="modal-overlay">
 		<div class="modal">
 			<div class="modal-header">
-				<h2 class="text-base font-semibold text-gray-900">
+				<h2 class="text-base font-bold text-gray-900">
 					Buy "{data.item.title}" for
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -477,7 +477,7 @@
 	<div id="modalOverlay" class="modal-overlay">
 		<div class="modal">
 			<div class="modal-header">
-				<h2 class="text-base font-semibold text-gray-900">
+				<h2 class="text-base font-bold text-gray-900">
 					Put up a serial of "{data.item.title}" for sale
 				</h2>
 				<button onclick={() => (saleModalOpen = false)} class="close-btn">&times;</button>
@@ -518,7 +518,7 @@
 	<div id="modalOverlay" class="modal-overlay">
 		<div class="modal">
 			<div class="modal-header">
-				<h2 class="text-base font-semibold text-gray-900">
+				<h2 class="text-base font-bold text-gray-900">
 					Buy #{formatter.format(privateBuyObj.inventory.serial)} of "{data.item.title}" for
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -600,7 +600,7 @@
 	<div id="resultModalOverlay" class="modal-overlay" onclick={() => (resultModalOpen = false)}>
 		<div class="result-modal rounded-lg border-[#EFE6E2] border" onclick={(e) => e.stopPropagation()}>
 			<div class="p-4 text-center">
-				<h2 class="text-lg font-semibold mb-4">You won!</h2>
+				<h2 class="text-lg font-bold mb-4">You won!</h2>
 				
 				{#if openError}
 					<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -643,14 +643,14 @@
 		{#if data.item.moderation_status === 'pending'}
 			<div class="max-w-md mx-auto text-center py-12">
 				<div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
-					<h2 class="text-lg font-semibold text-yellow-800 mb-2">Pending Approval</h2>
+					<h2 class="text-lg font-bold text-yellow-800 mb-2">Pending Approval</h2>
 					<p class="text-sm text-yellow-700">This item is currently pending review by our moderation team. It will be visible once approved.</p>
 				</div>
 			</div>
 		{:else if data.item.moderation_status === 'unapproved'}
 			<div class="max-w-md mx-auto text-center py-12">
 				<div class="border border-red-200 bg-red-50 rounded-lg p-4">
-					<h2 class="text-lg font-semibold text-red-800 mb-2">Denied</h2>
+					<h2 class="text-lg font-bold text-red-800 mb-2">Denied</h2>
 					<p class="text-sm text-red-700">This item has been denied by our moderation team and is not available.</p>
 				</div>
 			</div>
@@ -695,7 +695,7 @@
 						</div>
 					{/if}
 				</div>
-				<p class="text-2xl font-semibold text-primary mb-3">
+				<p class="text-2xl font-bold text-primary mb-3">
 					{#if data.item.is_limited && data.item.stock_left == 0}
 						<span class="text-primary font-bold">VAL</span> {formatter.format(data.item.final_rap)}
 					{:else}
@@ -730,24 +730,24 @@
 
 				<div class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-600 mb-4">
 					<div>
-						<span class="font-medium">Type:</span>
+						<span class="font-bold">Type:</span>
 						{data.item.category.title}
 					</div>
 					<div>
-						<span class="font-medium">Creator:</span>
+						<span class="font-bold">Creator:</span>
 						<a href={`/user/profile/${data.item.user.id}`} class="text-primary hover:underline">{data.item.user.username}</a>
 					</div>
 					<div>
-						<span class="font-medium">Listed:</span>
+						<span class="font-bold">Listed:</span>
 						{timeSince(new Date(data.item.created_at))} ago
 					</div>
 					<div>
-						<span class="font-medium">Sales:</span>
+						<span class="font-bold">Sales:</span>
 						{data.item.sold_count}
 					</div>
 					{#if data.item.collections && data.item.collections.length > 0}
 						<div>
-							<span class="font-medium">Collection:</span>
+							<span class="font-bold">Collection:</span>
 							{#each data.item.collections as collection, i}
 								<span class="text-primary">{collection.name}{i < data.item.collections.length - 1 ? ', ' : ''}</span>
 							{/each}
@@ -841,9 +841,9 @@
 											alt="Retro Cap"
 											class="w-7 h-7 rounded-lg border border-[#EFE6E2]"
 										/>
-										<span class="text-sm font-medium text-gray-900">{caseContent.item.title}</span>
+										<span class="text-sm font-bold text-gray-900">{caseContent.item.title}</span>
 									</div>
-									<span class="text-sm font-semibold text-primary">{caseContent.chance * 100}%</span
+									<span class="text-sm font-bold text-primary">{caseContent.chance * 100}%</span
 									>
 								</div>
 							{/each}
@@ -875,11 +875,11 @@
 						{#await ownersPromise}
 							<div class="flex items-center gap-2">
 								<button
-									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 									disabled>Prev</button
 								>
 								<button
-									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+									class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 									>Next</button
 								>
 							</div>
@@ -888,25 +888,25 @@
 							<div class="flex items-center gap-2">
 								{#if owners.prev_page_url === null}
 									<button
-										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 										disabled>Prev</button
 									>
 								{:else}
 									<button
 										onclick={() => (ownersPromise = fetchOwners(owners.current_page - 1))}
-										class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 										>Prev</button
 									>
 								{/if}
 								{#if owners.next_page_url === null}
 									<button
-										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 										disabled>Next</button
 									>
 								{:else}
 									<button
 										onclick={() => (ownersPromise = fetchOwners(owners.current_page + 1))}
-										class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+										class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 										>Next</button
 									>
 								{/if}
@@ -937,12 +937,12 @@
 							{#each sellers.data as seller}
 								<div class="seller-row">
 									<div>
-										<a href={`/user/profile/${seller.user.id}`} class="text-sm font-medium text-gray-900"
+										<a href={`/user/profile/${seller.user.id}`} class="text-sm font-bold text-gray-900"
 											>{seller.user.username} (#{seller.inventory.serial})</a
 										>
 									</div>
 								<div class="flex items-center gap-4">
-									<span class="text-sm font-semibold text-primary"
+									<span class="text-sm font-bold text-primary"
 										><svg
 											xmlns="http://www.w3.org/2000/svg"
 											width="24"
@@ -973,36 +973,36 @@
 					<div class="flex items-center gap-2">
 						{#await sellersPromise}
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 							disabled>Prev</button
 						>
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 							>Next</button
 						>
 						{:then sellers}
 						{#if sellers.prev_page_url === null}
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 							disabled>Prev</button
 						>
 						{:else}
 						<button
 							onclick={() => (sellersPromise = fetchSellers(sellers.current_page - 1))}
-							class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 						>Prev</button
 						>
 						{/if}
 						{#if sellers.next_page_url === null}
 						<button
-							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="opacity-50 cursor-not-allowed inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 							disabled
 							>Next</button
 						>
 						{:else}
 						<button
 							onclick={() => (sellersPromise = fetchSellers(sellers.current_page + 1))}
-							class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50"
+							class="inline-flex items-center justify-center rounded-lg border border-[#EFE6E2] bg-white px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-50"
 							>Next</button
 						>
 						{/if}
@@ -1014,7 +1014,7 @@
 		{/if}
 
 		<div class="mt-6 border border-[#EFE6E2] rounded-lg p-4">
-			<h2 class="text-lg font-semibold mb-3">Comments ({data.item.comment_count})</h2>
+			<h2 class="text-lg font-bold mb-3">Comments ({data.item.comment_count})</h2>
 			{#if error}
 				<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
 					{error}
@@ -1041,7 +1041,7 @@
 						<img src={config.avatarStorage + "/" + comment.user.id + ".png"} alt="avatar" class="rounded-full w-18 h-18 mt-0.5" />
 						<div class="flex-1">
 							<div class="flex items-center gap-2 mb-0.5">
-								<a href={`/user/profile/${comment.user.id}`} class="text-sm font-semibold text-gray-900">{comment.user.username}</a>
+								<a href={`/user/profile/${comment.user.id}`} class="text-sm font-bold text-gray-900">{comment.user.username}</a>
 								<span class="text-xs text-gray-500"
 									>{timeSince(new Date(comment.created_at))} ago</span
 								>

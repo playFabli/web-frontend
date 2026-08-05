@@ -161,7 +161,7 @@
 						class="w-10 h-10 border border-[#EFE6E2] rounded-full"
 					/>
 					<div>
-						<p class="text-sm font-medium text-gray-900">{post.user?.username}</p>
+						<p class="text-sm font-bold text-gray-900">{post.user?.username}</p>
 						<p class="text-xs text-gray-400">{formatDate(post.created_at)}</p>
 					</div>
 					{#if post.is_featured}
@@ -202,11 +202,11 @@
 			onclick={(e)=>{e.stopPropagation()}}
 		>
 			<div class="p-4 border-b border-[#EFE6E2]">
-				<h2 class="text-base font-semibold text-gray-900">Edit Post</h2>
+				<h2 class="text-base font-bold text-gray-900">Edit Post</h2>
 			</div>
 			<div class="p-4 space-y-3">
 				<div>
-					<label class="block text-xs font-medium text-gray-700 mb-1">Title</label>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Title</label>
 					<input
 						type="text"
 						bind:value={editTitle}
@@ -214,7 +214,7 @@
 					/>
 				</div>
 				<div>
-					<label class="block text-xs font-medium text-gray-700 mb-1">Banner Image</label>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Banner Image</label>
 					{#if editBannerPreview}
 						<div class="mb-2 rounded-lg overflow-hidden border border-[#EFE6E2]">
 							<img src="{editBannerPreview}" alt="Banner preview" class="w-full h-32 object-cover" />
@@ -228,7 +228,7 @@
 						type="file"
 						accept="image/*"
 						onchange={handleBannerSelect}
-						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer mb-2"
+						class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold !btn-glossy file:bg-[#A2574F] file:text-white hover:file:bg-[#8E4A43] cursor-pointer mb-2"
 					/>
 					<p class="text-xs text-gray-500 mt-1">Upload a new banner image to replace the current one. Max 5MB.</p>
 					{#if post.banner_path}
@@ -239,7 +239,7 @@
 					{/if}
 				</div>
 				<div>
-					<label class="block text-xs font-medium text-gray-700 mb-1">Body (BBCode)</label>
+					<label class="block text-xs font-bold text-gray-700 mb-1">Body (BBCode)</label>
 					<textarea
 						bind:value={editBody}
 						class="w-full border border-[#EFE6E2] rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-primary min-h-[300px]"

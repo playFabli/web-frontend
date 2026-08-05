@@ -257,15 +257,15 @@
 					<img src={config.avatarStorage + "/" + data.user.id + ".png"} alt={data.user.username} class="w-24 h-24 mx-auto rounded-full border-2 {isBanned(data.user.bans) ? 'border-red-500' : 'border-secondary'}">
 					<h2 class="text-lg font-bold text-gray-900 mt-2">{data.user.username}</h2>
 					{#if isBanned(data.user.bans)}
-						<p class="text-sm text-red-600 font-medium">BANNED</p>
+						<p class="text-sm text-red-600 font-bold">BANNED</p>
 						<p class="text-xs text-gray-500 mt-1">Reason: {data.user.bans[0]?.banned_for || 'No reason given'}</p>
 					{:else}
 						<p class="text-sm text-gray-600">User since {formatDate(data.user.created_at)}</p>
 					{/if}
 					<div class="mt-3 text-left text-sm space-y-1">
-						<p><span class="font-medium">ID:</span> #{data.user.id}</p>
-						<p><span class="font-medium">Level:</span> {data.user.level}</p>
-						<p><span class="font-medium">VAL:</span> {rapFormatted.format(data.user.final_rap)}</p>
+						<p><span class="font-bold">ID:</span> #{data.user.id}</p>
+						<p><span class="font-bold">Level:</span> {data.user.level}</p>
+						<p><span class="font-bold">VAL:</span> {rapFormatted.format(data.user.final_rap)}</p>
 					</div>
 				</div>
 			</div>
@@ -274,7 +274,7 @@
 			<div class="md:col-span-2 space-y-4">
 				<!-- Account Details -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Account Details</h2>
+					<h2 class="text-lg font-bold mb-3">Account Details</h2>
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
 							<label class="form-label" for="username">Username</label>
@@ -303,7 +303,7 @@
 
 				<!-- Profile Info -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-3">Profile Info</h2>
+					<h2 class="text-lg font-bold mb-3">Profile Info</h2>
 					<div class="mb-3">
 						<label class="form-label" for="description">Description</label>
 						<textarea bind:value={description} id="description" class="form-input" rows="3"></textarea>
@@ -322,14 +322,14 @@
 
 				<!-- Transactions -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-2">Transactions</h2>
+					<h2 class="text-lg font-bold mb-2">Transactions</h2>
 					<p class="text-sm text-gray-600 mb-3">Review and verify pending transactions for this user.</p>
 					<a href={`/admin/user/${data.user.id}/verify-transaction`} class="btn-glossy px-4 py-1 text-sm">Verify Transactions</a>
 				</div>
 
 				<!-- User Stats & Rendering -->
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
-					<h2 class="text-lg font-semibold mb-2">User Stats & Rendering</h2>
+					<h2 class="text-lg font-bold mb-2">User Stats & Rendering</h2>
 					<p class="text-sm text-gray-600 mb-3">Recalculate RAP/item count, or re-render the user's avatar.</p>
 					<div class="flex flex-wrap gap-2">
 						<button onclick={recalculateStats} disabled={recalcLoading} class="btn-glossy px-4 py-1 text-sm">
@@ -355,7 +355,7 @@
 
 				<!-- Danger Zone -->
 				<div class="border border-red-200 rounded-lg p-4 bg-red-50/30">
-					<h2 class="text-lg font-semibold text-red-700 mb-2">Danger Zone</h2>
+					<h2 class="text-lg font-bold text-red-700 mb-2">Danger Zone</h2>
 					<div class="flex flex-wrap gap-2">
 						{#if isBanned(data.user.bans)}
 							<button onclick={unbanUser} disabled={unbanLoading} class="btn-secondary px-4 py-1 text-sm bg-green-100 hover:bg-green-200 border-green-300">

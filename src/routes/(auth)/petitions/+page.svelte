@@ -241,11 +241,11 @@
 					<div class="petition-card">
 						<div class="flex items-start justify-between">
 							<div class="flex-1">
-								<h3 class="text-sm font-semibold text-gray-900">{petition.title}</h3>
+								<h3 class="text-sm font-bold text-gray-900">{petition.title}</h3>
 								<p class="text-xs text-gray-600 mt-1">{petition.description}</p>
 								<span class="type-badge {getTypeClass(petition.type)} mt-2">{getTypeLabel(petition.type)}</span>
 								{#if petition.approved}
-									<span class="ml-2 text-xs text-green-600 font-medium">✓ Approved</span>
+									<span class="ml-2 text-xs text-green-600 font-bold">✓ Approved</span>
 								{/if}
 							</div>
 							<div class="flex items-center gap-2 ml-4">
@@ -301,7 +301,7 @@
 <div class="modal-overlay" onclick={() => { if (showCreateModal) showCreateModal = false; }}>
 	<div class="modal" onclick={(e) => e.stopPropagation()}>
 		<div class="modal-header">
-			<h2 class="text-base font-semibold text-gray-900">New Petition</h2>
+			<h2 class="text-base font-bold text-gray-900">New Petition</h2>
 			<button class="close-btn" onclick={() => showCreateModal = false}>&times;</button>
 		</div>
 		<div class="modal-body">

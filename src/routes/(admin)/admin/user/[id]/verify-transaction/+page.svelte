@@ -121,7 +121,7 @@
 							<td>
 								<div class="flex items-center gap-2">
 									<img src={config.headshotStorage + "/" + transaction.from_user_id + ".png"} alt="avatar" class="w-6 h-6 rounded-full border border-[#EFE6E2]">
-									<span class="text-sm font-medium">
+									<span class="text-sm font-bold">
 										{transaction.fromUser?.username || `#${transaction.from_user_id}`}
 									</span>
 									{#if isSuspicious(transaction)}
@@ -131,7 +131,7 @@
 							</td>
 							<td class="text-sm text-gray-700">{typeLabel(transaction.type)}</td>
 							<td class="text-sm text-gray-600">#{transaction.item_id ?? transaction.reference_id ?? 'N/A'}</td>
-							<td class="text-sm font-medium">{formatter.format(transaction.amount)}</td>
+							<td class="text-sm font-bold">{formatter.format(transaction.amount)}</td>
 							<td class="text-sm text-gray-500">{formatDate(transaction.created_at)}</td>
 							<td class="text-right">
 								<div class="flex gap-1 justify-end">
