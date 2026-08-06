@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	let { data } = $props();
 	let dauHistory = $state(null);
@@ -55,7 +55,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Admin Dashboard</h1>
 
 		<!-- Quick link cards to admin sections -->
@@ -95,7 +95,7 @@
 			<div class="stat-card card-shadow cursor-pointer" onclick={openDauHistory} role="button" tabindex="0" onkeydown={(e) => e.key === 'Enter' && openDauHistory()}>
 				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">DAU (Today)</p>
 				<p class="text-2xl font-bold mt-1">{formatter.format(data.stats.daily_active_users)}</p>
-				<p class="text-xs text-gray-400 mt-1">Click for history →</p>
+				<p class="text-xs text-gray-400 mt-1">Click for history в†’</p>
 			</div>
 			<div class="stat-card card-shadow">
 				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Items</p>
@@ -139,7 +139,7 @@
 		<div class="modal-content" onclick={(e) => e.stopPropagation()}>
 			<div class="modal-header">
 				<h2 class="text-lg font-bold text-gray-900">DAU History (Last 30 Days)</h2>
-				<button class="modal-close" onclick={closeModal}>✕</button>
+				<button class="modal-close" onclick={closeModal}>вњ•</button>
 			</div>
 			<div class="modal-body">
 				{#if loadingChart}

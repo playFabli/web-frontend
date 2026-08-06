@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 
@@ -53,11 +53,11 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
-			<a href="/admin/users" class="hover:text-primary">Users</a> ›
-			<a href={`/admin/users/${data.user.id}/edit`} class="hover:text-primary">Edit {data.user.username}</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
+			<a href="/admin/users" class="hover:text-primary">Users</a> вЂє
+			<a href={`/admin/users/${data.user.id}/edit`} class="hover:text-primary">Edit {data.user.username}</a> вЂє
 			<span class="text-gray-700">Ban</span>
 		</div>
 

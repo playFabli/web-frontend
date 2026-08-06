@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 
@@ -78,17 +78,17 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
-			<a href="/admin/users" class="hover:text-primary">Users</a> ›
-			<a href={`/admin/users/${data.userId}/edit`} class="hover:text-primary">{data.user?.username || 'User'}</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
+			<a href="/admin/users" class="hover:text-primary">Users</a> вЂє
+			<a href={`/admin/users/${data.userId}/edit`} class="hover:text-primary">{data.user?.username || 'User'}</a> вЂє
 			<span class="text-gray-700">Verify Transactions</span>
 		</div>
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Verify Transactions for {data.user?.username || 'User'}</h1>
-			<a href={`/admin/users/${data.userId}/edit`} class="btn-secondary px-4 py-1 text-sm">← Back to User</a>
+			<a href={`/admin/users/${data.userId}/edit`} class="btn-secondary px-4 py-1 text-sm">в†ђ Back to User</a>
 		</div>
 
 		{#if error}
@@ -103,7 +103,7 @@
 				<p class="text-sm text-gray-600">This user has no pending transactions.</p>
 			</div>
 		{:else}
-			<div class="border border-[#EFE6E2] rounded-lg overflow-hidden bg-white card-shadow">
+			<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto bg-white card-shadow">
 				<table class="loot-table">
 					<thead>
 						<tr>

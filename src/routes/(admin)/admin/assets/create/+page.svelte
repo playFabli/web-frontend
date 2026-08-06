@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { goto, invalidateAll } from '$app/navigation';
 	let { data } = $props();
@@ -145,16 +145,16 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
-			<a href="/admin/assets" class="hover:text-primary">Assets</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
+			<a href="/admin/assets" class="hover:text-primary">Assets</a> вЂє
 			<span class="text-gray-700">Create</span>
 		</div>
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Create Asset</h1>
-			<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">← Back to Assets</a>
+			<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">в†ђ Back to Assets</a>
 		</div>
 
 		{#if error}

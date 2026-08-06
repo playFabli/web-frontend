@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { goto, invalidateAll } from "$app/navigation";
 	import { config } from "$lib/config";
 	import { LogIn, UserPlus } from "lucide-svelte";
@@ -67,9 +67,9 @@
 </style>
 
 <main>
-	<!-- 2006‑style Banner -->
+	<!-- 2006вЂ‘style Banner -->
 	<div class="header-banner">
-		<div class="max-w-[70%] mx-auto px-4">
+		<div class="w-full sm:max-w-[70%] mx-auto px-4">
 			<h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Build, Play, <span class="text-primary">Share</span></h1>
 			<p class="text-sm text-gray-600 max-w-md mx-auto mb-4">
 				Fabli is the ultimate place to create your own games, share them with the world, and play with friends.
@@ -81,7 +81,7 @@
 	</div>
 
 	<div class="py-6">
-		<div class="max-w-[70%] mx-auto px-4 flex flex-col md:flex-row gap-4">
+		<div class="w-full sm:max-w-[70%] mx-auto px-4 flex flex-col md:flex-row gap-4">
 			<div class="flex-1 space-y-5">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 					<h2 class="text-lg font-bold mb-2">Featured Game</h2>
@@ -105,7 +105,7 @@
 							</div>
 						{/each}
 					</div>
-					<a href="/users" class="text-xs text-primary hover:underline mt-2 inline-block">View all members →</a>
+					<a href="/users" class="text-xs text-primary hover:underline mt-2 inline-block">View all members в†’</a>
 				</div>
 			</div>
 

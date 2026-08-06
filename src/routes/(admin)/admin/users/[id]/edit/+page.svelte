@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
@@ -231,16 +231,16 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
-			<a href="/admin/users" class="hover:text-primary">Users</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
+			<a href="/admin/users" class="hover:text-primary">Users</a> вЂє
 			<span class="text-gray-700">Edit {data.user.username}</span>
 		</div>
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Edit User</h1>
-			<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">← Back to Users</a>
+			<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">в†ђ Back to Users</a>
 		</div>
 
 		{#if error}

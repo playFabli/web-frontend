@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { page } from '$app/state';
 	import { config } from '$lib/config.js';
 	import { timeSince } from '$lib/timeAgo';
@@ -34,9 +34,9 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 	<a href={`/user/profile/${data.user.id}`} class="block mb-4 text-xs text-gray-500 hover:text-primary"
-				>← Back to profile</a
+				>в†ђ Back to profile</a
 			>
 		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 			<h1 class="text-lg font-bold text-gray-900 mb-4">Friends ({friendsData.total})</h1>

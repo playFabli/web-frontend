@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config.js';
 
 	let { data } = $props();
@@ -56,17 +56,17 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
-			<a href="/admin/users" class="hover:text-primary">Users</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
+			<a href="/admin/users" class="hover:text-primary">Users</a> вЂє
 			<span class="text-gray-700">Pending Transactions</span>
 		</div>
 
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Users with Pending Transactions</h1>
 
 		<!-- Users Table -->
-		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto">
 			<table class="pending-table">
 				<thead>
 					<tr>
@@ -99,7 +99,7 @@
 											<div class="text-xs text-gray-600 flex items-center gap-1">
 												<span class="txn-type {txn.type}">{getTypeLabel(txn.type)}</span>
 												<span class="font-bold text-amber-600">+{formatter.format(txn.amount)}</span>
-												<span class="text-gray-400">·</span>
+												<span class="text-gray-400">В·</span>
 												<span class="text-gray-400">{formatDate(txn.created_at)}</span>
 												{#if txn.from_user}
 													<span class="text-gray-400">from</span>
@@ -141,18 +141,18 @@
 		{#await usersPromise then users}
 		<div class="flex items-center justify-between mt-4">
 			<span class="text-sm text-gray-600">
-				Showing {((users.current_page - 1) * users.per_page) + 1}–{Math.min(users.current_page * users.per_page, users.total)} of {formatter.format(users.total)} users
+				Showing {((users.current_page - 1) * users.per_page) + 1}вЂ“{Math.min(users.current_page * users.per_page, users.total)} of {formatter.format(users.total)} users
 			</span>
 			<div class="flex gap-1">
 				{#if users.prev_page_url}
-					<button onclick={() => usersPromise = fetchUsers(users.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">← Previous</button>
+					<button onclick={() => usersPromise = fetchUsers(users.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">в†ђ Previous</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>← Previous</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>в†ђ Previous</button>
 				{/if}
 				{#if users.next_page_url}
-					<button onclick={() => usersPromise = fetchUsers(users.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
+					<button onclick={() => usersPromise = fetchUsers(users.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
 				{/if}
 			</div>
 		</div>

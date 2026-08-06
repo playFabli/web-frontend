@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import ItemCard from '$lib/components/marketplace/ItemCard.svelte';
 	import { config } from '$lib/config';
 
@@ -55,10 +55,10 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex items-center gap-4 mb-5">
 			<a href={`/user/profile/${data.user.id}`} class="text-xs text-gray-500 hover:text-primary"
-				>← Back to profile</a
+				>в†ђ Back to profile</a
 			>
 			<div class="h-4 border-l border-gray-300"></div>
 			<div class="flex items-center gap-2">

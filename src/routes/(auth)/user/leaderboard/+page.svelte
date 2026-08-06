@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
 
@@ -125,7 +125,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 			<div>
 				<h1 class="text-xl font-bold text-gray-900">VAL Leaderboard</h1>
@@ -176,7 +176,7 @@
 			</div>
 
 			<!-- Full Leaderboard Table -->
-			<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+			<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto">
 				<table class="leaderboard-table">
 					<thead>
 						<tr>
@@ -231,19 +231,19 @@
 			{#if totalPages > 1}
 				<div class="flex items-center justify-between mt-4">
 					<span class="text-sm text-gray-600">
-						Showing {showingFrom}–{showingTo} of {filteredUsers.length} player{filteredUsers.length !== 1 ? 's' : ''}
+						Showing {showingFrom}вЂ“{showingTo} of {filteredUsers.length} player{filteredUsers.length !== 1 ? 's' : ''}
 					</span>
 					<div class="flex gap-1">
 						<button
 							class="btn-secondary px-3 py-1 text-sm"
 							disabled={currentTablePage === 1}
 							onclick={() => goToPage(currentTablePage - 1)}
-						>← Previous</button>
+						>в†ђ Previous</button>
 						<button
 							class="btn-secondary px-3 py-1 text-sm"
 							disabled={currentTablePage === totalPages}
 							onclick={() => goToPage(currentTablePage + 1)}
-						>Next →</button>
+						>Next в†’</button>
 					</div>
 				</div>
 			{/if}

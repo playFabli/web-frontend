@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { config } from '$lib/config.js';
@@ -113,9 +113,9 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
 			<span class="text-gray-700">Categories</span>
 		</div>
 
@@ -124,7 +124,7 @@
 			<button onclick={() => openModal()} class="text-sm btn-glossy px-4 py-1">Create Category</button>
 		</div>
 
-		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto">
 			<table class="categories-table">
 				<thead>
 					<tr>

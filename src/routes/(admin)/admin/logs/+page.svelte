@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config.js';
 
 	let { data } = $props();
@@ -57,16 +57,16 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
 			<span class="text-gray-700">Logs</span>
 		</div>
 
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Admin Logs</h1>
 
 		<!-- Logs Table -->
-		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto">
 			<table class="logs-table">
 				<thead>
 					<tr>
@@ -99,7 +99,7 @@
 											<span class="font-bold text-gray-900">{log.target.username}</span>
 										</div>
 									{:else}
-										<span class="text-gray-400">—</span>
+										<span class="text-gray-400">вЂ”</span>
 									{/if}
 								</td>
 								<td class="text-sm text-gray-700">{log.log}</td>
@@ -121,17 +121,17 @@
 		<!-- Pagination -->
 		{#await logsPromise then logs}
 		<div class="flex items-center justify-between mt-4">
-			<span class="text-sm text-gray-600">Showing {((logs.current_page - 1) * logs.per_page) + 1}–{Math.min(logs.current_page * logs.per_page, logs.total)} of {formatter.format(logs.total)} logs</span>
+			<span class="text-sm text-gray-600">Showing {((logs.current_page - 1) * logs.per_page) + 1}вЂ“{Math.min(logs.current_page * logs.per_page, logs.total)} of {formatter.format(logs.total)} logs</span>
 			<div class="flex gap-1">
 				{#if logs.prev_page_url}
-					<button onclick={() => logsPromise = fetchLogs(logs.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">← Previous</button>
+					<button onclick={() => logsPromise = fetchLogs(logs.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">в†ђ Previous</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>← Previous</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>в†ђ Previous</button>
 				{/if}
 				{#if logs.next_page_url}
-					<button onclick={() => logsPromise = fetchLogs(logs.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
+					<button onclick={() => logsPromise = fetchLogs(logs.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
 				{/if}
 			</div>
 		</div>

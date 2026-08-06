@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 
@@ -53,7 +53,7 @@
 </script>
 
 <main class="py-8">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-center mb-5">
 			<h1 class="text-2xl font-bold text-gray-900">Reset password</h1>
 			<p class="text-sm text-gray-600 mt-1">Enter your new password below.</p>

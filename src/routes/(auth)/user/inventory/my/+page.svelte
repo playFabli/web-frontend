@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
@@ -310,7 +310,7 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Your Inventory</h1>
 
 	<!-- Filter Tabs -->

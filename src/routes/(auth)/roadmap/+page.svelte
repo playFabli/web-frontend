@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
@@ -299,7 +299,7 @@
 
 <!-- Roadmap Content -->
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Development Roadmap</h1>
 			{#if page.data.user.role === 'admin'}
@@ -339,14 +339,14 @@
 												onclick={() => openEditModal(item)}
 												title="Edit"
 											>
-												✏️
+												вњЏпёЏ
 											</button>
 											<button 
 												class="btn-secondary px-2 py-1 text-xs"
 												onclick={() => deleteItem(item.id)}
 												title="Delete"
 											>
-												🗑️
+												рџ—‘пёЏ
 											</button>
 										{/if}
 									</div>

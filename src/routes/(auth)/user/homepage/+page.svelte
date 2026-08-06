@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { page } from '$app/state';
 	import { config } from '$lib/config';
 
@@ -92,7 +92,7 @@
 	{#if frameCss}{@html `<style>${frameCss}</style>`}{/if}
 </svelte:head>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 	<div class="flex flex-col md:flex-row md:items-center mb-5 gap-4">
 		<img
 			class="{page.data.globalUser.avatar_frame_id > 0 ? `avatar-frame-${page.data.globalUser.avatar_frame_id}` : ''} p-1 w-24 h-24 border border-[#EFE6E2]"
@@ -117,7 +117,7 @@
 								Daily {#if dailyQuests.length > 0}
 									<span class="ml-1 text-xs"
 										>{dailyQuests.filter((q) => !q.is_claimed && q.is_completed).length > 0
-											? '(✓)'
+											? '(вњ“)'
 											: ''}</span
 									>
 								{/if}
@@ -157,7 +157,7 @@
 									</div>
 									<p class="text-xs {quest.is_completed ? 'text-green-600' : 'text-gray-500'} mt-1">
 										{quest.is_completed
-											? '✓ Complete'
+											? 'вњ“ Complete'
 											: `${quest.current_value} / ${quest.required_value}`}
 									</p>
 								</div>
@@ -238,7 +238,7 @@
 									<p class="text-xs text-gray-500 mt-1">{item.category?.title}</p>
 									<div class="flex items-center gap-2 mt-2">
 										{#if item.is_limited}
-											<span class="text-[10px] text-gray-500">Stock: {item.stock_left ?? '∞'}</span>
+											<span class="text-[10px] text-gray-500">Stock: {item.stock_left ?? 'в€ћ'}</span>
 										{/if}
 										<span class="text-xs font-bold text-primary whitespace-nowrap">{item.price} 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="inline size-4 mb-1"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" /><path d="M15 6h1v4" /><path d="m6.134 14.768.866-.5 2 3.464" /><circle cx="16" cy="8" r="6" /></svg></span>
 									</div>
@@ -259,7 +259,7 @@
 									<a href="/forum/thread/{post.id}" class="min-w-[200px] max-w-[200px] border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30 hover:shadow-sm transition-shadow">
 										<img loading="lazy" src="{config.headshotStorage}/{post.user?.id}.png" alt="" class="w-10 h-10 border border-[#EFE6E2] rounded-full mb-2" />
 										<p class="text-sm font-bold text-gray-900 truncate">{post.title}</p>
-										<p class="text-xs text-gray-500 mt-1">{post.category?.name} • by {post.user?.username}</p>
+										<p class="text-xs text-gray-500 mt-1">{post.category?.name} вЂў by {post.user?.username}</p>
 										<div class="flex items-center gap-2 mt-2">
 											{#if post.is_pinned}
 												<span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Pinned</span>

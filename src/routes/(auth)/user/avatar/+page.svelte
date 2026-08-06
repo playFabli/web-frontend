@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { page } from '$app/state';
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
@@ -381,7 +381,7 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Customize Avatar</h1>
 
 		<div class="flex flex-col lg:flex-row gap-5">

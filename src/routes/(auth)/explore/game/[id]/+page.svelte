@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
@@ -145,7 +145,7 @@
 	}
 </style>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		{#if !game}
 			<div class="text-center py-12">
 				<p class="text-gray-500">Game not found.</p>
@@ -153,7 +153,7 @@
 		{:else}
 			<!-- Breadcrumb -->
 			<div class="text-xs text-gray-500 mb-4">
-				<a href="/explore" class="hover:text-primary">Explore</a> ›
+				<a href="/explore" class="hover:text-primary">Explore</a> вЂє
 				<span class="text-gray-700">{game.title}</span>
 			</div>
 
@@ -164,7 +164,7 @@
 						<img src={game.thumbnail_url || `https://placehold.co/600x340/D9C5B2/1A4D4F?text=${encodeURIComponent(game.title)}`} alt={game.title} class="w-full rounded-lg" loading="lazy">
 					</div>
 					<div class="mt-3 text-center">
-						<button onclick={()=>goto(`/explore/game/${game.id}/play`)} class="w-full play-btn">▶ Play Now</button>
+						<button onclick={()=>goto(`/explore/game/${game.id}/play`)} class="w-full play-btn">в–¶ Play Now</button>
 					</div>
 				</div>
 

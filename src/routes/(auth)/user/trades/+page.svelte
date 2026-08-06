@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { onMount } from 'svelte';
 	import { config } from '$lib/config';
 	import { page } from '$app/state';
@@ -65,7 +65,7 @@
 
 </script>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Trades</h1>
 
 		<!-- Tabs -->
@@ -81,7 +81,7 @@
 		{#if activeTab == 0}
 		<div class="tab-content">
 			{#await tradesPromise}
-				<div class="text-sm text-gray-500">Loading trades…</div>
+				<div class="text-sm text-gray-500">Loading tradesвЂ¦</div>
 			{:then trades}
 				{#if trades && trades.data.length}
 					{#each trades.data as t}
@@ -95,7 +95,7 @@
 										{:else}
 										<span class="font-bold text-sm">{t.to.username}</span>
 										{/if}
-										<span class="text-xs text-gray-500">• {timeSince(t.created_at)} ago</span>
+										<span class="text-xs text-gray-500">вЂў {timeSince(t.created_at)} ago</span>
 									</div>
 									<div class="flex gap-2 mb-2">
 										<div class="flex items-center gap-1 text-sm"><span class="text-gray-600">Offering:</span></div>
@@ -161,7 +161,7 @@
 		{#if activeTab == 1}
 		<div id="pastTrades" class="tab-content">
 			{#await tradesPromise}
-				<div class="text-sm text-gray-500">Loading trades…</div>
+				<div class="text-sm text-gray-500">Loading tradesвЂ¦</div>
 			{:then trades}
 			{#if trades.total > 0}
 			{#each trades.data as trade}
@@ -177,7 +177,7 @@
 					{:else}
 					<span class="font-bold text-sm">{trade.from.username}</span>
 					{/if}
-					<span class="text-xs text-gray-500">• {timeSince(trade.created_at)} ago</span>
+					<span class="text-xs text-gray-500">вЂў {timeSince(trade.created_at)} ago</span>
 					{#if trade.status === 1}
 					<span class="text-xs text-green-600 font-bold ml-auto">Completed</span>
 					{:else}

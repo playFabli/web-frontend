@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { goto } from '$app/navigation';
 	import { config } from '$lib/config.js';
 
@@ -53,10 +53,10 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<!-- Breadcrumb -->
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/explore" class="hover:text-primary">Explore</a> ›
+			<a href="/explore" class="hover:text-primary">Explore</a> вЂє
 			<span class="text-gray-700">New Game</span>
 		</div>
 
@@ -107,7 +107,7 @@
 					<div class="mb-5">
 						<label class="form-label" for="expThumbnail">Thumbnail</label>
 						<input type="file" id="expThumbnail" class="form-input" accept="image/*" onchange={(e) => thumbnail = e.target.files[0] || null}>
-						<p class="text-xs text-gray-500 mt-1">Upload a .png or .jpg (recommended size: 600×340).</p>
+						<p class="text-xs text-gray-500 mt-1">Upload a .png or .jpg (recommended size: 600Г—340).</p>
 					</div>
 
 					<!-- Action Buttons -->

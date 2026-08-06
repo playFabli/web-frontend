@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
@@ -89,9 +89,9 @@
 </style>
 
 <main class="flex-1 flex items-center justify-center py-6">
-	<div class="max-w-[70%] mx-auto px-4 w-full">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4 w-full">
 		<div class="max-w-md mx-auto border border-red-200 rounded-lg p-4 bg-white text-center">
-			<p class="text-4xl mb-3">🚫</p>
+			<p class="text-4xl mb-3">рџљ«</p>
 			<h1 class="text-xl font-bold text-gray-900 mb-2">Your Account Has Been Banned</h1>
 			<p class="text-sm text-gray-600 mb-4">
 				You have violated the Fabli Terms of Service and your account has been suspended.

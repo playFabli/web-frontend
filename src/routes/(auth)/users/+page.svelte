@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
 
@@ -129,7 +129,7 @@
 
 <!-- Browse Users Content -->
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Browse Users</h1>
 
 		<!-- Search & Sort -->
@@ -178,18 +178,18 @@
 
 			<!-- Pagination -->
 			<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
-				<span class="text-sm text-gray-600">Showing {pagination.from}–{pagination.to} of {pagination.total} users</span>
+				<span class="text-sm text-gray-600">Showing {pagination.from}вЂ“{pagination.to} of {pagination.total} users</span>
 				<div class="flex gap-1">
 					<button
 						class="btn-secondary px-3 py-1 text-sm"
 						disabled={!pagination.prev_page_url}
 						onclick={() => goToPage(pagination.current_page - 1)}
-					>← Previous</button>
+					>в†ђ Previous</button>
 					<button
 						class="btn-secondary px-3 py-1 text-sm"
 						disabled={!pagination.next_page_url}
 						onclick={() => goToPage(pagination.current_page + 1)}
-					>Next →</button>
+					>Next в†’</button>
 				</div>
 			</div>
 		{/if}

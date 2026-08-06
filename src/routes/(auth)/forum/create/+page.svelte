@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { goto, invalidate } from '$app/navigation';
 	let { data } = $props();
@@ -43,9 +43,9 @@
 	}
 </script>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/forum" class="hover:text-primary">Forums</a> ›
+			<a href="/forum" class="hover:text-primary">Forums</a> вЂє
 			<span class="text-gray-700">New Thread</span>
 		</div>
 

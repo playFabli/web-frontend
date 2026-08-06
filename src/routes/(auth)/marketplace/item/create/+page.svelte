@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 	import TexturePreview from '$lib/components/marketplace/TexturePreview.svelte';
@@ -72,9 +72,9 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/marketplace" class="hover:text-primary">Marketplace</a> ›
+			<a href="/marketplace" class="hover:text-primary">Marketplace</a> вЂє
 			<span class="text-gray-700">Create Item</span>
 		</div>
 

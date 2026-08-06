@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { page } from '$app/state';
 	import { config } from '$lib/config';
 	import { timeSince } from '$lib/timeAgo.js';
@@ -63,7 +63,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex flex-col items-start md:flex-row gap-4">
 			<aside class="w-full md:w-44 flex-shrink-0">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-gray-50/30">
@@ -135,7 +135,7 @@
 					</div> -->
 				</div>
 
-				<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+				<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto">
 					<table class="forum-table">
 						<thead>
 							<tr>
@@ -169,7 +169,7 @@
 											<div class="flex flex-col">
 												<a href="/forum/thread/{thread.id}" class="text-sm">{thread.title.length > 30 ? thread.title.slice(0, 30) + '...' : thread.title}</a>
 												<span class="text-xs text-gray-500 mt-0.5"
-													>by <a href={`/user/profile/${thread.user.id}`} class="text-primary">{thread.user.username}</a> ·
+													>by <a href={`/user/profile/${thread.user.id}`} class="text-primary">{thread.user.username}</a> В·
 													<span class="category-tag">{thread.category.name}</span></span
 												>
 											</div>
@@ -197,10 +197,10 @@
 						<span class="text-sm text-gray-600">Page .. of ..</span>
 						<div class="flex gap-1">
 							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled
-								>← Previous</button
+								>в†ђ Previous</button
 							>
 							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled
-								>Next →</button
+								>Next в†’</button
 							>
 						</div>
 					</div>
@@ -211,17 +211,17 @@
 						<div class="flex gap-1">
 							{#if threads.prev_page_url != null}
 							<button onclick={() => goToPage(threads.current_page - 1)} class="btn-secondary px-3 py-1 text-sm"
-								>← Previous</button
+								>в†ђ Previous</button
 							>
 							{:else}
 							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled
-								>← Previous</button
+								>в†ђ Previous</button
 							>
 							{/if}
 							{#if threads.next_page_url != null}
-							<button onclick={() => goToPage(threads.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
+							<button onclick={() => goToPage(threads.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
 							{:else}
-							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
+							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
 							{/if}
 						</div>
 					</div>

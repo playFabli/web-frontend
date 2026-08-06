@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { goto, invalidateAll } from "$app/navigation";
 	import { config } from "$lib/config";
 	import { onMount } from "svelte";
@@ -179,7 +179,7 @@
 	};
 </script>
 <main class="py-8">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="register-container">
 			<div class="text-center mb-5">
 				<h1 class="text-2xl font-bold text-gray-900">Join Fabli</h1>

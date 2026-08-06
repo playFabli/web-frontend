@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { config } from '$lib/config.js';
@@ -139,9 +139,9 @@
 	}
 </style>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
 			<span class="text-gray-700">Assets</span>
 		</div>
 		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
@@ -170,7 +170,7 @@
 			<button onclick={applyFilters} class="btn-secondary px-4 py-1 text-sm">Apply Filters</button>
 		</div>
 
-		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden">
+		<div class="border border-[#EFE6E2] rounded-lg overflow-x-auto">
 			<table class="assets-table">
 				<thead>
 					<tr>
@@ -224,17 +224,17 @@
 
 		{#await assetsPromise then assets}
 		<div class="flex items-center justify-between mt-4">
-			<span class="text-sm text-gray-600">Showing {((assets.current_page - 1) * assets.per_page) + 1}–{Math.min(assets.current_page * assets.per_page, assets.total)} of {formatter.format(assets.total)} assets</span>
+			<span class="text-sm text-gray-600">Showing {((assets.current_page - 1) * assets.per_page) + 1}вЂ“{Math.min(assets.current_page * assets.per_page, assets.total)} of {formatter.format(assets.total)} assets</span>
 			<div class="flex gap-1">
 				{#if assets.prev_page_url}
-					<button onclick={() => assetsPromise = fetchAssets(assets.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">← Previous</button>
+					<button onclick={() => assetsPromise = fetchAssets(assets.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">в†ђ Previous</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>← Previous</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>в†ђ Previous</button>
 				{/if}
 				{#if assets.next_page_url}
-					<button onclick={() => assetsPromise = fetchAssets(assets.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
+					<button onclick={() => assetsPromise = fetchAssets(assets.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
 				{/if}
 			</div>
 		</div>

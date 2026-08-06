@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import ItemCard from '$lib/components/marketplace/ItemCard.svelte';
@@ -97,7 +97,7 @@
 
 {/if}
 <main class="py-4 sm:py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-4 sm:mb-5">New Trade</h1>
 		<div id="createTrade" class="tab-content">
 			<div class="border border-[#EFE6E2] rounded-lg-[4px] p-4 sm:p-4 bg-white">

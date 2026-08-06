@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { goto } from '$app/navigation';
 	import TexturePreview from '$lib/components/marketplace/TexturePreview.svelte';
@@ -69,16 +69,16 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/marketplace" class="hover:text-primary">Marketplace</a> ›
-			<a href="/marketplace/item/{data.item.id}" class="hover:text-primary">{data.item.title}</a> ›
+			<a href="/marketplace" class="hover:text-primary">Marketplace</a> вЂє
+			<a href="/marketplace/item/{data.item.id}" class="hover:text-primary">{data.item.title}</a> вЂє
 			<span class="text-gray-700">Edit</span>
 		</div>
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Edit Item</h1>
-			<a href="/marketplace/item/{data.item.id}" class="btn-secondary px-4 py-1 text-sm">← Back to Item</a>
+			<a href="/marketplace/item/{data.item.id}" class="btn-secondary px-4 py-1 text-sm">в†ђ Back to Item</a>
 		</div>
 
 		{#if error}

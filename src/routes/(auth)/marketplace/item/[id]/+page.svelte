@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { invalidateAll } from '$app/navigation';
 	import { config } from '$lib/config.js';
 	import { timeSince } from '$lib/timeAgo';
@@ -634,9 +634,9 @@
 {/if}
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/marketplace" class="hover:text-primary">Marketplace</a> ›
+			<a href="/marketplace" class="hover:text-primary">Marketplace</a> вЂє
 			<span class="text-gray-700">{data.item.title}</span>
 		</div>
 
@@ -912,7 +912,7 @@
 								{/if}
 							</div>
 							<p class="text-xs text-gray-400">
-								Showing {(owners.current_page - 1) * 5 + 1}–{Math.min(
+								Showing {(owners.current_page - 1) * 5 + 1}вЂ“{Math.min(
 									owners.current_page * 5,
 									owners.total
 								)} of {owners.total} owners

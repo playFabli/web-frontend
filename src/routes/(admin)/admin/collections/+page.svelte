@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { page } from '$app/state';
 
@@ -159,9 +159,9 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> ›
+			<a href="/admin" class="hover:text-primary">Admin Dashboard</a> вЂє
 			<span class="text-gray-700">Collections</span>
 		</div>
 

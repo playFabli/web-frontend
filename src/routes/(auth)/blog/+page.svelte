@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config';
 	import { page } from '$app/state';
 
@@ -131,7 +131,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold">Blog</h1>
 			{#if isAdmin}

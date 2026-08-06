@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { invalidate } from '$app/navigation';
 	import { config } from '$lib/config.js';
 	import { timeSince } from '$lib/timeAgo.js';
@@ -185,9 +185,9 @@
 	}
 </script>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/forum" class="hover:text-primary">Forums</a> ›
+			<a href="/forum" class="hover:text-primary">Forums</a> вЂє
 			<span class="text-gray-700">{data.thread.title}</span>
 		</div>
 
@@ -265,8 +265,8 @@
 			<div class="border-t border-[#EFE6E2] px-4 py-3 flex items-center justify-between">
 				<span class="text-sm text-gray-600">Page .. of ..</span>
 				<div class="pagination flex gap-1">
-					<a href="#" class="opacity-50 cursor-not-allowed">Previous ←</a>
-					<a href="#" class="opacity-50 cursor-not-allowed">Next →</a>
+					<a href="#" class="opacity-50 cursor-not-allowed">Previous в†ђ</a>
+					<a href="#" class="opacity-50 cursor-not-allowed">Next в†’</a>
 				</div>
 			</div>
 			{:then replies}
@@ -274,14 +274,14 @@
 				<span class="text-sm text-gray-600">Page {replies.current_page} of {replies.last_page}</span>
 				<div class="pagination flex gap-1">
 					{#if replies.prev_page_url != null}
-						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page - 1)}>Previous ←</a>
+						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page - 1)}>Previous в†ђ</a>
 					{:else}
-						<a class="opacity-50 cursor-not-allowed">Previous ←</a>
+						<a class="opacity-50 cursor-not-allowed">Previous в†ђ</a>
 					{/if}
 					{#if replies.next_page_url != null}
-						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page + 1)}>Next →</a>
+						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page + 1)}>Next в†’</a>
 					{:else}
-						<a class="opacity-50 cursor-not-allowed">Next →</a>
+						<a class="opacity-50 cursor-not-allowed">Next в†’</a>
 					{/if}
 				</div>
 			</div>

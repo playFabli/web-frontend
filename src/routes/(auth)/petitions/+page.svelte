@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
@@ -221,7 +221,7 @@
 
 <!-- Petitions Content -->
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Community Petitions</h1>
 			<button class="btn-glossy px-4 py-1 text-sm" onclick={() => showCreateModal = true}>Create Petition</button>
@@ -245,7 +245,7 @@
 								<p class="text-xs text-gray-600 mt-1">{petition.description}</p>
 								<span class="type-badge {getTypeClass(petition.type)} mt-2">{getTypeLabel(petition.type)}</span>
 								{#if petition.approved}
-									<span class="ml-2 text-xs text-green-600 font-bold">✓ Approved</span>
+									<span class="ml-2 text-xs text-green-600 font-bold">вњ“ Approved</span>
 								{/if}
 							</div>
 							<div class="flex items-center gap-2 ml-4">
@@ -278,18 +278,18 @@
 			<!-- Pagination -->
 			{#if pagination.total > 0}
 			<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
-				<span class="text-sm text-gray-600">Showing {pagination.from}–{pagination.to} of {pagination.total} petitions</span>
+				<span class="text-sm text-gray-600">Showing {pagination.from}вЂ“{pagination.to} of {pagination.total} petitions</span>
 				<div class="flex gap-1">
 					<button 
 						class="btn-secondary px-3 py-1 text-sm" 
 						disabled={!pagination.prev_page_url}
 						onclick={() => goToPage(pagination.current_page - 1)}
-					>← Previous</button>
+					>в†ђ Previous</button>
 					<button 
 						class="btn-secondary px-3 py-1 text-sm" 
 						disabled={!pagination.next_page_url}
 						onclick={() => goToPage(pagination.current_page + 1)}
-					>Next →</button>
+					>Next в†’</button>
 				</div>
 			</div>
 			{/if}

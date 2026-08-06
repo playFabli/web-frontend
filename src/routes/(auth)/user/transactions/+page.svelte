@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { config } from '$lib/config.js';
 	import { invalidateAll } from '$app/navigation';
 
@@ -27,9 +27,9 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="text-xs text-gray-500 mb-3">
-			<a href="/user/homepage" class="hover:text-primary">Home</a> ›
+			<a href="/user/homepage" class="hover:text-primary">Home</a> вЂє
 			<span class="text-gray-700">Transactions</span>
 		</div>
 

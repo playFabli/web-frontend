@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { goto } from '$app/navigation';
 	import ItemCard from '$lib/components/marketplace/ItemCard.svelte';
 	import { config } from '$lib/config.js';
@@ -58,7 +58,7 @@
 	}
 </script>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		{#if data.marketplaceBannerImage}
 			<div class="mb-5 rounded-lg overflow-hidden">
 				<img src={config.storage + '/' + data.marketplaceBannerImage} alt="Marketplace Banner" class="w-full h-auto object-cover" />
@@ -110,7 +110,7 @@
 						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Price</h4>
 						<div class="flex items-center gap-2">
 							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={priceMin}>
-							<span class="text-gray-400 text-sm">–</span>
+							<span class="text-gray-400 text-sm">вЂ“</span>
 							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Max" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={priceMax}>
 						</div>	
 					</div>
@@ -119,7 +119,7 @@
 						<h4 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">VAL</h4>
 						<div class="flex items-center gap-2">
 							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Min" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={rapMin}>
-							<span class="text-gray-400 text-sm">–</span>
+							<span class="text-gray-400 text-sm">вЂ“</span>
 							<input oninput={()=> itemsPromise = fetchItems()} type="number" placeholder="Max" class="w-full border border-gray-300 rounded-lg px-2 py-1 text-sm" bind:value={rapMax}>
 						</div>
 					</div>
@@ -171,21 +171,21 @@
 					{#await itemsPromise}
 					<span class="text-sm text-gray-600">Showing .. of .. items</span>
 					<div class="flex gap-1">
-						<button class="btn-secondary px-3 py-1 text-sm" disabled>← Previous</button>
-						<button class="btn-secondary px-3 py-1 text-sm" disabled>Next →</button>
+						<button class="btn-secondary px-3 py-1 text-sm" disabled>в†ђ Previous</button>
+						<button class="btn-secondary px-3 py-1 text-sm" disabled>Next в†’</button>
 					</div>
 					{:then items}
-					<span class="text-sm text-gray-600">Showing {((items.current_page - 1) * 12) + 1}–{Math.min(items.current_page * 12, items.total)} of {items.total} items</span>
+					<span class="text-sm text-gray-600">Showing {((items.current_page - 1) * 12) + 1}вЂ“{Math.min(items.current_page * 12, items.total)} of {items.total} items</span>
 					<div class="flex gap-1">
 						{#if items.prev_page_url != null}
-							<button onclick={() => itemsPromise = fetchItems(items.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">← Previous</button>
+							<button onclick={() => itemsPromise = fetchItems(items.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">в†ђ Previous</button>
 						{:else}
-							<button class="btn-secondary px-3 py-1 text-sm" disabled>← Previous</button>
+							<button class="btn-secondary px-3 py-1 text-sm" disabled>в†ђ Previous</button>
 						{/if}
 						{#if items.next_page_url != null}
-							<button onclick={() => itemsPromise = fetchItems(items.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
+							<button onclick={() => itemsPromise = fetchItems(items.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
 						{:else}
-							<button class="btn-secondary px-3 py-1 text-sm" disabled>Next →</button>
+							<button class="btn-secondary px-3 py-1 text-sm" disabled>Next в†’</button>
 						{/if}
 					</div>
 					{/await}

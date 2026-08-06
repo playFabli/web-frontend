@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import '../layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { SvelteKitTopLoader } from 'sveltekit-top-loader';
@@ -137,7 +137,7 @@
 {/if}
 <div class="min-h-screen flex flex-col">
 <nav class="bg-white border-b border-[#c7b3a0]/30 sticky top-0 z-50 min-h-[44px]">
-	<div class="max-w-[70%] mx-auto px-4 flex items-center justify-between min-h-[44px]">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4 flex items-center justify-between min-h-[44px]">
 		<div class="flex items-center gap-4 lg:gap-5">
 			<a href="/user/homepage" class="inline-flex items-baseline font-bold text-gray-900 text-base tracking-tight whitespace-nowrap select-none">
 				<img class="inline-block h-[32px]" src="/logo_full.png" alt="Logo"> 
@@ -271,13 +271,13 @@
 	</main>
 
 	<footer class="bg-[#A2574F] border-t-1 border-[#c7b3a0]/50 pt-8 pb-6 mt-12">
-		<div class="max-w-[70%] mx-auto px-4">
+		<div class="w-full sm:max-w-[70%] mx-auto px-4">
 			<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b border-[#c7b3a0]/10">
 				<div class="flex items-center gap-4">
 					<a href="/user/homepage" class="font-bold text-neutral-100 text-base tracking-tight select-none">
 						fabli <span class="text-sm">alpha</span>
 					</a>
-					<span class="text-neutral-300 text-sm">© 2026</span>
+					<span class="text-neutral-300 text-sm">В© 2026</span>
 				</div>
 				<div class="flex items-center gap-x-6 gap-y-2 flex-wrap text-sm text-neutral-200 font-bold">
 					<a href="#" class="hover:text-white transition-colors duration-200">About</a>

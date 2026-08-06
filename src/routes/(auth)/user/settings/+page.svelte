@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { invalidate } from '$app/navigation';
 	import { config } from '$lib/config';
 
@@ -207,7 +207,7 @@
 </script>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Account Settings</h1>
 		{#if settingsError}
 			<div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">

@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { config } from '$lib/config';
 	import { onMount } from 'svelte';
 
@@ -123,7 +123,7 @@
 	}
 </style>
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<!-- Search and Title -->
 		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 			<h1 class="text-xl font-bold text-gray-900">Discover Games</h1>
@@ -215,14 +215,14 @@
 						<span class="text-sm text-gray-600">Page {pagination.current_page} of {pagination.last_page}</span>
 						<div class="flex gap-1">
 							{#if pagination.prev_page_url}
-								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page - 1)}>← Previous</button>
+								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page - 1)}>в†ђ Previous</button>
 							{:else}
-								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>← Previous</button>
+								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>в†ђ Previous</button>
 							{/if}
 							{#if pagination.next_page_url}
-								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page + 1)}>Next →</button>
+								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page + 1)}>Next в†’</button>
 							{:else}
-								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
+								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
 							{/if}
 						</div>
 					</div>

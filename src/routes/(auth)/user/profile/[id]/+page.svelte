@@ -1,4 +1,4 @@
-<script>
+﻿<script>
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import Tooltip from '$lib/components/global/Tooltip.svelte';
@@ -539,7 +539,7 @@
 	{/if}
 </svelte:head>
 {#if data.user && !data.user.privacy?.profile_visible && data.user.id !== user?.id && data.user.friend_status !== 'friends'}
-	<div class="max-w-[70%] mx-auto px-4 py-6">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4 py-6">
 		<div class="max-w-md mx-auto border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
 			<p class="text-4xl mb-3">
 				<svg
@@ -566,7 +566,7 @@
 	</div>
 {:else}
 	<main class="py-6">
-		<div class="max-w-[70%] mx-auto px-4">
+		<div class="w-full sm:max-w-[70%] mx-auto px-4">
 			<div class="border border-[#EFE6E2] rounded-lg p-4 mb-3">
 				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 					<div class="col-span-1 md:col-span-2">
@@ -1057,7 +1057,7 @@
 									onclick={() => selectedThemeId = 0}
 								>
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
-										<span class="text-3xl text-gray-400">—</span>
+										<span class="text-3xl text-gray-400">вЂ”</span>
 									</div>
 									<p class="text-sm font-bold text-gray-900 truncate mt-2">Default</p>
 								</button>
@@ -1097,7 +1097,7 @@
 									onclick={() => selectedFrameId = 0}
 								>
 									<div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
-										<span class="text-3xl text-gray-400">—</span>
+										<span class="text-3xl text-gray-400">вЂ”</span>
 									</div>
 									<p class="text-sm font-bold text-gray-900 truncate mt-2">Default</p>
 								</button>

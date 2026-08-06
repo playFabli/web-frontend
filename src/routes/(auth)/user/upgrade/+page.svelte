@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { page } from "$app/state";
 	import { config } from "$lib/config";
 
@@ -80,7 +80,7 @@
 		margin-bottom: 0.5rem;
 	}
 	.pro-benefit::before {
-		content: '✓';
+		content: 'вњ“';
 		color: #16a34a;
 		font-weight: 700;
 		font-size: 0.9rem;
@@ -88,7 +88,7 @@
 </style>
 
 <main class="py-6">
-	<div class="max-w-[70%] mx-auto px-4">
+	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<h1 class="text-xl font-bold text-gray-900 mb-5">Buy Currency</h1>
 
 		<!-- Currency Packs Section -->
