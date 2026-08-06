@@ -30,6 +30,13 @@
 	let grantSuccess = $state('');
 
 	let stylesheetFile = $state(null);
+	let modelFile = $state(null);
+	let textureFile = $state(null);
+	let renderLoading = $state(false);
+	let renderMessage = $state('');
+	let imageVersion = $state(0);
+
+	let selectedCategory = $derived(data.categories.find(c => String(c.id) === String(categoryId)));
 
 	let templateLoading = $state(false);
 	let templateError = $state('');
@@ -71,6 +78,49 @@
 			}
 		}
 
+		function handleTextureSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				textureFile = file;
+			}
+		}
+
+		function handleModelSelect(e) {
+			const file = e.target.files?.[0];
+			if (file) {
+				modelFile = file;
+			}
+		}
+
+	async function rerenderItem() {
+			renderMessage = '';
+
+			try {
+				renderLoading = true;
+				const response = await fetch(`${config.api}/admin/assets/${data.item.id}/rerender`, {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Authorization': `Bearer ${data.token}`
+					}
+				});
+
+				const json = await response.json();
+				if (!response.ok) {
+					renderMessage = `Render failed: ${json?.message || 'Unknown error'}`;
+					return;
+				}
+
+				renderMessage = 'Render complete.';
+				imageVersion++;
+			} catch (err) {
+				console.error('Failed to rerender item.', err);
+				renderMessage = 'Render failed.';
+			} finally {
+				renderLoading = false;
+			}
+		}
+
 	async function saveAsset() {
 			error = '';
 			success = '';
@@ -96,6 +146,14 @@
 
 				if (stylesheetFile) {
 					formData.append('stylesheet', stylesheetFile);
+				}
+
+				if (textureFile) {
+					formData.append('texture', textureFile);
+				}
+
+				if (modelFile) {
+					formData.append('model', modelFile);
 				}
 
 				const response = await fetch(`${config.api}/admin/assets/${data.item.id}`, {
@@ -237,7 +295,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<div class="md:col-span-1">
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white text-center">
-					<img src={config.storage + "/items/" + data.item.id + ".png"} alt={data.item.title} class="w-full border border-gray-300 rounded-lg" loading="lazy">
+					<img src={config.storage + "/items/" + data.item.id + ".png?v=" + imageVersion} alt={data.item.title} class="w-full border border-gray-300 rounded-lg" loading="lazy">
 					<p class="text-sm text-gray-600 mt-2">Creator: {data.item.user?.username || 'N/A'}</p>
 					{#if data.item.category.title === "Shirts" || data.item.category.title === "Pants"}
 						<button onclick={requestTemplate} class="btn-secondary px-4 py-1 text-sm mt-3 w-full">
@@ -352,6 +410,34 @@
 						<label class="form-label" for="stylesheet">Stylesheet (.css)</label>
 						<input onchange={handleStylesheetSelect} type="file" id="stylesheet" class="form-input" accept=".css">
 						<p class="text-xs text-gray-500 mt-1">CSS file for styling. Optional. Will be served at /storage/stylesheets/{data.item.id}.css</p>
+					</div>
+				</div>
+			{/if}
+
+				{#if selectedCategory && (selectedCategory.has_model || selectedCategory.has_texture)}
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-bold mb-3">Model & Texture</h2>
+					{#if selectedCategory.has_texture}
+						<div class="mb-3">
+							<label class="form-label" for="texture">Texture (.png)</label>
+							<input onchange={handleTextureSelect} type="file" id="texture" class="form-input" accept=".png,image/png">
+							<p class="text-xs text-gray-500 mt-1">Replaces the current texture. Leave empty to keep the current one.</p>
+						</div>
+					{/if}
+					{#if selectedCategory.has_model}
+						<div class="mb-3">
+							<label class="form-label" for="model">Model (.obj)</label>
+							<input onchange={handleModelSelect} type="file" id="model" class="form-input" accept=".obj">
+							<p class="text-xs text-gray-500 mt-1">Replaces the current 3D model. Leave empty to keep the current one.</p>
+						</div>
+					{/if}
+					<div class="flex items-center gap-3">
+						<button onclick={rerenderItem} disabled={renderLoading} class="btn-secondary px-4 py-1 text-sm">
+							{renderLoading ? 'Rendering...' : 'Rerender Item'}
+						</button>
+						{#if renderMessage}
+							<span class="text-sm text-gray-600">{renderMessage}</span>
+						{/if}
 					</div>
 				</div>
 			{/if}
