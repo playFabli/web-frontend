@@ -82,6 +82,10 @@
 			const json = await response.json();
 			if (!response.ok) {
 				bulkMessage = json?.message || 'Failed to re-render.';
+			} else if (json.data?.status === 'queued') {
+				bulkMessage = typeof json.data.message === 'string'
+					? json.data.message
+					: 'Re-render queued and running in the background.';
 			} else {
 				const { rendered = 0, failed = 0, skipped = 0 } = json.data || {};
 				const label = kind === 'users' ? 'users' : 'items';

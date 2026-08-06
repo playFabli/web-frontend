@@ -59,7 +59,7 @@
 </script>
 <div {onclick} class="cursor-pointer item-card card-shadow">
 		<div class="relative">
-			<img src={`${config.storage}/items/${item.id}.png`} alt={item.name} loading="lazy" />
+			<img src={`${config.storage}/items/${item.id}.png?r=${Date.now()}`} alt={item.name} loading="lazy" />
 			{#if item.rarity != "none"}
 			<span class="rarity-badge rarity-{item.rarity.toLowerCase()}">{item.rarity}</span>
 			{/if}

@@ -164,7 +164,7 @@
 					<a href={`/user/profile/${user.id}`} class="user-card text-link block">
 						<img
 							class="{user.avatar_frame_id && user.avatar_frame_id > 0 ? `avatar-frame-${user.avatar_frame_id}` : ''}"
-							src="{config.headshotStorage}/{user.id}.png"
+							src="{config.headshotStorage}/{user.id}.png?t={Date.now()}"
 							alt={user.username}
 							loading="lazy"
 							onerror={handleImgError}

@@ -661,7 +661,7 @@
 				<div class="border border-[#EFE6E2] rounded-lg p-2 bg-gray-50/30 inline-block">
 				{#if data.item.moderation_status == "approved"}
 					<img
-						src={`${config.storage}/items/${data.item.id}.png`}
+						src={`${config.storage}/items/${data.item.id}.png?r=${Date.now()}`}
 						alt="render"
 						class="w-48 h-48 sm:w-64 sm:h-64 object-contain"
 						loading="lazy"

@@ -200,7 +200,7 @@
 					aria-expanded={open}
 					aria-haspopup="true"
 				>
-					<img src={config.headshotStorage + "/" + data.globalUser.id + ".png"} alt="Avatar" class="w-8 h-8 rounded-full" />
+					<img src={config.headshotStorage + "/" + data.globalUser.id + ".png?r=" + Date.now()} alt="Avatar" class="w-8 h-8 rounded-full" />
 					<span class="hidden xs:inline">{data.user.username}</span>
 					<svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
