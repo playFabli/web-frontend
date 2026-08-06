@@ -11,48 +11,62 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 	let newestPosts: any[] = [];
 	let newestBlogPosts: any[] = [];
 
-	try {
-		const [questRes, activityRes, itemsRes, postsRes, blogRes] = await Promise.all([
-			fetch(`${config.internalApi}/user/quests`, {
-				headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-			}),
-			fetch(`${config.internalApi}/user/activity-feed`, {
-				headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-			}),
-			fetch(`${config.internalApi}/user/newest-items`, {
-				headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-			}),
-			fetch(`${config.internalApi}/user/newest-posts`, {
-				headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-			}),
-			fetch(`${config.internalApi}/user/newest-blog-posts`, {
-				headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-			}),
-		]);
+try {
+	// 1. Change Promise.all to Promise.allSettled
+	const results = await Promise.allSettled([
+		fetch(`${config.internalApi}/user/quests`, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } }),
+		fetch(`${config.internalApi}/user/activity-feed`, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } }),
+		fetch(`${config.internalApi}/user/newest-items`, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } }),
+		fetch(`${config.internalApi}/user/newest-posts`, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } }),
+		fetch(`${config.internalApi}/user/newest-blog-posts`, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } }),
+	]);
 
-		if (questRes.ok) {
-			const json = await questRes.json();
-			quests = json ?? [];
+	// 2. Map results back to variables (destructuring)
+	const [questRes, activityRes, itemsRes, postsRes, blogRes] = results;
+
+	// 3. Helper function to safely parse JSON and log errors
+	const handleResponse = async (result, endpointName) => {
+		if (result.status === 'rejected') {
+			console.error(`Network request failed for ${endpointName}:`, result.reason);
+			return null;
 		}
-		if (activityRes.ok) {
-			const json = await activityRes.json();
-			activities = json.data ?? [];
+		
+		const response = result.value;
+		if (!response.ok) {
+			console.error(`HTTP Error ${response.status} on ${endpointName}`);
+			return null;
 		}
-		if (itemsRes.ok) {
-			const json = await itemsRes.json();
-			newestItems = json.data ?? [];
+
+		try {
+			return await response.json();
+		} catch (parseError) {
+			// This will catch the exact endpoint throwing the SyntaxError
+			const text = await response.text().catch(() => 'Could not read text');
+			console.error(`JSON Parsing failed for [${endpointName}]. Server returned:`, text);
+			return null;
 		}
-		if (postsRes.ok) {
-			const json = await postsRes.json();
-			newestPosts = json.data ?? [];
-		}
-		if (blogRes.ok) {
-			const json = await blogRes.json();
-			newestBlogPosts = json.data ?? [];
-		}
-	} catch (e) {
-		console.error('Failed to load homepage data', e);
-	}
+	};
+
+	// 4. Safely process each response
+	const questJson = await handleResponse(questRes, 'quests');
+	if (questJson) quests = questJson ?? [];
+
+	const activityJson = await handleResponse(activityRes, 'activity-feed');
+	if (activityJson) activities = activityJson.data ?? [];
+
+	const itemsJson = await handleResponse(itemsRes, 'newest-items');
+	if (itemsJson) newestItems = itemsJson.data ?? [];
+
+	const postsJson = await handleResponse(postsRes, 'newest-posts');
+	if (postsJson) newestPosts = postsJson.data ?? [];
+
+	const blogJson = await handleResponse(blogRes, 'newest-blog-posts');
+	if (blogJson) newestBlogPosts = blogJson.data ?? [];
+
+} catch (e) {
+	console.error('Failed to load homepage data', e);
+}
+
 	
 	let globalUserAvatarFrameId = 0;
 	try {

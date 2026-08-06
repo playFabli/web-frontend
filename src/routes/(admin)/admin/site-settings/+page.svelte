@@ -61,6 +61,42 @@
 			bannerPreview = URL.createObjectURL(file);
 		}
 	}
+
+	let bulkAction = $state('');
+	let bulkMessage = $state('');
+
+	async function rerenderAll(kind) {
+		bulkAction = kind;
+		bulkMessage = '';
+
+		try {
+			const url = kind === 'users' ? 'rerender-all-users' : 'rerender-all-items';
+			const response = await fetch(`${config.api}/admin/${url}`, {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					Authorization: `Bearer ${data.token}`
+				}
+			});
+
+			const json = await response.json();
+			if (!response.ok) {
+				bulkMessage = json?.message || 'Failed to re-render.';
+			} else {
+				const { rendered = 0, failed = 0, skipped = 0 } = json.data || {};
+				const label = kind === 'users' ? 'users' : 'items';
+				let text = `Re-rendered ${rendered} ${label}.`;
+				if (failed) text += ` ${failed} failed.`;
+				if (skipped) text += ` ${skipped} skipped.`;
+				bulkMessage = text;
+			}
+		} catch (err) {
+			bulkMessage = 'Failed to re-render.';
+			console.error(err);
+		} finally {
+			bulkAction = '';
+		}
+	}
 </script>
 
 <main class="py-6">
@@ -127,6 +163,24 @@
 				</div>
 			</div>
 		</div>
+
+		{#if data.user?.role === 'admin'}
+			<div class="border border-[#EFE6E2] rounded-lg p-5 bg-white mt-5">
+				<h2 class="text-lg font-bold text-gray-900 mb-1">Re-render All</h2>
+				<p class="text-sm text-gray-600 mb-4">Regenerate the rendered thumbnail/avatar for every item or every user. This can take a while to complete.</p>
+				{#if bulkMessage}
+					<div class="mb-4 p-3 rounded-lg text-sm bg-blue-50 text-blue-700 border border-blue-200">{bulkMessage}</div>
+				{/if}
+				<div class="flex flex-wrap gap-4">
+					<button onclick={() => rerenderAll('users')} disabled={!!bulkAction} class="btn-secondary px-4 py-2 text-sm">
+						{bulkAction === 'users' ? 'Rendering...' : 'Re-render All Users'}
+					</button>
+					<button onclick={() => rerenderAll('items')} disabled={!!bulkAction} class="btn-secondary px-4 py-2 text-sm">
+						{bulkAction === 'items' ? 'Rendering...' : 'Re-render All Items'}
+					</button>
+				</div>
+			</div>
+		{/if}
 	</div>
 </main>
 

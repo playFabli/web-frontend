@@ -35,6 +35,7 @@
 	let renderLoading = $state(false);
 	let renderMessage = $state('');
 	let imageVersion = $state(0);
+	let poseDefinition = $state(data.item.pose_definition ?? '');
 
 	let selectedCategory = $derived(data.categories.find(c => String(c.id) === String(categoryId)));
 
@@ -154,6 +155,10 @@
 
 				if (modelFile) {
 					formData.append('model', modelFile);
+				}
+
+				if (selectedCategory?.title === 'Avatar Poses') {
+					formData.append('definition', poseDefinition ?? '');
 				}
 
 				const response = await fetch(`${config.api}/admin/assets/${data.item.id}`, {
@@ -431,13 +436,17 @@
 							<p class="text-xs text-gray-500 mt-1">Replaces the current 3D model. Leave empty to keep the current one.</p>
 						</div>
 					{/if}
-					<div class="flex items-center gap-3">
-						<button onclick={rerenderItem} disabled={renderLoading} class="btn-secondary px-4 py-1 text-sm">
-							{renderLoading ? 'Rendering...' : 'Rerender Item'}
-						</button>
-						{#if renderMessage}
-							<span class="text-sm text-gray-600">{renderMessage}</span>
-						{/if}
+				</div>
+			{/if}
+			
+
+				{#if selectedCategory && selectedCategory.title === 'Avatar Poses'}
+				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
+					<h2 class="text-lg font-bold mb-3">Avatar Pose Definition</h2>
+					<div class="mb-3">
+						<label class="form-label" for="definition">Pose Definition</label>
+						<textarea bind:value={poseDefinition} id="definition" rows="6" class="form-input font-mono text-xs" placeholder="Paste pose definition here..."></textarea>
+						<p class="text-xs text-gray-500 mt-1">Paste the avatar pose definition data. This will be stored in the avatar_pose_definitions table.</p>
 					</div>
 				</div>
 			{/if}
@@ -458,11 +467,17 @@
 				</div>
 				{/if}
 
-				<div class="flex justify-end gap-4">
+				<div class="flex justify-end gap-2">
 					<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">Back</a>
 					<button onclick={saveAsset} disabled={loading} class="btn-glossy px-4 py-1 text-sm">
 						{#if loading}Saving...{:else}Save Changes{/if}
 					</button>
+					<button onclick={rerenderItem} disabled={renderLoading} class="btn-secondary px-4 py-1 text-sm">
+						{renderLoading ? 'Rendering...' : 'Rerender Item'}
+					</button>
+					{#if renderMessage}
+						<span class="text-sm text-gray-600">{renderMessage}</span>
+					{/if}
 				</div>
 				{#if page.data.globalUser.role == "admin"}
 				<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
