@@ -36,7 +36,7 @@
 <main class="py-6">
 	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 	<a href={`/user/profile/${data.user.id}`} class="block mb-4 text-xs text-gray-500 hover:text-primary"
-				>в†ђ Back to profile</a
+				>← Back to profile</a
 			>
 		<div class="border border-[#EFE6E2] rounded-lg p-4 bg-white">
 			<h1 class="text-lg font-bold text-gray-900 mb-4">Friends ({friendsData.total})</h1>

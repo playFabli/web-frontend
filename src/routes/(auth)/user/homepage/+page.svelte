@@ -117,7 +117,7 @@
 								Daily {#if dailyQuests.length > 0}
 									<span class="ml-1 text-xs"
 										>{dailyQuests.filter((q) => !q.is_claimed && q.is_completed).length > 0
-											? '(вњ“)'
+											? '(✓)'
 											: ''}</span
 									>
 								{/if}
@@ -157,7 +157,7 @@
 									</div>
 									<p class="text-xs {quest.is_completed ? 'text-green-600' : 'text-gray-500'} mt-1">
 										{quest.is_completed
-											? 'вњ“ Complete'
+											? '✓ Complete'
 											: `${quest.current_value} / ${quest.required_value}`}
 									</p>
 								</div>

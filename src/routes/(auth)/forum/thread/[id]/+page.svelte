@@ -265,8 +265,8 @@
 			<div class="border-t border-[#EFE6E2] px-4 py-3 flex items-center justify-between">
 				<span class="text-sm text-gray-600">Page .. of ..</span>
 				<div class="pagination flex gap-1">
-					<a href="#" class="opacity-50 cursor-not-allowed">Previous в†ђ</a>
-					<a href="#" class="opacity-50 cursor-not-allowed">Next в†’</a>
+					<a href="#" class="opacity-50 cursor-not-allowed">Previous ←</a>
+					<a href="#" class="opacity-50 cursor-not-allowed">Next →</a>
 				</div>
 			</div>
 			{:then replies}
@@ -274,14 +274,14 @@
 				<span class="text-sm text-gray-600">Page {replies.current_page} of {replies.last_page}</span>
 				<div class="pagination flex gap-1">
 					{#if replies.prev_page_url != null}
-						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page - 1)}>Previous в†ђ</a>
+						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page - 1)}>Previous ←</a>
 					{:else}
-						<a class="opacity-50 cursor-not-allowed">Previous в†ђ</a>
+						<a class="opacity-50 cursor-not-allowed">Previous ←</a>
 					{/if}
 					{#if replies.next_page_url != null}
-						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page + 1)}>Next в†’</a>
+						<a class="cursor-pointer" onclick={() => goToPage(replies.current_page + 1)}>Next →</a>
 					{:else}
-						<a class="opacity-50 cursor-not-allowed">Next в†’</a>
+						<a class="opacity-50 cursor-not-allowed">Next →</a>
 					{/if}
 				</div>
 			</div>

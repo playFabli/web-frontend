@@ -231,19 +231,19 @@
 			{#if totalPages > 1}
 				<div class="flex items-center justify-between mt-4">
 					<span class="text-sm text-gray-600">
-						Showing {showingFrom}вЂ“{showingTo} of {filteredUsers.length} player{filteredUsers.length !== 1 ? 's' : ''}
+						Showing {showingFrom}-{showingTo} of {filteredUsers.length} player{filteredUsers.length !== 1 ? 's' : ''}
 					</span>
 					<div class="flex gap-1">
 						<button
 							class="btn-secondary px-3 py-1 text-sm"
 							disabled={currentTablePage === 1}
 							onclick={() => goToPage(currentTablePage - 1)}
-						>в†ђ Previous</button>
+						>← Previous</button>
 						<button
 							class="btn-secondary px-3 py-1 text-sm"
 							disabled={currentTablePage === totalPages}
 							onclick={() => goToPage(currentTablePage + 1)}
-						>Next в†’</button>
+						>Next →</button>
 					</div>
 				</div>
 			{/if}

@@ -178,18 +178,18 @@
 
 			<!-- Pagination -->
 			<div class="flex items-center justify-between mt-5 pt-3 border-t border-[#EFE6E2]">
-				<span class="text-sm text-gray-600">Showing {pagination.from}вЂ“{pagination.to} of {pagination.total} users</span>
+				<span class="text-sm text-gray-600">Showing {pagination.from}-{pagination.to} of {pagination.total} users</span>
 				<div class="flex gap-1">
 					<button
 						class="btn-secondary px-3 py-1 text-sm"
 						disabled={!pagination.prev_page_url}
 						onclick={() => goToPage(pagination.current_page - 1)}
-					>в†ђ Previous</button>
+					>← Previous</button>
 					<button
 						class="btn-secondary px-3 py-1 text-sm"
 						disabled={!pagination.next_page_url}
 						onclick={() => goToPage(pagination.current_page + 1)}
-					>Next в†’</button>
+					>Next →</button>
 				</div>
 			</div>
 		{/if}

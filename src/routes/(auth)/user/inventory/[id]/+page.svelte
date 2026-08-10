@@ -58,7 +58,7 @@
 	<div class="w-full sm:max-w-[70%] mx-auto px-4">
 		<div class="flex items-center gap-4 mb-5">
 			<a href={`/user/profile/${data.user.id}`} class="text-xs text-gray-500 hover:text-primary"
-				>в†ђ Back to profile</a
+				>← Back to profile</a
 			>
 			<div class="h-4 border-l border-gray-300"></div>
 			<div class="flex items-center gap-2">

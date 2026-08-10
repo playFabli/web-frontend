@@ -121,17 +121,17 @@
 		<!-- Pagination -->
 		{#await logsPromise then logs}
 		<div class="flex items-center justify-between mt-4">
-			<span class="text-sm text-gray-600">Showing {((logs.current_page - 1) * logs.per_page) + 1}вЂ“{Math.min(logs.current_page * logs.per_page, logs.total)} of {formatter.format(logs.total)} logs</span>
+			<span class="text-sm text-gray-600">Showing {((logs.current_page - 1) * logs.per_page) + 1}-{Math.min(logs.current_page * logs.per_page, logs.total)} of {formatter.format(logs.total)} logs</span>
 			<div class="flex gap-1">
 				{#if logs.prev_page_url}
-					<button onclick={() => logsPromise = fetchLogs(logs.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">в†ђ Previous</button>
+					<button onclick={() => logsPromise = fetchLogs(logs.current_page - 1)} class="btn-secondary px-3 py-1 text-sm">← Previous</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>в†ђ Previous</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>← Previous</button>
 				{/if}
 				{#if logs.next_page_url}
-					<button onclick={() => logsPromise = fetchLogs(logs.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
+					<button onclick={() => logsPromise = fetchLogs(logs.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
 				{:else}
-					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
+					<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
 				{/if}
 			</div>
 		</div>

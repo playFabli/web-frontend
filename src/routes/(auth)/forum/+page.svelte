@@ -169,7 +169,7 @@
 											<div class="flex flex-col">
 												<a href="/forum/thread/{thread.id}" class="text-sm">{thread.title.length > 30 ? thread.title.slice(0, 30) + '...' : thread.title}</a>
 												<span class="text-xs text-gray-500 mt-0.5"
-													>by <a href={`/user/profile/${thread.user.id}`} class="text-primary">{thread.user.username}</a> В·
+													>by <a href={`/user/profile/${thread.user.id}`} class="text-primary">{thread.user.username}</a> ·
 													<span class="category-tag">{thread.category.name}</span></span
 												>
 											</div>
@@ -197,10 +197,10 @@
 						<span class="text-sm text-gray-600">Page .. of ..</span>
 						<div class="flex gap-1">
 							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled
-								>в†ђ Previous</button
+								>← Previous</button
 							>
 							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled
-								>Next в†’</button
+								>Next →</button
 							>
 						</div>
 					</div>
@@ -211,17 +211,17 @@
 						<div class="flex gap-1">
 							{#if threads.prev_page_url != null}
 							<button onclick={() => goToPage(threads.current_page - 1)} class="btn-secondary px-3 py-1 text-sm"
-								>в†ђ Previous</button
+								>← Previous</button
 							>
 							{:else}
 							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled
-								>в†ђ Previous</button
+								>← Previous</button
 							>
 							{/if}
 							{#if threads.next_page_url != null}
-							<button onclick={() => goToPage(threads.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next в†’</button>
+							<button onclick={() => goToPage(threads.current_page + 1)} class="btn-secondary px-3 py-1 text-sm">Next →</button>
 							{:else}
-							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
+							<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
 							{/if}
 						</div>
 					</div>

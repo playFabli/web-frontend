@@ -912,7 +912,7 @@
 								{/if}
 							</div>
 							<p class="text-xs text-gray-400">
-								Showing {(owners.current_page - 1) * 5 + 1}вЂ“{Math.min(
+								Showing {(owners.current_page - 1) * 5 + 1}-{Math.min(
 									owners.current_page * 5,
 									owners.total
 								)} of {owners.total} owners

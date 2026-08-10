@@ -105,7 +105,7 @@
 							</div>
 						{/each}
 					</div>
-					<a href="/users" class="text-xs text-primary hover:underline mt-2 inline-block">View all members в†’</a>
+					<a href="/users" class="text-xs text-primary hover:underline mt-2 inline-block">View all members →</a>
 				</div>
 			</div>
 

@@ -80,7 +80,7 @@
 		margin-bottom: 0.5rem;
 	}
 	.pro-benefit::before {
-		content: 'вњ“';
+		content: '✓';
 		color: #16a34a;
 		font-weight: 700;
 		font-size: 0.9rem;

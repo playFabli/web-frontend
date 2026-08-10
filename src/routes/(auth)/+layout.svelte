@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import { config } from '$lib/config.js';
 	import { goto } from '$app/navigation';
+	import { Mailbox } from 'lucide-svelte';
 
 	let { children, data } = $props();
 	let open = $state(false);
@@ -148,6 +149,7 @@
 				<a href="/explore" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Explore</a>
 				<a href="/marketplace" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Marketplace</a>
 				<a href="/forum" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Forum</a>
+				<a href="/arena" class="hover:text-[#A2574F] transition-colors duration-200 font-bold">Arena</a>
 				
 				<div class="relative">
 					<button
@@ -178,6 +180,12 @@
 		<div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
 			
 			<div class="flex items-center gap-4 text-sm font-bold text-gray-700">
+				<a href="/user/mailbox" class="inline-flex items-center gap-1" title="Mailbox">
+					<span class="text-[#A2574F]">
+						<Mailbox strokeWidth="3" class="w-5 h-5"/>
+					</span>
+				</a>
+
 				<span onclick={() => { friendRequestsPromise = getFriendRequests(); frModalOpen = true; }} class="inline-flex items-center cursor-pointer hover:text-[#A2574F] transition-colors duration-200" title="Friend Requests">
 					<span class="text-[#A2574F]">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
@@ -251,6 +259,7 @@
 
 
 	<main class="flex-1">
+		<div class="w-full bg-primary/50 text-white border-b-2 border-primary px-4 py-1 font-bold text-center">The Medieval Collection and the Arena are live! Check out our blog post!</div>
 		{#if !data.user?.is_email_verified}
 		<div class="fixed inset-0 z-[200] flex items-center justify-center bg-black/50">
 			<div class="bg-white border border-[#EFE6E2] rounded-lg shadow-xl max-w-md w-full mx-4">

@@ -287,7 +287,7 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Edit Asset</h1>
-			<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">в†ђ Back to Assets</a>
+			<a href="/admin/assets" class="btn-secondary px-4 py-1 text-sm">← Back to Assets</a>
 		</div>
 
 		{#if error}

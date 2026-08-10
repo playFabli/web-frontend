@@ -88,7 +88,7 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Verify Transactions for {data.user?.username || 'User'}</h1>
-			<a href={`/admin/users/${data.userId}/edit`} class="btn-secondary px-4 py-1 text-sm">в†ђ Back to User</a>
+			<a href={`/admin/users/${data.userId}/edit`} class="btn-secondary px-4 py-1 text-sm">← Back to User</a>
 		</div>
 
 		{#if error}

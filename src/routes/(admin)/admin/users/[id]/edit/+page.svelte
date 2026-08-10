@@ -240,7 +240,7 @@
 
 		<div class="flex items-center justify-between mb-5">
 			<h1 class="text-xl font-bold text-gray-900">Edit User</h1>
-			<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">в†ђ Back to Users</a>
+			<a href="/admin/users" class="btn-secondary px-4 py-1 text-sm">← Back to Users</a>
 		</div>
 
 		{#if error}

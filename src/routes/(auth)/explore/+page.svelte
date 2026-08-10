@@ -215,14 +215,14 @@
 						<span class="text-sm text-gray-600">Page {pagination.current_page} of {pagination.last_page}</span>
 						<div class="flex gap-1">
 							{#if pagination.prev_page_url}
-								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page - 1)}>в†ђ Previous</button>
+								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page - 1)}>← Previous</button>
 							{:else}
-								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>в†ђ Previous</button>
+								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>← Previous</button>
 							{/if}
 							{#if pagination.next_page_url}
-								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page + 1)}>Next в†’</button>
+								<button class="btn-secondary px-3 py-1 text-sm cursor-pointer" onclick={() => goToPage(pagination.current_page + 1)}>Next →</button>
 							{:else}
-								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next в†’</button>
+								<button class="btn-secondary px-3 py-1 text-sm opacity-50 cursor-not-allowed" disabled>Next →</button>
 							{/if}
 						</div>
 					</div>

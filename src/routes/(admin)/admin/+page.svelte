@@ -95,7 +95,7 @@
 			<div class="stat-card card-shadow cursor-pointer" onclick={openDauHistory} role="button" tabindex="0" onkeydown={(e) => e.key === 'Enter' && openDauHistory()}>
 				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">DAU (Today)</p>
 				<p class="text-2xl font-bold mt-1">{formatter.format(data.stats.daily_active_users)}</p>
-				<p class="text-xs text-gray-400 mt-1">Click for history в†’</p>
+				<p class="text-xs text-gray-400 mt-1">Click for history →</p>
 			</div>
 			<div class="stat-card card-shadow">
 				<p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Total Items</p>
