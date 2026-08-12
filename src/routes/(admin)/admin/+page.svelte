@@ -84,6 +84,10 @@
 				<span class="text-lg font-bold">Site Settings</span>
 				<p class="text-sm text-gray-600 mt-1">General configuration, maintenance</p>
 			</a>
+			<a href="/admin/arena-items" class="admin-link-card card-shadow flex flex-col items-start">
+				<span class="text-lg font-bold">Arena Items</span>
+				<p class="text-sm text-gray-600 mt-1">Set ATK & DEF for arena-compatible items</p>
+			</a>
 		</div>
 
 		<!-- Statistics Row -->
