@@ -1,48 +1,10 @@
 <script lang="ts">
-	import {
-		Engine,
-		ImportMeshAsync,
-		Scene,
-		TargetCamera,
-		ArcRotateCamera,
-		TransformNode,
-		Vector3,
-		Color3,
-		Color4,
-		HemisphericLight,
-		DirectionalLight,
-		ShadowGenerator,
-		DefaultRenderingPipeline,
-		ImageProcessingConfiguration,
-		ColorCurves,
-		RenderTargetTexture,
-		StandardMaterial,
-		Texture,
-
-		CubeTexture,
-
-		ParticleSystem,
-
-		Tools
-
-
-
-	} from "@babylonjs/core";
-	import "@babylonjs/loaders/glTF";
-	import "@babylonjs/loaders/OBJ";
 	import { onMount } from "svelte";
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
 	import { config } from "$lib/config";
-	import type { AbstractMesh } from "@babylonjs/core";
-	import { DoorOpen, Hourglass } from "lucide-svelte";
-
-	let avatarCanvas: HTMLCanvasElement = $state();
-	let avatarError = $state<string | null>(null);
-	let youAvatarCanvas: HTMLCanvasElement = $state();
-	let robotAvatarCanvas: HTMLCanvasElement = $state();
-	let youAvatarDispose: (() => void) | null = null;
-	let robotAvatarDispose: (() => void) | null = null;
+	import { DoorOpen, Swords, Trophy, ShieldCheck, Check, ArrowRightLeft } from "lucide-svelte";
+	import AvatarPreview from "$lib/components/arena/AvatarPreview.svelte";
 
 	// Live arena stats returned by GET /api/arena/stats.
 	interface ArenaStats {
@@ -57,8 +19,25 @@
 	let entering = $state(false);
 	let enterError = $state<string | null>(null);
 
+	// Daily challenges returned by GET /api/arena/challenges.
+	interface ArenaChallenge {
+		id: number;
+		key: string;
+		title: string;
+		description: string | null;
+		required_value: number;
+		current_value: number;
+		exp_reward: number;
+		token_reward: number;
+		is_completed: boolean;
+		is_claimed: boolean;
+	}
+	let challenges = $state<ArenaChallenge[] | null>(null);
+	let claimingId = $state<number | null>(null);
+	let challengeError = $state<string | null>(null);
+
 	// Matchmaking modal flow.
-		interface FighterPreview {
+	interface FighterPreview {
 		name: string;
 		username?: string;
 		attack: number;
@@ -71,6 +50,7 @@
 		status: string;
 		is_robot: boolean;
 		opponent_name: string;
+		opponent_user_id: number | null;
 		player: FighterPreview;
 		opponent: FighterPreview;
 	}
@@ -94,46 +74,181 @@
 		modalError = null;
 	}
 
-// Mount the two 3D avatar thumbnails in the matchmaking modal once the
-// opponent is revealed. The You card renders the current user's avatar;
-// the Robot card renders user id 2's avatar. Each preview is disposed
-// automatically when the matchup clears or the canvases rebind.
-$effect(() => {
-	if (!foundMatch || !youAvatarCanvas || !robotAvatarCanvas) {
-		return;
-	}
-
-	const token = page.data.token as string;
-	youAvatarDispose?.();
-	robotAvatarDispose?.();
-	youAvatarDispose = mountAvatarEngine(youAvatarCanvas, undefined, token);
-	robotAvatarDispose = mountAvatarEngine(robotAvatarCanvas, 2, token);
-
-	return () => {
-		youAvatarDispose?.();
-		robotAvatarDispose?.();
-		youAvatarDispose = null;
-		robotAvatarDispose = null;
-	};
-});
 	function startFight() {
 		if (!foundMatch) return;
 		goto("/arena/match");
 	}
 
-	onMount(() => {
-		const token = page.data.token as string;
-		fetch(`${config.api}/arena/stats`, {
-			headers: {
-				Accept: "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((res) => (res.ok ? res.json() : null))
-			.then((json) => {
+	async function refreshStats() {
+		try {
+			const res = await fetch(`${config.api}/arena/stats`, {
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${page.data.token}`,
+				},
+			});
+			if (res.ok) {
+				const json = await res.json();
 				if (json?.data) arenaStats = json.data;
-			})
-			.catch(() => {});
+			}
+		} catch {
+			// Ignore transient failures; existing stats stay as-is.
+		}
+	}
+
+	// Exchange modal - arena tokens -> currency and arena XP -> XP (both 10:1).
+	let showExchangeModal = $state(false);
+	let exchangeTokens = $state("0");
+	let exchangeExp = $state("0");
+	let exchanging = $state(false);
+	let exchangeError = $state<string | null>(null);
+	let exchangeDone = $state<string | null>(null);
+
+	function openExchangeModal() {
+		exchangeTokens = "0";
+		exchangeExp = "0";
+		exchangeError = null;
+		exchangeDone = null;
+		showExchangeModal = true;
+	}
+
+	function closeExchangeModal() {
+		if (exchanging) return;
+		showExchangeModal = false;
+		exchangeError = null;
+		exchangeDone = null;
+	}
+
+	// Round a balance down to the largest whole multiple of 10 (the exchange rate).
+	function floorToTens(value: number): number {
+		return Math.max(0, Math.floor(value / 10) * 10);
+	}
+
+	function tokensToCoins(value: number): number {
+		return Math.floor(Math.max(0, value) / 10);
+	}
+
+	function expToXp(value: number): number {
+		return Math.floor(Math.max(0, value) / 10);
+	}
+
+	async function doExchange() {
+		if (exchanging) return;
+		const tokens = parseInt(exchangeTokens || "0", 10) || 0;
+		const exp = parseInt(exchangeExp || "0", 10) || 0;
+		if (tokens <= 0 && exp <= 0) {
+			exchangeError = "Enter an amount to exchange.";
+			return;
+		}
+		exchanging = true;
+		exchangeError = null;
+		exchangeDone = null;
+		try {
+			const res = await fetch(`${config.api}/arena/exchange`, {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${page.data.token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ tokens, exp }),
+			});
+			const json = await res.json().catch(() => null);
+			if (!res.ok) {
+				exchangeError = json?.message || "Could not complete the exchange.";
+				return;
+			}
+			if (arenaStats) {
+				arenaStats.arena_tokens = json?.arena_tokens ?? arenaStats.arena_tokens;
+				arenaStats.arena_exp = json?.arena_exp ?? arenaStats.arena_exp;
+			}
+			exchangeTokens = "0";
+			exchangeExp = "0";
+			exchangeDone = json?.message || "Exchange successful.";
+			await refreshStats();
+		} catch {
+			exchangeError = "Could not reach the arena.";
+		} finally {
+			exchanging = false;
+		}
+	}
+
+	// Determine the player's arena rank based on arena experience.
+	// Rank thresholds:
+	//   < 150      - Knight I
+	//   150-299    - Knight II
+	//   300-449    - Knight III
+	//   450-649    - Noble I
+	//   650-849    - Noble II
+	//   850-1099   - Noble III
+	//   1100-1349  - King I
+	//   1350-1599  - King II
+	//   1600-1849  - King III
+	//   1850+      - Emperor
+	function getRank(exp: number): string {
+		const e = Math.max(0, Math.floor(exp));
+		if (e < 150) return "Knight I";
+		if (e < 300) return "Knight II";
+		if (e < 450) return "Knight III";
+		if (e < 650) return "Noble I";
+		if (e < 850) return "Noble II";
+		if (e < 1100) return "Noble III";
+		if (e < 1350) return "King I";
+		if (e < 1600) return "King II";
+		if (e < 1850) return "King III";
+		return "Emperor";
+	}
+
+	async function loadChallenges() {
+		try {
+			const res = await fetch(`${config.api}/arena/challenges`, {
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${page.data.token}`,
+				},
+			});
+			if (!res.ok) throw new Error("load failed");
+			const json = await res.json();
+			challenges = json?.data ?? [];
+		} catch {
+			challengeError = "Could not load daily challenges.";
+		}
+	}
+
+	async function claimChallenge(id: number) {
+		if (claimingId !== null) return;
+		claimingId = id;
+		challengeError = null;
+		try {
+			const res = await fetch(`${config.api}/arena/challenges/${id}/claim`, {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					Authorization: `Bearer ${page.data.token}`,
+				},
+			});
+			const json = await res.json().catch(() => null);
+			if (!res.ok) {
+				challengeError = json?.message || "Could not claim that challenge.";
+				return;
+			}
+			const claimed = json?.challenge;
+			if (claimed) {
+				challenges = (challenges ?? []).map((c) =>
+					c.id === claimed.id ? { ...c, is_claimed: true } : c
+				);
+			}
+			await refreshStats();
+		} catch {
+			challengeError = "Could not claim that challenge.";
+		} finally {
+			claimingId = null;
+		}
+	}
+
+	onMount(() => {
+		refreshStats();
+		loadChallenges();
 	});
 
 	async function enterArena() {
@@ -168,572 +283,183 @@ $effect(() => {
 			entering = false;
 		}
 	}
-
-	// Rough phone/tablet check so we can pick a quality tier. Doesn't need to
-	// be bulletproof - it's just choosing between "cheap" and "nice" settings.
-	function isMobileDevice(): boolean {
-		const ua = navigator.userAgent;
-		const coarsePointer = window.matchMedia?.("(pointer: coarse)").matches ?? false;
-		return /Android|iPhone|iPad|iPod|Mobile/i.test(ua) || coarsePointer;
-	}
-
-	// Shape of each wearing entry returned by GET /api/arena/avatar
-	// (see the Arena\GeneralController manifest() method).
-	interface WornItem {
-		item_id: number;
-		title: string;
-		category: string;
-		slots: string[];
-		model_url: string | null;
-		texture: string | null;
-	}
-
-	/**
-	 * The avatar showcase runs in its own Babylon scene inside the small
-	 * "Your Avatar" box. The base body is the placeholder /models/avatar.obj,
-	 * then every currently-worn item is layered on top: model items (hats,
-	 * gears) load their own OBJ, while texture-only items (faces, shirts,
-	 * pants) are painted onto the matching body part using the temporary
-	 * routes from routes/api.php:
-	 *
-	 *   GET /api/arena/avatar                        -> { data, session }
-	 *   GET /api/arena/model/{session}/{itemId}.obj  -> item's OBJ (mtl stripped)
-	 *   GET /api/arena/texture/{session}/{itemId}    -> item's texture image
-	 *
-	 * Each worn model's texture is streamed through its own temporary route
-	 * and assigned straight onto the mesh material.
-	 */
-	function setupAvatarPreview(scene: Scene, canvas: HTMLCanvasElement, userId?: number | string, token?: string, onError?: (msg: string) => void): void {
-		const authToken = (token ?? page.data.token) as string;
-		const reportError = onError ?? ((msg: string) => { avatarError = msg; });
-		// Authenticated user is the default; an explicit userId lets the caller
-		// materialise any user's outfit (e.g. the robot opponent, user id 2).
-		const targetUserId = userId ?? (page.data.user?.id as number);
-		const root = new TransformNode("avatarRoot", scene);
-
-		// Slightly elevated orbit so the whole outfit is visible at once.
-		const camera = new ArcRotateCamera(
-			"avatarCamera",
-			-Math.PI / 2,
-			1.15,
-			6,
-			new Vector3(0, 1.4, 0),
-			scene
-		);
-		camera.attachControl(canvas, true);
-		camera.lowerRadiusLimit = 2;
-		camera.upperRadiusLimit = 40;
-		camera.wheelPrecision = 40;
-
-		const pipeline = new DefaultRenderingPipeline(
-			"defaultPipeline", // Имя конвейера
-			true,              // Использовать HDR
-			scene,             // Ваша сцена
-			[camera]           // Список камер
-		);
-
-		// Вариант А: Включение MSAA (Multi-Sample Anti-Aliasing) — дает отличные грани
-		pipeline.samples = 4; // Рекомендуемые значения: 4 или 8 (зависит от мощности GPU)
-
-		// Вариант Б: Включение FXAA (Fast Approximate Anti-Aliasing) — быстрое размытие пикселей
-		pipeline.fxaaEnabled = false; 
-
-		const ambient = new HemisphericLight("avatarAmbient", new Vector3(0, 1, 0), scene);
-		ambient.diffuse = new Color3(0.85, 0.9, 1);
-		ambient.groundColor = new Color3(0.8, 0.8, 0.8);
-		ambient.intensity = 1;
-
-		// const key = new DirectionalLight("avatarKey", new Vector3(-1, -2, -0.5), scene);
-		// key.diffuse = new Color3(1, 0.96, 0.88);
-		// key.intensity = 1.6;
-
-		// Turn the avatar so it's always looking straight at the camera.
-		// Forward (local +Z at rotation 0) matches the game controller's
-		// atan2(moveDir.x, moveDir.z) convention; the orbit camera sits at
-		// `alpha` around the target, so rotation.y = alpha aims +Z at it.
-		scene.onBeforeRenderObservable.add(() => {
-			root.rotation.y = camera.alpha;
-		});
-
-		// Frame the finished avatar so it's fully in view. Runs while models
-		// stream in (and for a couple of seconds after) so the camera settles
-		// on the bounding box of the assembled outfit.
-		let framesFramed = 0;
-		const MAX_FRAMING_FRAMES = 300;
-		const frameObserver = scene.onBeforeRenderObservable.add(() => {
-			const meshes = root.getChildMeshes();
-			if (meshes.length === 0) return;
-
-			meshes.forEach((mesh) => mesh.computeWorldMatrix(true, true));
-			const { min, max } = root.getHierarchyBoundingVectors(true);
-			const center = min.add(max).scale(0.5);
-			const size = Math.max(max.x - min.x, max.y - min.y, max.z - min.z);
-
-			if (size > 0) {
-				const aspect = scene.getEngine().getAspectRatio(camera);
-				const halfFovY = camera.fov / 2;
-				const halfFovX = Math.atan(Math.tan(camera.fov / 2) * aspect);
-				const distance = size / 2 / Math.tan(Math.min(halfFovX, halfFovY));
-
-				camera.target.copyFrom(center);
-				camera.radius = distance * 1.3;
-			}
-
-			framesFramed += 1;
-			if (framesFramed >= MAX_FRAMING_FRAMES) {
-				scene.onBeforeRenderObservable.remove(frameObserver);
-			}
-		});
-
-		// Base placeholder body. Resolves to the body's part meshes so texture-only
-		// items (faces, shirts, pants) can be painted onto the matching part. If
-		// /models/avatar.obj isn't in place yet it resolves to [] and those
-		// layers are skipped (model items still load on top).
-		const baseMeshes = ImportMeshAsync("/models/avatar.obj", scene)
-			.then((result) =>
-				result.meshes.filter((mesh) => {
-					if (mesh.name === "__root__") return false;
-					mesh.parent = root;
-					mesh.isPickable = false;
-					mesh.receiveShadows = false;
-					return true;
-				})
-			)
-			.then((body) =>
-				ImportMeshAsync("/models/pedestal.obj", scene)
-					.then((mtlResult) => {
-						mtlResult.meshes.forEach((mesh) => {
-							if (mesh.name === "__root__") return;
-							mesh.parent = root;
-							mesh.isPickable = false;
-							mesh.receiveShadows = false;
-						});
-					})
-					.catch((err) => {
-						console.error("Failed to load pedestal /models/pedestal.obj:", err);
-					})
-					.then(() => body)
-			)
-			.catch((err) => {
-				console.error("Failed to load base avatar /models/avatar.obj:", err);
-				return [];
-			});
-
-		// The user's saved body colors feed the base avatar wherever no worn
-		// clothing covers it, and the face overlays the head colour.
-		const colors = fetch(`${config.api}/user/avatar/colors?user_id=${targetUserId}`, {
-			headers: {
-				Accept: "application/json",
-				Authorization: `Bearer ${authToken}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((json) => (json?.data ?? DEFAULT_AVATAR_COLORS) as AvatarColors)
-			.catch(() => DEFAULT_AVATAR_COLORS);
-
-		// Current wearing manifest - the face, shirt & pants, hats, and gear.
-		fetch(`${config.api}/arena/avatar?user_id=${targetUserId}`, {
-			headers: {
-				Accept: "application/json",
-				Authorization: `Bearer ${authToken}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((manifest) => {
-				return Promise.all([baseMeshes, colors, Promise.resolve(manifest?.data ?? [])]).then(
-					([body, avatarColors, items]) => {
-						applyAvatarColors(scene, body, avatarColors);
-						return Promise.all(items.map((item) => loadWornItem(scene, item, root, body)));
-					}
-				);
-			})
-			.catch((err) => {
-				console.error("Failed to load arena avatar manifest:", err);
-				reportError("Could not load your avatar.");
-			});
-	}
-
-
-/**
- * Create a throwaway Babylon engine + scene that renders a single 3D avatar
- * preview onto `canvas` for `userId` (defaults to the current user). Mirrors
- * the lobby showcase, but is lightweight and explicitly disposeable - which
- * the matchmaking modal needs for its You/Robot thumbnails.
- */
-function mountAvatarEngine(canvas: HTMLCanvasElement, userId?: number | string, token?: string): () => void {
-	if (!canvas) return () => {};
-	canvas.style.imageRendering = "pixelated";
-	canvas.style.imageRendering = "crisp-edges";
-	const engine = new Engine(canvas, true, {
-		alpha: true,
-		premultipliedAlpha: false,
-		adaptToDeviceRatio: true,
-		antialias: true,
-	});
-	const scene = new Scene(engine);
-	scene.clearColor = new Color4(0, 0, 0, 0);
-	scene.skipPointerMovePicking = true;
-	scene.ambientColor = new Color3(0.8, 0.8, 0.8);
-
-	setupAvatarPreview(scene, canvas, userId, token, () => {});
-	engine.setHardwareScalingLevel(1.0);
-
-	engine.runRenderLoop(() => {
-		scene.render();
-	});
-
-	const handleResize = () => engine.resize();
-	window.addEventListener("resize", handleResize);
-
-	return () => {
-		window.removeEventListener("resize", handleResize);
-		scene.dispose();
-		engine.dispose();
-	};
-}
-
-	// The user's saved body colors. GET /api/user/avatar/colors returns these
-	// as hex strings (defaults: skin #D9C5B2, torso #556B8E, legs #4A4A4A).
-	interface AvatarColors {
-		left_arm_color?: string;
-		right_arm_color?: string;
-		torso_color?: string;
-		left_leg_color?: string;
-		right_leg_color?: string;
-		head_color?: string;
-	}
-
-	const DEFAULT_AVATAR_COLORS: AvatarColors = {
-		left_arm_color: "#D9C5B2",
-		right_arm_color: "#D9C5B2",
-		torso_color: "#556B8E",
-		left_leg_color: "#4A4A4A",
-		right_leg_color: "#4A4A4A",
-		head_color: "#D9C5B2",
-	};
-
-	// Mesh-name keywords used to route parts of the base avatar. The
-	// placeholder names its parts part_0_Legs .. part_5_Skin, so real models
-	// (Head/Torso/Legs/Arms objects) are covered by the same keywords.
-	const BODY_PART_KEYWORDS: Record<string, string[]> = {
-		head: ["head", "face"],
-		torso: ["torso", "shirt", "chest"],
-		left_leg: ["left_leg", "leg_l"],
-		right_leg: ["right_leg", "leg_r"],
-		legs: ["leg", "pant"],
-		left_arm: ["left_arm", "arm_l", "leftarm"],
-		right_arm: ["right_arm", "arm_r", "rightarm"],
-		arms: ["arm"],
-	};
-
-	function findBodyMeshes(meshes: AbstractMesh[], part: string): AbstractMesh[] {
-		const keywords = BODY_PART_KEYWORDS[part] ?? [part];
-		return meshes.filter((mesh) =>
-			keywords.some((keyword) => mesh.name.toLowerCase().includes(keyword))
-		);
-	}
-
-	function meshCenter(mesh: AbstractMesh): { x: number; y: number } {
-		mesh.computeWorldMatrix(true, true);
-		const center = mesh.getBoundingInfo().boundingBox.centerWorld;
-		return { x: center.x, y: center.y };
-	}
-
-	/**
-	 * Resolve which base-avatar meshes belong to a body part. Mesh names are
-	 * checked first; blocky avatars sharing one skin/legs material (the
-	 * placeholder) fall back to a bounding-box split - the head is the topmost
-	 * skin mesh and left/right parts are split by X sign.
-	 */
-	function bodyPartMeshes(body: AbstractMesh[], part: string): AbstractMesh[] {
-		const byName = findBodyMeshes(body, part);
-		if (byName.length > 0) return byName;
-
-		if (part === "head" || part === "left_arm" || part === "right_arm") {
-			const skin = body.filter((mesh) => mesh.name.toLowerCase().includes("skin"));
-			if (skin.length === 0) return [];
-
-			const positioned = skin.map((mesh) => ({ mesh, ...meshCenter(mesh) }));
-			const head = positioned.reduce((a, b) => (b.y > a.y ? b : a));
-			if (part === "head") return [head.mesh];
-
-			return positioned
-				.filter(
-					(entry) =>
-						entry.mesh !== head.mesh && (part === "left_arm" ? entry.x < 0 : entry.x > 0)
-				)
-				.map((entry) => entry.mesh);
-		}
-
-		if (part === "left_leg" || part === "right_leg") {
-			const legs = findBodyMeshes(body, "legs");
-			if (legs.length === 0) return [];
-
-			return legs.filter((mesh) => {
-				const { x } = meshCenter(mesh);
-				return part === "left_leg" ? x < 0 : x > 0;
-			});
-		}
-
-		return [];
-	}
-
-	// Map a manifest slot (parts_affected) to a canonical body part.
-	function bodyPartForSlot(slot: string): string | null {
-		const s = slot.toLowerCase();
-		if (s.includes("head") || s.includes("face")) return "head";
-		if (s.includes("torso") || s.includes("chest") || s.includes("shirt")) return "torso";
-		if (s.includes("left") && s.includes("leg")) return "left_leg";
-		if (s.includes("right") && s.includes("leg")) return "right_leg";
-		if (s.includes("leg") || s.includes("pant")) return "legs";
-		if (s.includes("left") && s.includes("arm")) return "left_arm";
-		if (s.includes("right") && s.includes("arm")) return "right_arm";
-		if (s.includes("arm")) return "arms";
-		return null;
-	}
-
-	// Paint the base avatar with the user's saved colors. Texture-only worn
-	// items (shirt/pants) override their part afterwards, so without clothing
-	// the avatar's own colours are what shows.
-	function applyAvatarColors(scene: Scene, body: AbstractMesh[], colors: AvatarColors): void {
-		const paint = (part: string, hex: string | undefined) => {
-			if (!hex) return;
-			const color = Color3.FromHexString(hex);
-			for (const mesh of bodyPartMeshes(body, part)) {
-				const material = new StandardMaterial(`body_color_${part}`, scene);
-				material.diffuseColor = color;
-				material.specularColor = new Color3(0, 0, 0);
-				mesh.material = material;
-			}
-		};
-
-		paint("head", colors.head_color);
-		paint("left_arm", colors.left_arm_color);
-		paint("right_arm", colors.right_arm_color);
-		paint("torso", colors.torso_color);
-		paint("left_leg", colors.left_leg_color);
-		paint("right_leg", colors.right_leg_color);
-	}
-
-	async function loadWornItem(
-		scene: Scene,
-		item: WornItem,
-		root: TransformNode,
-		body: AbstractMesh[]
-	): Promise<void> {
-		// Items with a 3D model (hats, gears, ...) load as their own OBJ and
-		// are layered straight onto the avatar.
-		if (item.model_url) {
-			const url = `${config.api}/${item.model_url}.obj`;
-
-			try {
-				const result = await ImportMeshAsync(url, scene);
-				result.meshes.forEach((mesh) => {
-					if (mesh.name === "__root__") return;
-					mesh.parent = root;
-					mesh.isPickable = false;
-					mesh.receiveShadows = true;
-
-					if (item.texture) {
-						console.log(`Applying texture for worn item ${item.item_id} (${item.category})`);
-						const material = new StandardMaterial(`worn_${item.item_id}`, scene);
-						material.diffuseTexture = new Texture(`${config.api}/${item.texture}`, scene);
-						material.specularColor = new Color3(0, 0, 0);
-						mesh.material = material;
-					}
-				});
-			} catch (err) {
-				console.error(`Failed to load worn item ${item.item_id} (${item.category}):`, err);
-			}
-
-			return;
-		}
-
-		// Texture-only items (faces, shirts, pants) are painted onto the
-		// matching body part of the base avatar. Parts that have no texture
-		// coordinates are left with the body colour they were already painted
-		// with - sampling the texture at UV (0,0) would turn them black.
-		if (!item.texture || body.length === 0) return;
-
-		for (const slot of item.slots ?? []) {
-			const part = bodyPartForSlot(slot);
-			if (!part) continue;
-
-			for (const mesh of bodyPartMeshes(body, part)) {
-				const hasUVs = (mesh.getVerticesData("uv")?.length ?? 0) > 0;
-
-				// Clothing (shirt/pants): the texture replaces the body colour.
-				if (part !== "head") {
-					if (!hasUVs) continue;
-					const material = new StandardMaterial(`body_${part}_${item.item_id}`, scene);
-					material.diffuseColor = new Color3(1, 1, 1);
-					material.diffuseTexture = new Texture(`${config.api}/${item.texture}`, scene);
-					material.specularColor = new Color3(0, 0, 0);
-					mesh.material = material;
-					continue;
-				}
-
-				// Face: keep the coloured head underneath and overlay the
-				// transparent face texture on top, so the head colour stays
-				// visible through the face's transparent areas.
-				if (!hasUVs) continue;
-				const overlay = mesh.clone(`face_overlay_${item.item_id}_${mesh.name}`);
-				overlay.parent = mesh.parent;
-				overlay.isPickable = false;
-				overlay.receiveShadows = true;
-
-				const faceMat = new StandardMaterial(`face_${item.item_id}_${mesh.name}`, scene);
-				faceMat.diffuseColor = new Color3(1, 1, 1);
-				faceMat.diffuseTexture = new Texture(`${config.api}/${item.texture}`, scene);
-				faceMat.diffuseTexture.hasAlpha = true;
-				faceMat.specularColor = new Color3(0, 0, 0);
-				overlay.material = faceMat;
-
-			}
-		}
-	}
-
-
-	// Separate, lighter Babylon scene for the avatar showcase box.
-	onMount(() => {
-		avatarCanvas.style.imageRendering = "pixelated";
-		avatarCanvas.style.imageRendering = "crisp-edges";
-		const avatarEngine = new Engine(avatarCanvas, true, {
-			alpha: true,
-			premultipliedAlpha: false,
-			adaptToDeviceRatio: true,
-			antialias: true
-		});
-		const avatarScene = new Scene(avatarEngine);
-		avatarScene.clearColor = new Color4(0, 0, 0, 0);
-		avatarScene.skipPointerMovePicking = true;
-
-		avatarScene.ambientColor = new Color3(0.8, 0.8, 0.8);
-
-		
-		setupAvatarPreview(avatarScene, avatarCanvas);
-		avatarEngine.setHardwareScalingLevel(1.0);
-
-		avatarEngine.runRenderLoop(() => {
-			avatarScene.render();
-		});
-
-		const handleResize = () => avatarEngine.resize();
-		window.addEventListener("resize", handleResize);
-
-		return () => {
-			window.removeEventListener("resize", handleResize);
-			avatarScene.dispose();
-			avatarEngine.dispose();
-		};
-	});
 </script>
 
-<main class="py-6">
+<main class="py-8">
 	<div class="w-full sm:max-w-[70%] mx-auto px-4">
-		<div class="grid grid-cols-12 gap-4">
-			<div class="col-span-1"></div>
-			<div class="col-span-8">
-				<h1 class="font-bold text-xl">Arena</h1>
+		<!-- Header -->
+		<div class="flex items-center justify-between gap-4 mb-5">
+			<h1 class="font-bold text-2xl text-gray-900">Arena</h1>
+			<div class="flex items-center gap-3">
+				<button class="btn-secondary px-3 py-1 text-sm inline-flex items-center gap-1.5" onclick={openExchangeModal}>
+					<ArrowRightLeft class="size-3.5 inline mb-0.5" />
+					Exchange
+				</button>
+				<div class="inline-flex items-center gap-1.5 bg-white border border-[#EFE6E2] rounded-lg px-3 py-1 font-bold text-gray-800 text-sm">
+					<span class="text-xs text-gray-400 uppercase tracking-wide">XP</span>
+					<span>{arenaStats?.arena_exp ?? '—'}</span>
+				</div>
+				<div class="inline-flex items-center gap-1.5 bg-white border border-[#EFE6E2] rounded-lg px-3 py-1 font-bold text-gray-800 text-sm">
+					<span class="text-xs text-gray-400 uppercase tracking-wide">Tokens</span>
+					<span>{arenaStats?.arena_tokens ?? '—'}</span>
+				</div>
 			</div>
-			<div class="col-span-2 text-right font-bold">
-				<p><Hourglass strokeWidth="3" class="inline mb-1 size-4"/> 14 days left!</p>
-			</div>
-			<div class="col-span-1"></div>
+		</div>
 
-			<div class="col-span-1"></div>
-			<div class="col-span-10">
-				<div class="border border-gray-200 p-3 rounded-lg mb-3">
-					<div class="grid grid-cols-3 gap-4 mb-3">
-						<div class="col-span-1 text-center">
-							<p class="text-gray-500/70">Rank</p>
-							<p class="text-xl text-primary font-bold">Knight I</p>
-						</div>
-						<div class="col-span-1 text-center">
-							<p class="text-gray-500/70">Arena XP</p>
-							<p class="text-xl text-primary font-bold">{arenaStats?.arena_exp ?? '—'}</p>
-						</div>
-						<div class="col-span-1 text-center">
-						<p class="text-gray-500/70">Tokens</p>
-							<p class="text-xl text-primary font-bold">{arenaStats?.arena_tokens ?? '—'}</p>
-						</div>
-					</div>
-					<div class="grid grid-cols-3 gap-4 mb-3">
-						<div class="col-span-1 text-center">
-							<p class="text-gray-500/70 text-sm">ATK</p>
-							<p class="text-lg font-bold text-primary">{arenaStats?.attack ?? '—'}</p>
-						</div>
-						<div class="col-span-1 text-center">
-							<p class="text-gray-500/70 text-sm">DEF</p>
-							<p class="text-lg font-bold text-primary">{arenaStats?.defense ?? '—'}</p>
-						</div>
-						<div class="col-span-1 text-center">
-							<p class="text-gray-500/70 text-sm">Max HP</p>
-							<p class="text-lg font-bold text-primary">{arenaStats?.max_hp ?? '—'}</p>
-						</div>
-					</div>
-					<div class="w-full bg-gray-100 rounded-lg relative mb-3">
-						<canvas bind:this={avatarCanvas} class="avatar-canvas"></canvas>
-						{#if avatarError}
-							<div class="absolute inset-0 flex items-center justify-center text-red-600 font-semibold">
-								{avatarError}
-							</div>
-						{/if}
-					</div>
-					<button class="btn-glossy px-4 py-2 w-full mb-1" onclick={enterArena} disabled={entering}>
-						<DoorOpen  strokeWidth="3" class="inline size-4 mb-1"/> {entering ? 'Finding opponent...' : `Enter (${arenaStats?.online ?? 5} online)`}
-					</button>
-					{#if enterError}
-						<p class="text-sm text-red-600 font-semibold text-center">{enterError}</p>
-					{/if}
-				</div>
-				<div class="p-3 border border-gray-200 rounded-lg">
-					<p class="text-sm font-bold mb-3">Daily Challenges</p>
+		<!-- Arena panel -->
+		<div class="border border-[#EFE6E2] rounded-lg overflow-hidden bg-white mb-5">
+			<!-- Rank -->
+			<div class="flex items-center justify-between px-4 py-2 border-b border-[#EFE6E2]">
+				<span class="text-xs font-bold text-gray-500 uppercase tracking-wide">Rank</span>
+				<span class="text-2xl font-bold text-primary">{getRank(arenaStats?.arena_exp ?? 0)}</span>
+			</div>
+
+			<!-- Avatar stage -->
+			<div class="px-5 pt-4">
+				<div class="arena-stage rounded-xl overflow-hidden border border-[#EFE6E2]">
+					<AvatarPreview height={400} />
 				</div>
 			</div>
-			<div class="col-span-1"></div>
+
+			<!-- ATK / DEF / HP -->
+			<div class="grid grid-cols-3 divide-x divide-[#EFE6E2] border-t border-[#EFE6E2] mx-5 mt-4">
+				<div class="py-2 text-center">
+					<p class="text-xs font-bold text-gray-400 uppercase tracking-wide">ATK</p>
+					<p class="text-lg font-bold text-gray-800 mt-0.5">{arenaStats?.attack ?? '—'}</p>
+				</div>
+				<div class="py-2 text-center">
+					<p class="text-xs font-bold text-gray-400 uppercase tracking-wide">DEF</p>
+					<p class="text-lg font-bold text-gray-800 mt-0.5">{arenaStats?.defense ?? '—'}</p>
+				</div>
+				<div class="py-2 text-center">
+					<p class="text-xs font-bold text-gray-400 uppercase tracking-wide">Max HP</p>
+					<p class="text-lg font-bold text-gray-800 mt-0.5">{arenaStats?.max_hp ?? '—'}</p>
+				</div>
+			</div>
+
+			<!-- Enter -->
+			<div class="p-3">
+				<button class="btn-glossy px-4 py-3 w-full flex items-center justify-center gap-2 text-base" onclick={enterArena} disabled={entering}>
+					<DoorOpen strokeWidth="3" class="inline mb-1 size-5 shrink-0" />
+					<span>{entering ? 'Finding opponent…' : `Enter Arena (${arenaStats?.online ?? 5} online)`}</span>
+				</button>
+				{#if enterError}
+					<p class="text-sm text-red-600 font-semibold text-center mt-2">{enterError}</p>
+				{/if}
+			</div>
+		</div>
+
+		<!-- Daily challenges -->
+		<div class="border border-[#EFE6E2] rounded-lg bg-white p-3">
+			<div class="flex items-center justify-between mb-3">
+				<p class="font-bold text-gray-800 text-sm">Daily Challenges</p>
+				{#if challenges}
+					<span class="text-xs text-gray-400 font-semibold">Resets daily</span>
+				{/if}
+			</div>
+
+			{#if challenges === null}
+				<div class="flex items-center gap-2 text-sm text-gray-400 py-1">
+					<div class="size-4 border-2 border-gray-200 border-t-primary rounded-full animate-spin"></div>
+					Loading challenges…
+				</div>
+			{:else if challenges.length === 0}
+				<p class="text-xs text-gray-400">No daily challenges today.</p>
+			{:else}
+				<div class="space-y-2">
+					{#each challenges as c}
+						<div class="flex items-start gap-3 border border-[#EFE6E2] rounded-lg p-3">
+
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center justify-between gap-2">
+									<p class="font-bold text-gray-800 text-sm truncate">{c.title}</p>
+									{#if c.is_claimed}
+										<span class="inline-flex items-center gap-1 text-[11px] font-bold text-teal-600 shrink-0">
+											<Check class="size-3.5" />
+											Claimed
+										</span>
+									{:else if c.is_completed}
+										<button
+											class="btn-glossy px-3 py-1 text-xs shrink-0"
+											onclick={() => claimChallenge(c.id)}
+											disabled={claimingId === c.id}
+										>
+											{claimingId === c.id ? 'Claiming…' : 'Claim'}
+										</button>
+									{:else}
+										<span class="text-xs font-bold text-gray-400 tabular-nums shrink-0">
+											{c.current_value}/{c.required_value}
+										</span>
+									{/if}
+								</div>
+
+								<p class="text-xs text-gray-500 mt-0.5">{c.description}</p>
+
+								<div class="mt-2 flex items-center gap-3">
+									<div class="flex-1">
+										<div class="h-1.5 rounded-full bg-gray-200 overflow-hidden">
+											<div
+												class="h-full rounded-full transition-all"
+												class:bg-primary={!c.is_completed}
+												class:bg-teal-600={c.is_completed}
+												style="width: {Math.min(100, Math.round((c.current_value / c.required_value) * 100))}%"
+											></div>
+										</div>
+									</div>
+									<div class="flex items-center gap-1.5 shrink-0">
+										<span class="text-[11px] font-bold text-[#A2574F] bg-[#F3E8E4] border border-[#E8D5CD] rounded-md px-1.5 py-0.5">
+											+{c.exp_reward} XP
+										</span>
+										<span class="text-[11px] font-bold text-[#1A4D4F] bg-[#E6EFEF] border border-[#C9D8D9] rounded-md px-1.5 py-0.5">
+											+{c.token_reward} ⚔
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/each}
+				</div>
+
+				{#if challengeError}
+					<p class="text-xs text-red-600 font-semibold mt-2">{challengeError}</p>
+				{/if}
+			{/if}
 		</div>
 	</div>
- </main>
+</main>
 
 {#if showMatchmakingModal}
 <div class="matchmaking-overlay" onclick={closeMatchmakingModal}>
-	<div class="matchmaking-card" onclick={(e) => e.stopPropagation()}>
+	<div class="matchmaking-card p-3 border-[#EFE6E2] border bg-white rounded-lg" onclick={(e) => e.stopPropagation()}>
 		{#if findingOpponent}
 			<div class="flex flex-col items-center gap-4 py-6">
-				<div class="size-10 border-4 border-gray-200 border-t-primary rounded-full animate-spin"></div>
+				<div class="size-11 border-4 border-gray-200 border-t-primary rounded-full animate-spin"></div>
 				<p class="font-bold text-lg text-gray-900">Finding opponent…</p>
-				<p class="text-xs text-gray-500">Searching the arena for a worthy fight</p>
 			</div>
 		{:else if modalError}
 			<div class="flex flex-col items-center gap-3 py-4">
 				<div class="text-2xl">⚠️</div>
-				<p class="font-bold text-gray-700">{modalError}</p>
+				<p class="font-bold text-gray-700 text-center">{modalError}</p>
 				<div class="flex gap-2 pt-2">
 					<button onclick={closeMatchmakingModal} class="btn-secondary px-3 py-1 text-sm">Close</button>
 				</div>
 			</div>
 		{:else if foundMatch}
 			<div>
-				<h2 class="text-xl font-bold text-gray-900 text-center mb-1">Opponent found!</h2>
-				{#if foundMatch.is_robot}
-					<p class="text-center text-xs text-gray-500 mb-4">A challenger approaches…</p>
-				{:else}
-					<p class="text-center text-xs text-gray-500 mb-4">{foundMatch.opponent_name} is waiting.</p>
-				{/if}
+				<h2 class="text-xl font-bold text-gray-900 text-center mb-4">Opponent found!</h2>
 
 				<div class="grid grid-cols-2 gap-3 mb-4">
 					<div class="border border-[#EFE6E2] rounded-lg p-3 text-center">
 						<div class="flex justify-center mb-2">
-							<canvas bind:this={youAvatarCanvas} class="avatar-thumb-canvas"></canvas>
+							<AvatarPreview height={56} circle />
 						</div>
 						<p class="text-xs text-gray-500/70 font-bold">You</p>
-											<p class="font-bold text-gray-900 mb-1">{foundMatch.player.username || foundMatch.player.name}</p>
+						<p class="font-bold text-gray-900 mb-1">{foundMatch.player.username || foundMatch.player.name}</p>
 						<p class="text-xs text-gray-600">ATK {foundMatch.player.attack} · DEF {foundMatch.player.defense} · HP {foundMatch.player.max_hp}</p>
 					</div>
 					<div class="border border-[#EFE6E2] rounded-lg p-3 text-center">
 						<div class="flex justify-center mb-2">
-							<canvas bind:this={robotAvatarCanvas} class="avatar-thumb-canvas"></canvas>
+							<AvatarPreview height={56} circle userId={foundMatch.is_robot ? 2 : (foundMatch.opponent_user_id ?? 2)} />
 						</div>
 						<p class="text-xs text-gray-500/70 font-bold">{foundMatch.is_robot ? 'Robot' : 'Player'}</p>
 						<p class="font-bold text-gray-900 mb-1">{foundMatch.opponent.name}</p>
@@ -751,26 +477,90 @@ function mountAvatarEngine(canvas: HTMLCanvasElement, userId?: number | string, 
 </div>
 {/if}
 
+{#if showExchangeModal}
+<div class="matchmaking-overlay" onclick={closeExchangeModal}>
+	<div class="matchmaking-card exchange-card p-3 border-[#EFE6E2] border bg-white rounded-lg" onclick={(e) => e.stopPropagation()}>
+		<div class="flex items-center justify-between mb-4">
+			<h2 class="text-lg font-bold text-gray-900">Exchange</h2>
+			<button class="text-gray-400 hover:text-gray-700 text-xl leading-none" onclick={closeExchangeModal} aria-label="Close">×</button>
+		</div>
+
+		<div class="flex items-center gap-1.5 text-xs text-gray-500 mb-4">
+			<ArrowRightLeft class="size-3.5" />
+			<span>10 arena tokens = 1 currency &middot; 10 arena XP = 1 XP</span>
+		</div>
+
+		<!-- Tokens -> currency -->
+		<div class="border border-[#EFE6E2] rounded-lg p-3 mb-3">
+			<div class="flex items-center justify-between mb-2">
+				<p class="font-bold text-gray-800 text-sm">Arena Tokens</p>
+				<span class="text-xs font-bold text-gray-500 tabular-nums">Balance: {arenaStats?.arena_tokens ?? '—'}</span>
+			</div>
+			<div class="flex items-center gap-2">
+				<input
+					type="number"
+					min="0"
+					step="10"
+					class="w-full border border-[#E8D5CD] rounded-md px-3 py-1.5 text-sm text-gray-800"
+					placeholder="Multiple of 10"
+					bind:value={exchangeTokens}
+				/>
+				<button
+					class="btn-secondary px-3 py-1.5 text-xs shrink-0"
+					onclick={() => (exchangeTokens = String(floorToTens(arenaStats?.arena_tokens ?? 0)))}
+					disabled={!arenaStats}
+				>All</button>
+			</div>
+			<p class="text-xs text-gray-500 mt-2">
+				You'll receive <span class="font-bold text-gray-800">{tokensToCoins(parseInt(exchangeTokens || '0', 10))}</span> currency.
+			</p>
+		</div>
+
+		<!-- Arena XP -> XP -->
+		<div class="border border-[#EFE6E2] rounded-lg p-3 mb-3">
+			<div class="flex items-center justify-between mb-2">
+				<p class="font-bold text-gray-800 text-sm">Arena XP</p>
+				<span class="text-xs font-bold text-gray-500 tabular-nums">Balance: {arenaStats?.arena_exp ?? '—'}</span>
+			</div>
+			<div class="flex items-center gap-2">
+				<input
+					type="number"
+					min="0"
+					step="10"
+					class="w-full border border-[#E8D5CD] rounded-md px-3 py-1.5 text-sm text-gray-800"
+					placeholder="Multiple of 10"
+					bind:value={exchangeExp}
+				/>
+				<button
+					class="btn-secondary px-3 py-1.5 text-xs shrink-0"
+					onclick={() => (exchangeExp = String(floorToTens(arenaStats?.arena_exp ?? 0)))}
+					disabled={!arenaStats}
+				>All</button>
+			</div>
+			<p class="text-xs text-gray-500 mt-2">
+				You'll receive <span class="font-bold text-gray-800">{expToXp(parseInt(exchangeExp || '0', 10))}</span> XP.
+			</p>
+		</div>
+
+		{#if exchangeError}
+			<p class="text-xs text-red-600 font-semibold text-center mb-3">{exchangeError}</p>
+		{/if}
+		{#if exchangeDone}
+			<p class="text-xs text-teal-600 font-semibold text-center mb-3">{exchangeDone}</p>
+		{/if}
+
+		<div class="flex gap-2">
+			<button onclick={closeExchangeModal} class="btn-secondary px-4 py-2 text-sm flex-1" disabled={exchanging}>Cancel</button>
+			<button onclick={doExchange} class="btn-glossy px-4 py-2 text-sm flex-1" disabled={exchanging}>
+				{exchanging ? 'Exchanging…' : 'Exchange'}
+			</button>
+		</div>
+	</div>
+</div>
+{/if}
 <style>
-	.avatar-canvas {
-		flex: 1;
-		min-height: 0;
-		display: block;
-		width: 100%;
-		height: 400px;
-		background: transparent;
-		touch-action: none;
-		cursor: grab;
-	}
-
-	.avatar-canvas:active {
-		cursor: grabbing;
-	}
-
-				.avatar-error {
-		padding: 8px 14px;
-		font-size: 12px;
-		color: #ffb4a1;
+	.arena-stage {
+		background: linear-gradient(180deg, #fdf6f4 0%, #ffffff 100%);
 	}
 
 	.matchmaking-overlay {
@@ -784,24 +574,11 @@ function mountAvatarEngine(canvas: HTMLCanvasElement, userId?: number | string, 
 		padding: 1rem;
 	}
 	.matchmaking-card {
-		background: white;
-		border: 1px solid #e5e7eb;
-		border-radius: 12px;
-		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-		padding: 1.75rem;
 		width: 100%;
 		max-width: 460px;
 	}
 
-	.avatar-thumb-canvas {
-		width: 56px;
-		height: 56px;
-		display: block;
-		margin: 0 auto;
-		border-radius: 9999px;
-		border: 2px solid #fff;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-		background: transparent;
-		touch-action: none;
+	.exchange-card {
+		max-width: 560px;
 	}
 </style>

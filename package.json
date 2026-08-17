@@ -33,7 +33,6 @@
 	"dependencies": {
 		"@babylonjs/core": "^9.18.0",
 		"@babylonjs/loaders": "^9.19.0",
-		"babylonjs": "^9.16.2",
 		"lucide-svelte": "^1.0.1",
 		"sveltekit-top-loader": "^0.1.0"
 	}
