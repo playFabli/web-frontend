@@ -264,9 +264,9 @@
 			{#if selectedCategory && selectedCategory.has_model}
 				<div class="border-t border-[#EFE6E2] pt-4 mt-4">
 					<div class="mb-3">
-						<label class="form-label" for="itemModel">3D Model (.obj)</label>
-						<input onchange={handleModelSelect} type="file" id="itemModel" class="form-input" accept=".obj">
-						<p class="text-xs text-gray-500 mt-1">OBJ file for 3D model rendering. Required for categories with 3D models.</p>
+						<label class="form-label" for="itemModel">3D Model (.obj, .fbx)</label>
+						<input onchange={handleModelSelect} type="file" id="itemModel" class="form-input" accept=".obj,.fbx">
+						<p class="text-xs text-gray-500 mt-1">OBJ or FBX file for 3D model rendering. Required for categories with 3D models.</p>
 					</div>
 				</div>
 			{/if}

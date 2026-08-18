@@ -431,9 +431,9 @@
 					{/if}
 					{#if selectedCategory.has_model}
 						<div class="mb-3">
-							<label class="form-label" for="model">Model (.obj)</label>
-							<input onchange={handleModelSelect} type="file" id="model" class="form-input" accept=".obj">
-							<p class="text-xs text-gray-500 mt-1">Replaces the current 3D model. Leave empty to keep the current one.</p>
+							<label class="form-label" for="model">Model (.obj, .fbx)</label>
+							<input onchange={handleModelSelect} type="file" id="model" class="form-input" accept=".obj,.fbx">
+							<p class="text-xs text-gray-500 mt-1">OBJ or FBX file. Replaces the current 3D model. Leave empty to keep the current one.</p>
 						</div>
 					{/if}
 				</div>

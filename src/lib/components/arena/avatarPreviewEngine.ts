@@ -124,6 +124,7 @@ interface WornItem {
 	category: string;
 	slots: string[];
 	model_url: string | null;
+	model_format?: string;
 	texture: string | null;
 }
 /**
@@ -146,6 +147,7 @@ export async function mountAvatarPreview(
 	const BABYLON = await import('@babylonjs/core');
 	await import('@babylonjs/loaders/glTF');
 	await import('@babylonjs/loaders/OBJ');
+	await import('@babylonjs/loaders/FBX');
 
 	const {
 		Engine,
@@ -200,10 +202,11 @@ export async function mountAvatarPreview(
 		root: TransformNode,
 		body: AbstractMesh[]
 	): Promise<void> {
-		// Items with a 3D model (hats, gears, ...) load as their own OBJ and
-		// are layered straight onto the avatar.
+		// Items with a 3D model (hats, gears, ...) load as their own OBJ/FBX
+		// and are layered straight onto the avatar.
 		if (item.model_url) {
-			const url = `${config.api}/${item.model_url}.obj`;
+			const modelExt = item.model_format === 'fbx' ? 'fbx' : 'obj';
+			const url = `${config.api}/${item.model_url}.${modelExt}`;
 
 			try {
 				const result = await ImportMeshAsync(url, scene);
