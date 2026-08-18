@@ -114,13 +114,13 @@
 		return wearing.some((w: WornItem) => w.item_id === itemId);
 	}
 
-	// Check if the user already has a restricted-category item equipped (Face, Avatar Poses)
+	// Check if the user already has a restricted-category item equipped (Face, Avatar Poses, Gears)
 	function hasCategoryEquipped(categoryTitle: string): boolean {
 		return wearing.some((w: WornItem) => w.item?.category?.title === categoryTitle);
 	}
 
 	// Categories that can only have one item equipped at a time
-	const restrictedCategories = ['Face', 'Avatar Poses'];
+	const restrictedCategories = ['Face', 'Avatar Poses', 'Gears'];
 
 	// Check if wearing an item from this category is blocked
 	function isWearBlocked(categoryTitle: string | undefined): boolean {
