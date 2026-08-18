@@ -44,5 +44,19 @@ export const load: LayoutServerLoad = async ({ fetch, cookies, url, depends }) =
     }
   }
 
-  return { user: user.data, globalUser: user.data, token };
+  // Global site settings for the announcement bar (configurable in the
+  // admin panel's site settings).
+  let bannerMessage: string | null = null;
+  const settingsResponse = await fetch(`${config.internalApi}/site-settings`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+  });
+  if (settingsResponse.ok) {
+    const settingsJson = await settingsResponse.json();
+    bannerMessage = settingsJson.data?.banner_message || null;
+  }
+
+  return { user: user.data, globalUser: user.data, token, bannerMessage };
 };

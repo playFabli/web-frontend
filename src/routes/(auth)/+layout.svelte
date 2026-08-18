@@ -259,7 +259,7 @@
 
 
 	<main class="flex-1">
-		<div class="w-full bg-primary/50 text-white border-b-2 border-primary px-4 py-1 font-bold text-center">The Medieval Collection and the Arena are live! Check out our blog post!</div>
+		{#if data.bannerMessage}<div class="w-full bg-primary/50 text-white border-b-2 border-primary px-4 py-1 font-bold text-center">{data.bannerMessage}</div>{/if}
 		{#if !data.user?.is_email_verified}
 		<div class="fixed inset-0 z-[200] flex items-center justify-center bg-black/50">
 			<div class="bg-white border border-[#EFE6E2] rounded-lg shadow-xl max-w-md w-full mx-4">

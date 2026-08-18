@@ -21,6 +21,7 @@
 			formData.append('daily_bonus', settings.daily_bonus);
 			formData.append('maintenance_mode', settings.maintenance_mode);
 			formData.append('registration_open', settings.registration_open);
+			formData.append('banner_message', settings.banner_message ?? '');
 			if (bannerFile) {
 				formData.append('marketplace_banner_image', bannerFile);
 			}
@@ -146,6 +147,12 @@
 						<label for="registration_open" class="block text-sm font-bold text-gray-700">Registration Open</label>
 						<p class="text-xs text-gray-500">Allow new users to create accounts.</p>
 					</div>
+				</div>
+
+				<div>
+					<label class="block text-sm font-bold text-gray-700 mb-1">Announcement Bar Message</label>
+					<input type="text" bind:value={settings.banner_message} maxlength="500" placeholder="The Medieval Collection and the Arena are live! Check out our blog post!" class="form-input" />
+					<p class="text-xs text-gray-500 mt-1">Shown in the announcement bar at the top of the site for logged-in users. Leave empty to hide the bar.</p>
 				</div>
 
 				<div>
