@@ -293,6 +293,7 @@
 							<label class="form-label" for="role">Role</label>
 							<select bind:value={role} id="role" class="form-input">
 								<option value="user">User</option>
+								<option value="asset_creator">Asset Creator</option>
 								<option value="moderator">Moderator</option>
 								<option value="admin">Admin</option>
 							</select>

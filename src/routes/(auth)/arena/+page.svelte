@@ -196,7 +196,9 @@
 		if (e < 1350) return "King I";
 		if (e < 1600) return "King II";
 		if (e < 1850) return "King III";
-		return "Emperor";
+		if (e < 2200) return "Emperor I";
+		if (e < 2600) return "Emperor II";
+		return "Emperor III";
 	}
 
 	async function loadChallenges() {
@@ -407,10 +409,10 @@
 										</div>
 									</div>
 									<div class="flex items-center gap-1.5 shrink-0">
-										<span class="text-[11px] font-bold text-[#A2574F] bg-[#F3E8E4] border border-[#E8D5CD] rounded-md px-1.5 py-0.5">
+										<span class="text-[11px] font-bold text-[#A2574F] border border-[#E8D5CD] rounded-md px-1.5 py-0.5">
 											+{c.exp_reward} XP
 										</span>
-										<span class="text-[11px] font-bold text-[#1A4D4F] bg-[#E6EFEF] border border-[#C9D8D9] rounded-md px-1.5 py-0.5">
+										<span class="text-[11px] font-bold text-[#1A4D4F] border border-[#C9D8D9] rounded-md px-1.5 py-0.5">
 											+{c.token_reward} ⚔
 										</span>
 									</div>

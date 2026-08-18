@@ -3,7 +3,7 @@ import { config } from '$lib/config';
 import { goto } from '$app/navigation';
 import { redirect } from '@sveltejs/kit';
 
-export const load: LayoutServerLoad = async ({ fetch, cookies, depends }) => {
+export const load: LayoutServerLoad = async ({ fetch, cookies, depends, url }) => {
   depends('app:layout-data'); 
   const token = cookies.get('token');
 
@@ -25,8 +25,13 @@ export const load: LayoutServerLoad = async ({ fetch, cookies, depends }) => {
   }
 
   const role = user.data.role;
-  if (role !== "admin" && role !== "moderator") {
+  if (role !== "admin" && role !== "moderator" && role !== "asset_creator") {
 	throw redirect(307, '/user/homepage');
+  }
+
+  // Asset creators can only access the Assets section of the admin panel
+  if (role === "asset_creator" && !url.pathname.startsWith('/admin/assets')) {
+	throw redirect(307, '/admin/assets');
   }
 
   return { user: user.data, globalUser: user.data, token };

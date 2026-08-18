@@ -44,6 +44,7 @@
 	function getRoleClass(role) {
 		if (role === 'admin') return 'role-admin';
 		if (role === 'moderator') return 'role-mod';
+		if (role === 'asset_creator') return 'role-asset-creator';
 		return 'role-user';
 	}
 
@@ -108,6 +109,7 @@
 					<option value="">All</option>
 					<option value="admin">Admin</option>
 					<option value="moderator">Moderator</option>
+					<option value="asset_creator">Asset Creator</option>
 					<option value="user">User</option>
 				</select>
 			</div>
@@ -226,6 +228,11 @@
 		background: #e0f2fe;
 		color: #075985;
 		border-color: #bae6fd;
+	}
+	.role-asset-creator {
+		background: #d1fae5;
+		color: #065f46;
+		border-color: #a7f3d0;
 	}
 	.role-user {
 		background: #f3f4f6;

@@ -709,6 +709,47 @@
 								</div>
 							</div>
 						</div>
+						<div class="border border-[#EFE6E2] rounded-lg p-4 mb-5">
+							<h5 class="text-sm font-bold mb-3">Arena</h5>
+							<div class="grid grid-cols-2 gap-1">
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
+									Rank
+								</div>
+								<div class="col-span-1 text-right">
+									{data.user.arena_rank ?? '—'}
+								</div>
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
+									Arena XP
+								</div>
+								<div class="col-span-1 text-right">
+									{format.format(data.user.arena_exp ?? 0)}
+								</div>
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
+									Victories
+								</div>
+								<div class="col-span-1 text-right">
+									{format.format(data.user.arena_victories ?? 0)}
+								</div>
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
+									Losses
+								</div>
+								<div class="col-span-1 text-right">
+									{format.format(data.user.arena_losses ?? 0)}
+								</div>
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
+									Attack
+								</div>
+								<div class="col-span-1 text-right">
+									{data.user.arena_attack ?? '—'}
+								</div>
+								<div class="text-sm font-bold col-span-1 text-gray-600/70">
+									Defence
+								</div>
+								<div class="col-span-1 text-right">
+									{data.user.arena_defense ?? '—'}
+								</div>
+							</div>
+						</div>
 						<div class="border border-[#EFE6E2] rounded-lg p-4">
 							<div class="flex items-center justify-between mb-3">
 								<h5 class="text-sm font-bold">Item Wall</h5>

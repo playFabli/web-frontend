@@ -146,7 +146,7 @@
 		</div>
 		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
 		<h1 class="text-xl font-bold text-gray-900">Manage Assets</h1>
-		{#if page.data.globalUser.role == "admin"}
+		{#if page.data.globalUser.role == "admin" || page.data.globalUser.role == "asset_creator"}
 			<div class="flex gap-2 w-full sm:w-auto">
 				<a href="/admin/assets/create" class="btn-glossy px-4 py-1">Create</a>
 			</div>
