@@ -452,16 +452,16 @@
 
 				<div class="grid grid-cols-2 gap-3 mb-4">
 					<div class="border border-[#EFE6E2] rounded-lg p-3 text-center">
-						<div class="flex justify-center mb-2">
-							<AvatarPreview height={56} circle />
+						<div class="avatar-modal-preview">
+							<AvatarPreview height={150} />
 						</div>
 						<p class="text-xs text-gray-500/70 font-bold">You</p>
 						<p class="font-bold text-gray-900 mb-1">{foundMatch.player.username || foundMatch.player.name}</p>
 						<p class="text-xs text-gray-600">ATK {foundMatch.player.attack} · DEF {foundMatch.player.defense} · HP {foundMatch.player.max_hp}</p>
 					</div>
 					<div class="border border-[#EFE6E2] rounded-lg p-3 text-center">
-						<div class="flex justify-center mb-2">
-							<AvatarPreview height={56} circle userId={foundMatch.is_robot ? 2 : (foundMatch.opponent_user_id ?? 2)} />
+						<div class="avatar-modal-preview">
+							<AvatarPreview height={150} userId={foundMatch.is_robot ? 2 : (foundMatch.opponent_user_id ?? 2)} />
 						</div>
 						<p class="text-xs text-gray-500/70 font-bold">{foundMatch.is_robot ? 'Robot' : 'Player'}</p>
 						<p class="font-bold text-gray-900 mb-1">{foundMatch.opponent.name}</p>
@@ -578,6 +578,18 @@
 	.matchmaking-card {
 		width: 100%;
 		max-width: 460px;
+	}
+
+	/* Framed 3D avatar shown in the "Opponent found!" matchup. Large enough
+	 * that the fighter's outfit is actually readable. */
+	.avatar-modal-preview {
+		width: 100%;
+		max-width: 170px;
+		margin: 0 auto 0.5rem;
+		border: 1px solid #efe6e2;
+		border-radius: 10px;
+		overflow: hidden;
+		background: linear-gradient(180deg, #fdf6f4 0%, #ffffff 100%);
 	}
 
 	.exchange-card {

@@ -82,6 +82,7 @@
 			}
 
 			friendRequestsPromise = getFriendRequests();
+			window.dispatchEvent(new CustomEvent('friend-requests', { detail: Math.max(0, friendRequestCount - 1) }));
 		} catch (err) {
 			console.error('Failed to update friend request.');
 		} finally {
@@ -94,8 +95,85 @@
 		goto("/user/login");
 	}
 
-	let friendRequestsPromise = $state(null);
+	let friendRequestsPromise = $state<any>(null);
 	let mobileMenuOpen = $state(false);
+
+	// Live unread mailbox count for the nav badge. Starts from the cached
+	// server value, refreshes every 30s while the tab is visible, and is
+	// updated immediately by the mailbox page when notifications are read.
+	let mailboxUnread = $state(data.mailboxUnread ?? 0);
+
+	// Live pending friend-request count for the nav badge. Same refresh
+	// strategy as the mailbox count; updated instantly when requests are
+	// accepted or declined from the friend requests modal.
+	let friendRequestCount = $state(data.friendRequestCount ?? 0);
+
+	$effect(() => {
+		mailboxUnread = data.mailboxUnread ?? 0;
+	});
+
+	$effect(() => {
+		friendRequestCount = data.friendRequestCount ?? 0;
+	});
+
+	function refreshFriendRequestCount() {
+		fetch(`${config.api}/user/friend/requests/count`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: `Bearer ${data.token}`
+			}
+		})
+			.then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to refresh friend request count.'))))
+			.then((json) => {
+				friendRequestCount = json?.data?.count ?? 0;
+			})
+			.catch((err) => console.error('Failed to refresh friend request count.', err));
+	}
+
+	function onFriendRequests(e: Event) {
+		friendRequestCount = (e as CustomEvent<number>).detail ?? 0;
+	}
+
+	function refreshUnreadCount() {
+		fetch(`${config.api}/user/mailbox/unread-count`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: `Bearer ${data.token}`
+			}
+		})
+			.then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to refresh unread count.'))))
+			.then((json) => {
+				mailboxUnread = json?.data?.unread_count ?? 0;
+			})
+			.catch((err) => console.error('Failed to refresh unread count.', err));
+	}
+
+	function onMailboxUnread(e: Event) {
+		mailboxUnread = (e as CustomEvent<number>).detail ?? 0;
+	}
+
+	$effect(() => {
+		if (typeof window === 'undefined') return;
+
+		refreshUnreadCount();
+		refreshFriendRequestCount();
+		const poll = setInterval(() => {
+			if (document.hidden) return;
+			refreshUnreadCount();
+			refreshFriendRequestCount();
+		}, 30_000);
+
+		window.addEventListener('mailbox-unread', onMailboxUnread);
+		window.addEventListener('friend-requests', onFriendRequests);
+
+		return () => {
+			clearInterval(poll);
+			window.removeEventListener('mailbox-unread', onMailboxUnread);
+			window.removeEventListener('friend-requests', onFriendRequests);
+		};
+	});
 </script>
 
 <svelte:window on:click={onWindowClick} />
@@ -181,14 +259,20 @@
 			
 			<div class="flex items-center gap-4 text-sm font-bold text-gray-700">
 				<a href="/user/mailbox" class="inline-flex items-center gap-1" title="Mailbox">
-					<span class="text-[#A2574F]">
+					<span class="relative text-[#A2574F]">
 						<Mailbox strokeWidth="3" class="w-5 h-5"/>
+						{#if mailboxUnread > 0}
+							<span class="absolute -top-1.5 -right-2 text-[10px] font-bold text-white bg-[#A2574F] rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">{mailboxUnread > 99 ? '99+' : mailboxUnread}</span>
+						{/if}
 					</span>
 				</a>
 
 				<span onclick={() => { friendRequestsPromise = getFriendRequests(); frModalOpen = true; }} class="inline-flex items-center cursor-pointer hover:text-[#A2574F] transition-colors duration-200" title="Friend Requests">
-					<span class="text-[#A2574F]">
+					<span class="relative text-[#A2574F]">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
+						{#if friendRequestCount > 0}
+							<span class="absolute -top-1.5 -right-2 text-[10px] font-bold text-white bg-[#A2574F] rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">{friendRequestCount > 99 ? '99+' : friendRequestCount}</span>
+						{/if}
 					</span>
 				</span>
 
@@ -252,6 +336,18 @@
 		<a href="/user/leaderboard" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Leaderboard</a>
 		<a href="/roadmap" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Roadmap</a>
 		<a href="/petitions" class="py-1 hover:text-[#A2574F] transition-colors duration-200">Petitions</a>
+		<button type="button" onclick={() => { friendRequestsPromise = getFriendRequests(); frModalOpen = true; mobileMenuOpen = false; }} class="py-1 text-sm text-gray-600 font-bold hover:text-[#A2574F] transition-colors duration-200 flex items-center gap-1.5 cursor-pointer text-left">
+			Friend Requests
+			{#if friendRequestCount > 0}
+				<span class="text-[10px] font-bold text-white bg-[#A2574F] rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">{friendRequestCount > 99 ? '99+' : friendRequestCount}</span>
+			{/if}
+		</button>
+		<a href="/user/mailbox" class="py-1 hover:text-[#A2574F] transition-colors duration-200 flex items-center gap-1.5">
+			Mailbox
+			{#if mailboxUnread > 0}
+				<span class="text-[10px] font-bold text-white bg-[#A2574F] rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">{mailboxUnread > 99 ? '99+' : mailboxUnread}</span>
+			{/if}
+		</a>
 	</div>
 	{/if}
 </nav>

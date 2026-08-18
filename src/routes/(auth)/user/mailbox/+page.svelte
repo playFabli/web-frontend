@@ -68,6 +68,7 @@
 			})
 			.then((json: MailboxResponse) => {
 				unreadCount = json?.unread_count ?? 0;
+				window.dispatchEvent(new CustomEvent('mailbox-unread', { detail: unreadCount }));
 				return json;
 			});
 	}
@@ -90,6 +91,7 @@
 			});
 			if (response.ok) {
 				unreadCount = 0;
+				window.dispatchEvent(new CustomEvent('mailbox-unread', { detail: 0 }));
 				markedIds = new Set();
 				mailboxPromise = fetchMailbox(currentPage);
 			}
@@ -104,6 +106,7 @@
 		if (!n.read_at && !markedIds.has(n.id)) {
 			markedIds.add(n.id);
 			if (unreadCount > 0) unreadCount -= 1;
+			window.dispatchEvent(new CustomEvent('mailbox-unread', { detail: unreadCount }));
 			try {
 				await fetch(`${config.api}/user/mailbox/read/${n.id}`, {
 					method: 'POST',

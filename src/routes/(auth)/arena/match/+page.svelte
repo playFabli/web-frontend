@@ -90,11 +90,18 @@
 	let currentTelegraph = $state<Telegraph | null>(null);
 
 	// Match clock + parry window pacing (server-authoritative, ticked locally
-	// so the countdowns animate smoothly between polls).
-	let timeLeft = $state(MATCH_DURATION);
+	// so the countdowns animate smoothly between polls). The clock keeps the
+	// last server time_left as a baseline and ticks it down locally each
+	// frame, so it always counts down (never stalls or jumps up) between
+	// polls.
+	let timeLeftBase = $state(MATCH_DURATION);
+	let timeLeftRef = $state(Date.now());
 	let parryDeadline = $state<number | null>(null);
 	let parryWindow = $state(0);
 	let now = $state(Date.now());
+
+	// Seconds left on the match clock: server baseline minus local elapsed.
+	const timeLeft = $derived(Math.max(0, timeLeftBase - (now - timeLeftRef) / 1000));
 
 	// Staged display values so the round replays visually: opponent's
 	// telegraphed action resolves first, the player's response a beat later.
@@ -164,7 +171,8 @@
 		displayPlayerGuarding = m.player.guarding;
 		displayOppGuarding = m.opponent.guarding;
 		revealedCount = m.log?.length ?? 0;
-		timeLeft = m.time_left;
+		timeLeftBase = Math.min(m.time_left, timeLeft);
+		timeLeftRef = Date.now();
 		parryDeadline = m.parry_deadline;
 		parryWindow = m.parry_window;
 		if (m.status === 'won') result = 'won';
@@ -206,7 +214,9 @@
 	);
 	const timePct = $derived(Math.max(0, Math.min(100, (timeLeft / MATCH_DURATION) * 100)));
 	const timeLabel = $derived(
-		`${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`
+		`${Math.floor(timeLeft / 60)}:${(Math.floor(timeLeft) % 60)
+			.toString()
+			.padStart(2, '0')}`
 	);
 
 	/**
@@ -238,7 +248,8 @@
 
 			// Nothing new — just refresh the clocks.
 			if (!changed) {
-				timeLeft = m.time_left;
+				timeLeftBase = Math.min(m.time_left, timeLeft);
+				timeLeftRef = Date.now();
 				parryDeadline = m.parry_deadline;
 				parryWindow = m.parry_window;
 				return;
@@ -257,7 +268,8 @@
 			displayOppStamina = m.opponent.stamina;
 			displayPlayerGuarding = m.player.guarding;
 			displayOppGuarding = m.opponent.guarding;
-			timeLeft = m.time_left;
+			timeLeftBase = Math.min(m.time_left, timeLeft);
+			timeLeftRef = Date.now();
 			parryDeadline = m.parry_deadline;
 			parryWindow = m.parry_window;
 
@@ -488,7 +500,8 @@
 			oppFloat = 0;
 			currentTelegraph = updated.telegraph;
 
-			timeLeft = updated.time_left;
+			timeLeftBase = Math.min(updated.time_left, timeLeft);
+			timeLeftRef = Date.now();
 			parryDeadline = updated.parry_deadline;
 			parryWindow = updated.parry_window;
 

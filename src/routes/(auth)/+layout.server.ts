@@ -58,5 +58,35 @@ export const load: LayoutServerLoad = async ({ fetch, cookies, url, depends }) =
     bannerMessage = settingsJson.data?.banner_message || null;
   }
 
-  return { user: user.data, globalUser: user.data, token, bannerMessage };
+  // Cached unread mailbox count for the nav badge. The backend caches this
+  // per user and resets the cache when a notification is created or read.
+  let mailboxUnread = 0;
+  const unreadResponse = await fetch(`${config.internalApi}/user/mailbox/unread-count`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+  if (unreadResponse.ok) {
+    const unreadJson = await unreadResponse.json();
+    mailboxUnread = unreadJson.data?.unread_count ?? 0;
+  }
+
+  // Cached pending friend-request count for the nav badge. The backend caches
+  // this per user and resets the cache when a request is sent or resolved.
+  let friendRequestCount = 0;
+  const friendRequestResponse = await fetch(`${config.internalApi}/user/friend/requests/count`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+  if (friendRequestResponse.ok) {
+    const friendRequestJson = await friendRequestResponse.json();
+    friendRequestCount = friendRequestJson.data?.count ?? 0;
+  }
+
+  return { user: user.data, globalUser: user.data, token, bannerMessage, mailboxUnread, friendRequestCount };
 };
